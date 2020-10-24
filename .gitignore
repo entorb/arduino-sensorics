@@ -1,0 +1,16 @@
+drafts_not_to_publish
+manuals
+tools
+examples_by_others
+libraries_old
+libraries_old_by_others
+photos/originals
+zips/
+
+*_secret.h
+*.bin
+.vstags
+changelog.md
+Device-Location-Overview.txt
+0_arduino_code/device_setup-*.h
+.DS_Store
