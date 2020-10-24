@@ -1,6 +1,7 @@
+// based on https://github.com/tobiasschuerg/InfluxDB-Client-for-Arduino/blob/master/examples/BasicWrite/BasicWrite.ino
+
 #include <WiFiMulti.h>
 WiFiMulti wifiMulti;
-// #define DEVICE "ESP32"
 
 #include <InfluxDbClient.h>
 // #include <InfluxDbCloud.h>
