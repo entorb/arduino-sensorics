@@ -3,5 +3,5 @@
     "configuration": "PSRAM=disabled,PartitionScheme=default,CPUFreq=240,FlashMode=qio,FlashFreq=80,FlashSize=4M,UploadSpeed=115200,DebugLevel=none",
     "port": "COM4",
     "programmer": "AVR ISP",
-    "sketch": "test_TM_InfluxDB_V3_geht\\test_TM_InfluxDB_V3_geht.ino"
+    "sketch": "test_TM_InfluxDB_V4_use_lib\\test_TM_InfluxDB_V4_use_lib.ino"
 }
