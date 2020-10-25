@@ -1,6 +1,13 @@
 /*
   TM_OLED_128x32.cpp - Library for Connection to 128x32 OLED Display
 */
+//based on
+/*
+  HelloWorld.ino
+  by
+  Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
+*/
+
 #include <Arduino.h>
 #include <U8g2lib.h>
 
