@@ -6,8 +6,13 @@
 #include "Arduino.h"
 #include "TM_InfluxDB.h"
 
+#if defined(ESP32)
 #include <WiFiMulti.h>
 WiFiMulti TM_wifiMulti;
+#elif defined(ESP8266)
+#include <ESP8266WiFiMulti.h>
+ESP8266WiFiMulti TM_wifiMulti;
+#endif
 
 #include <InfluxDbClient.h>
 // #include <InfluxDbCloud.h>
