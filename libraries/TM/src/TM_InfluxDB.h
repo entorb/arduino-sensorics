@@ -2,8 +2,8 @@
   TM_InfluxDB.h - Library for Connection to my InfluxDB
 */
 
-#ifndef TM_InfluxDB.h
-#define TM_InfluxDB .h
+#ifndef TM_InfluxDB_h
+#define TM_InfluxDB_h
 
 #include <InfluxDbClient.h>
 

@@ -3,5 +3,5 @@
     "configuration": "PSRAM=disabled,PartitionScheme=default,CPUFreq=240,FlashMode=qio,FlashFreq=80,FlashSize=4M,UploadSpeed=115200,DebugLevel=none",
     "port": "COM4",
     "programmer": "AVR ISP",
-    "sketch": "test_OLED_128x32_V2_use_lib\\test_OLED_128x32_V2_use_lib.ino"
+    "sketch": "test_BME280_V2_use_lib\\test_BME280_V2_use_lib.ino"
 }
