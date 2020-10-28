@@ -1,0 +1,14 @@
+{
+  "storage_version": 1,
+  "name": "eps1",
+  "comment": null,
+  "esphome_version": "1.15.3",
+  "src_version": 1,
+  "arduino_version": null,
+  "address": "eps1.local",
+  "esp_platform": "ESP32",
+  "board": "nodemcu-32s",
+  "build_path": null,
+  "firmware_bin_path": null,
+  "loaded_integrations": []
+}
