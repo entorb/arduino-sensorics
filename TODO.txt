@@ -1,0 +1,21 @@
+IS: define
+statt #define bei die cpp constexpressions verwenden, sind typsicher und geben bessere compilerfehler. defines werden nur vom preprozessor blind ausgetauscht.
+
+IS: fixed width types
+wenn du nur "int" oder "unsigned" schreibst, dann kann das je nach plattform alles heißen (ganz übel wird es bei "long long")
+typen wie uint8_t sind eindeutig und erzeugen portierbaren code
+
+Arduino IDE
+Delete unused libs
+
+Sleep till next full minute, maybe like this
+$prev = 1330518155 - (1330518155 % 1800);
+$next = $prev + 1800;
+
+ESP32 Deep Sleep zum Stromsparen
+https://lastminuteengineers.com/esp32-sleep-modes-power-consumption/
+Und Bluetooth ausschalten
+
+ESP32 Over The Air Update
+https://randomnerdtutorials.com/esp32-over-the-air-ota-programming/
+
