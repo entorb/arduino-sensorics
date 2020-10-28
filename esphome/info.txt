@@ -1,0 +1,7 @@
+https://esphome.io/guides/getting_started_command_line.html
+
+pip3 install esphome
+
+esphome livingroom.yaml wizard
+
+esphome livingroom.yaml run
