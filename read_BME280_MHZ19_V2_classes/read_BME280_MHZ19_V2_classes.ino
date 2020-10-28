@@ -2,24 +2,26 @@
 
 #include "TM_InfluxDB.h"
 // InfluxDB Setup
-#define MEASUREMENT "bme280"
+#define MEASUREMENT "Raumklima"
 // #1
 // #define DEVICENAME "T-ESP32-1"
-// #define TAG_ROOM "Schlafzimmer"
+// #define TAG_ROOM "Arbeitszimmer"
 // #2
-#define DEVICENAME "T-ESP32-2"
-#define TAG_ROOM "Kind 1"
+// #define DEVICENAME "T-ESP32-2"
+// // #define TAG_ROOM "Kind 1"
+// #define TAG_ROOM "Wintergarten"
 // #3
-// #define DEVICENAME "T-ESP32-3"
+#define DEVICENAME "T-ESP32-3"
 // #define TAG_ROOM "Kind 2"
+#define TAG_ROOM "Bad"
 
 Point sensor(MEASUREMENT);
 
 #include "TM_BME280_Class.h"
-auto my_bme280 = TM_BME280_Class(true); // verbose = true -> print to serial
+auto my_bme280 = TM_BME280_Class(false); // verbose = true -> print to serial
 
 #include "TM_MH-Z19_Class.h"
-auto my_mh_z19 = TM_MH_Z19_Class(true); // verbose = true -> print to serial
+auto my_mh_z19 = TM_MH_Z19_Class(false); // verbose = true -> print to serial
 
 void setup()
 {
@@ -55,6 +57,6 @@ void loop()
     }
     TM_influx_send_point(sensor);
 
-    delay(60000); // 60s
+    delay(60000); // 60s //TODO: calc sleep time till next fill minute
     // delay(1000); //TODO
 }
