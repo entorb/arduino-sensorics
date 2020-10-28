@@ -8,9 +8,12 @@
 
 // Data point
 Point sensor(MEASUREMENT);
+
 void setup()
 {
   Serial.begin(115200);
+  while (!Serial)
+    ; // time to get serial running
   // Set constant tags - only once
   sensor.addTag("device", DEVICENAME);
   sensor.addTag("room", TAG_ROOM);
