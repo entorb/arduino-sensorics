@@ -30,9 +30,11 @@ InfluxDBClient TM_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
 void TM_connect_wifi(char *devicename)
 {
+  // TODO: add some timeout / retry mechanism
   Serial.println("Connecting to WiFi");
   WiFi.disconnect(true);
   WiFi.mode(WIFI_OFF);
+  delay(1000);
   WiFi.setHostname(devicename);
   WiFi.mode(WIFI_STA);
   TM_wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
