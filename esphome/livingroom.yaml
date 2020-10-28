@@ -1,0 +1,23 @@
+<<: !include secrets.yaml
+
+esphome:
+  name: eps1
+  platform: ESP32
+  board: nodemcu-32s
+
+# sectets are in secrets.yaml
+wifi:
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Eps1 Fallback Hotspot"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  safe_mode: True
