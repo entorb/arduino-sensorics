@@ -45,7 +45,7 @@ float TM_BME280_data[3];
 
 void TM_BME280_init()
 {
-  Serial.println(F("BME280 test"));
+  Serial.println(F("BME280 init"));
 
   unsigned status;
 
@@ -75,14 +75,14 @@ float *TM_BME280_read_values(bool print)
   if (print)
   {
     Serial.print("Humidity = ");
-    Serial.print(bme.readHumidity());
+    Serial.print(TM_BME280_data[1]);
     Serial.println(" %");
   }
-  TM_BME280_data[2] = bme.readPressure();
+  TM_BME280_data[2] = bme.readPressure() / 100.0F;
   if (print)
   {
     Serial.print("Pressure = ");
-    Serial.print(bme.readPressure() / 100.0F);
+    Serial.print(TM_BME280_data[3]);
     Serial.println(" hPa");
     Serial.println();
   }
