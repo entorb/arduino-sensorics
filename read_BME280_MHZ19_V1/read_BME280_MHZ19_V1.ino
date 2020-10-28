@@ -7,10 +7,10 @@
 // #define TAG_ROOM "Schlafzimmer"
 // #2
 #define DEVICENAME "T-ESP32-2"
-#define TAG_ROOM "Eleen"
+#define TAG_ROOM "Kind 1"
 // #3
 // #define DEVICENAME "T-ESP32-3"
-// #define TAG_ROOM "Hanno"
+// #define TAG_ROOM "Kind 2"
 
 Point sensor(MEASUREMENT);
 
