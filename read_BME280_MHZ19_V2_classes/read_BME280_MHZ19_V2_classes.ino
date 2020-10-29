@@ -1,5 +1,10 @@
 #include <Arduino.h>
 
+// Power
+#include "esp32-hal-cpu.h"  // for getCpuFrequencyMhz
+
+
+
 #include "TM_InfluxDB.h"
 // InfluxDB Setup
 #define MEASUREMENT "Raumklima"
@@ -25,40 +30,46 @@ auto my_mh_z19 = TM_MH_Z19_Class();
 
 void setup()
 {
-    Serial.begin(115200);
-    while (!Serial)
-        ; // time to get serial running
-    sensor.addTag("device", DEVICENAME);
-    sensor.addTag("room", TAG_ROOM);
-    TM_connect_wifi(DEVICENAME);
-    TM_connect_influxdb();
+  Serial.begin(115200);
+  while (!Serial)
+    ; // time to get serial running
 
-    // my_bme280.setVerbose(true); // verbose = true -> print to serial
-    my_bme280.init();
+  setCpuFrequencyMhz(80); // for power saving
+  Serial.println( getCpuFrequencyMhz() );
 
-    if (DEVICENAME == "T-ESP32-1")
-    {
-        // my_mh_z19.setVerbose(true); // verbose = true -> print to serial
-        my_mh_z19.init();
-    }
+
+  sensor.addTag("device", DEVICENAME);
+  sensor.addTag("room", TAG_ROOM);
+  TM_connect_wifi(DEVICENAME);
+  TM_connect_influxdb();
+
+  // my_bme280.setVerbose(true); // verbose = true -> print to serial
+  my_bme280.init();
+
+  if (DEVICENAME == "T-ESP32-1")
+  {
+    // my_mh_z19.setVerbose(true); // verbose = true -> print to serial
+    my_mh_z19.init();
+  }
+
 }
 
 void loop()
 {
-    float *TM_BME280_data = my_bme280.read_values();
-    // 0 = T, 1 = Humidity, 2 = Pressure
+  float *TM_BME280_data = my_bme280.read_values();
+  // 0 = T, 1 = Humidity, 2 = Pressure
 
-    sensor.clearFields();
-    sensor.addField("temperature", TM_BME280_data[0]);
-    sensor.addField("humidity", TM_BME280_data[1]);
-    sensor.addField("pressure", TM_BME280_data[2]);
-    if (DEVICENAME == "T-ESP32-1")
-    {
-        int TM_MHZ_CO2 = my_mh_z19.read_values();
-        sensor.addField("CO2", TM_MHZ_CO2);
-    }
-    TM_influx_send_point(sensor);
+  sensor.clearFields();
+  sensor.addField("temperature", TM_BME280_data[0]);
+  sensor.addField("humidity", TM_BME280_data[1]);
+  sensor.addField("pressure", TM_BME280_data[2]);
+  if (DEVICENAME == "T-ESP32-1")
+  {
+    int TM_MHZ_CO2 = my_mh_z19.read_values();
+    sensor.addField("CO2", TM_MHZ_CO2);
+  }
+  TM_influx_send_point(sensor);
 
-    // delay(60000); // 60s //TODO: calc sleep time till next fill minute
-    // delay(1000); //TODO
+  delay(60000); // 60s //TODO: calc sleep time till next fill minute
+  //delay(1000); //TODO
 }

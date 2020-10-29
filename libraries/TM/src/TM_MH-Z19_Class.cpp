@@ -1,8 +1,8 @@
 /*
   TM_MH-Z19_Class.cpp - Library for reading a MH-Z19 CO2 sensor
+  Based on MHZ19 BasicExample
 */
 
-// Based on MHZ19 BasicExample
 #include "TM_Sensor_Class.h"
 #include "TM_MH-Z19_Class.h"
 #include <Arduino.h>
@@ -19,8 +19,6 @@ TM_MH_Z19_Class::TM_MH_Z19_Class() : TM_Sensor_Class()
 {
 }
 
-//unsigned long getDataTimer = 0;
-
 void TM_MH_Z19_Class::init()
 {
   if (verbose)
@@ -29,7 +27,7 @@ void TM_MH_Z19_Class::init()
   }
   //  HardwareSerial mySerial(1);
   mySerial_Class.begin(MHZ19_BAUDRATE, SERIAL_8N1, RX_PIN, TX_PIN); // (ESP32 Example) device to MH-Z19 serial start
-  myMHZ19.begin(mySerial_Class);                                    // *Serial(Stream) refence must be passed to library begin().
+  myMHZ19.begin(mySerial_Class);                                    // *Serial(Stream) reference must be passed to library begin().
 
   // calibration
   /*   
@@ -37,7 +35,7 @@ void TM_MH_Z19_Class::init()
       myMHZ19.calibrateZero();
       myMHZ19.setSpan(2000);
   */
-  myMHZ19.autoCalibration(true); // Turn auto calibration ON (OFF autoCalibration(false))}
+  myMHZ19.autoCalibration(true);
 }
 
 int TM_MH_Z19_Class::read_values()
