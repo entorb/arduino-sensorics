@@ -12,10 +12,13 @@ Sleep till next full minute, maybe like this
 $prev = 1330518155 - (1330518155 % 1800);
 $next = $prev + 1800;
 
-ESP32 Deep Sleep zum Stromsparen
-https://lastminuteengineers.com/esp32-sleep-modes-power-consumption/
-Und Bluetooth ausschalten
 
 ESP32 Over The Air Update
 https://randomnerdtutorials.com/esp32-over-the-air-ota-programming/
 
+
+
+DONE
+ESP32 Deep Sleep zum Stromsparen oder zumindest Modem Sleep
+https://lastminuteengineers.com/esp32-sleep-modes-power-consumption/
+Und Bluetooth ausschalten
