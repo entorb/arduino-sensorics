@@ -30,13 +30,14 @@
 #include <SPI.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-
+/*
 #define BME_SCK 13
 #define BME_MISO 12
 #define BME_MOSI 11
 #define BME_CS 10
 
 #define SEALEVELPRESSURE_HPA (1013.25)
+*/
 
 TM_BME280_Class::TM_BME280_Class() : TM_Sensor_Class()
 {
@@ -63,23 +64,16 @@ void TM_BME280_Class::init()
 float *TM_BME280_Class::read_values()
 {
   TM_BME280_data[0] = bme.readTemperature();
+  TM_BME280_data[1] = bme.readHumidity();
+  TM_BME280_data[2] = bme.readPressure() / 100.0F;
   if (verbose)
   {
     Serial.print("Temperature = ");
     Serial.print(TM_BME280_data[0]);
     Serial.println(" *C");
-  }
-
-  TM_BME280_data[1] = bme.readHumidity();
-  if (verbose)
-  {
     Serial.print("Humidity = ");
     Serial.print(TM_BME280_data[1]);
     Serial.println(" %");
-  }
-  TM_BME280_data[2] = bme.readPressure() / 100.0F;
-  if (verbose)
-  {
     Serial.print("Pressure = ");
     Serial.print(TM_BME280_data[3]);
     Serial.println(" hPa");
@@ -89,6 +83,6 @@ float *TM_BME280_Class::read_values()
   Serial.print("Approx. Altitude = ");
   Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
   Serial.println(" m");
-*/
+  */
   return (float *)&TM_BME280_data; // return array of floats
 }
