@@ -4,7 +4,6 @@
 */
 
 #include "Arduino.h"
-#include "TM_InfluxDB.h"
 
 //WiFi
 #include <WiFi.h>
@@ -15,24 +14,27 @@ WiFiMulti my_wifiMulti;
 // #include <ESP8266WiFiMulti.h>
 // ESP8266WiFiMulti my_wifiMulti;
 // #endif
-
+#include "TM_WiFi_secret.h"
 #include "esp_wifi.h" // for esp_wifi_set_ps (WIFI_PS_MODEM); = power saving
 
-#include <InfluxDbClient.h>
-// #include <InfluxDbCloud.h>
-
-#include "TM_WiFi_secret.h"
-// defines INFLUXDB_URL, INFLUXDB_DB_NAME
+// InfluxDB
+#include "TM_InfluxDB.h"
 #include "TM_InfluxDB_secret.h"
-// defines INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD
+#include <InfluxDbClient.h>
 
-// TimeZone for Time Sync Central Europe: "CET-1CEST,M3.5.0,M10.5.0/3"
-#define TZ_INFO "CET-1CEST,M3.5.0,M10.5.0/3"
+// TimeZone for Time Sync
+#define TZ_INFO "CET-1CEST,M3.5.0,M10.5.0/3" // = Central Europe
 
-// InfluxDB client instance for InfluxDB 1
+// TODO: how to move this as private variabled into the class???
 InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
-void TM_connect_wifi(char *devicename)
+TM_Influx_Class::TM_Influx_Class()
+{
+}
+// InfluxDB client instance for InfluxDB 1
+// InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
+
+void TM_Influx_Class::connect_wifi(char *devicename)
 {
   // esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
   // TODO: add some timeout / retry mechanism
@@ -61,7 +63,7 @@ void TM_connect_wifi(char *devicename)
   esp_wifi_set_ps(WIFI_PS_MODEM);
 }
 
-void TM_connect_influxdb()
+void TM_Influx_Class::connect_influxdb()
 {
   // Set Influx Connection Settings
   Serial.println("Setting InfluxDB 1.X authentication params");
@@ -79,11 +81,11 @@ void TM_connect_influxdb()
   }
 }
 
-void TM_influx_send_point(Point sensor)
+void TM_Influx_Class::send_point(Point sensor)
 {
   Serial.print("Sending: ");
   Serial.println(sensor.toLineProtocol());
-  // If no Wifi signal, try to reconnect it
+  // If no Wifi signal, try  reconnecting
   if ((WiFi.RSSI() == 0) && (my_wifiMulti.run() != WL_CONNECTED))
     Serial.println("Wifi connection lost");
   // Write point
