@@ -6,13 +6,17 @@
 #include "Arduino.h"
 #include "TM_InfluxDB.h"
 
-#if defined(ESP32)
+//WiFi
+#include <WiFi.h>
+// #if defined(ESP32)
 #include <WiFiMulti.h>
-WiFiMulti TM_wifiMulti;
-#elif defined(ESP8266)
-#include <ESP8266WiFiMulti.h>
-ESP8266WiFiMulti TM_wifiMulti;
-#endif
+WiFiMulti my_wifiMulti;
+// #elif defined(ESP8266)
+// #include <ESP8266WiFiMulti.h>
+// ESP8266WiFiMulti my_wifiMulti;
+// #endif
+
+#include "esp_wifi.h" // for esp_wifi_set_ps (WIFI_PS_MODEM); = power saving
 
 #include <InfluxDbClient.h>
 // #include <InfluxDbCloud.h>
@@ -26,55 +30,66 @@ ESP8266WiFiMulti TM_wifiMulti;
 #define TZ_INFO "CET-1CEST,M3.5.0,M10.5.0/3"
 
 // InfluxDB client instance for InfluxDB 1
-InfluxDBClient TM_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
+InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
 void TM_connect_wifi(char *devicename)
 {
+  // esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
   // TODO: add some timeout / retry mechanism
   Serial.println("Connecting to WiFi");
   WiFi.disconnect(true);
   WiFi.mode(WIFI_OFF);
-  delay(1000);
+  // delay(1000);
   WiFi.setHostname(devicename);
   WiFi.mode(WIFI_STA);
-  TM_wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
-  while (TM_wifiMulti.run() != WL_CONNECTED)
+  my_wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
+  int i = 0;
+  while (my_wifiMulti.run() != WL_CONNECTED)
   {
+    if (i == 15)
+    {
+      WiFi.reconnect();
+      i = 0;
+    }
     Serial.print(".");
-    delay(200);
+    delay(500);
+    i++;
   }
   Serial.println();
   // Sync Time
   timeSync(TZ_INFO, "de.pool.ntp.org");
+  esp_wifi_set_ps(WIFI_PS_MODEM);
 }
+
 void TM_connect_influxdb()
 {
   // Set Influx Connection Settings
   Serial.println("Setting InfluxDB 1.X authentication params");
-  TM_InfluxClient.setConnectionParamsV1(INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD);
+  my_InfluxClient.setConnectionParamsV1(INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD);
   // Test InfluxDB connection
-  if (TM_InfluxClient.validateConnection())
+  if (my_InfluxClient.validateConnection())
   {
     Serial.print("Connected to InfluxDB: ");
-    Serial.println(TM_InfluxClient.getServerUrl());
+    Serial.println(my_InfluxClient.getServerUrl());
   }
   else
   {
     Serial.print("InfluxDB connection failed: ");
-    Serial.println(TM_InfluxClient.getLastErrorMessage());
+    Serial.println(my_InfluxClient.getLastErrorMessage());
   }
 }
+
 void TM_influx_send_point(Point sensor)
 {
   Serial.print("Sending: ");
   Serial.println(sensor.toLineProtocol());
   // If no Wifi signal, try to reconnect it
-  if ((WiFi.RSSI() == 0) && (TM_wifiMulti.run() != WL_CONNECTED))
+  if ((WiFi.RSSI() == 0) && (my_wifiMulti.run() != WL_CONNECTED))
     Serial.println("Wifi connection lost");
   // Write point
-  if (!TM_InfluxClient.writePoint(sensor))
+  if (!my_InfluxClient.writePoint(sensor))
   {
     Serial.print("InfluxDB write failed: ");
-    Serial.println(TM_InfluxClient.getLastErrorMessage());
+    Serial.println(my_InfluxClient.getLastErrorMessage());
   }
 }
