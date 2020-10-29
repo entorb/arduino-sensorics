@@ -7,21 +7,21 @@
 // #define DEVICENAME "T-ESP32-1"
 // #define TAG_ROOM "Arbeitszimmer"
 // #2
-// #define DEVICENAME "T-ESP32-2"
-// // #define TAG_ROOM "Kind 1"
-// #define TAG_ROOM "Wintergarten"
+#define DEVICENAME "T-ESP32-2"
+// #define TAG_ROOM "Kind 1"
+#define TAG_ROOM "Wintergarten"
 // #3
-#define DEVICENAME "T-ESP32-3"
-// #define TAG_ROOM "Kind 2"
-#define TAG_ROOM "Bad"
+// #define DEVICENAME "T-ESP32-3"
+// // #define TAG_ROOM "Kind 2"
+// #define TAG_ROOM "Bad"
 
 Point sensor(MEASUREMENT);
 
 #include "TM_BME280_Class.h"
-auto my_bme280 = TM_BME280_Class(false); // verbose = true -> print to serial
+auto my_bme280 = TM_BME280_Class();
 
 #include "TM_MH-Z19_Class.h"
-auto my_mh_z19 = TM_MH_Z19_Class(false); // verbose = true -> print to serial
+auto my_mh_z19 = TM_MH_Z19_Class();
 
 void setup()
 {
@@ -33,10 +33,12 @@ void setup()
     TM_connect_wifi(DEVICENAME);
     TM_connect_influxdb();
 
+    // my_bme280.setVerbose(true); // verbose = true -> print to serial
     my_bme280.init();
 
     if (DEVICENAME == "T-ESP32-1")
     {
+        // my_mh_z19.setVerbose(true); // verbose = true -> print to serial
         my_mh_z19.init();
     }
 }
@@ -57,6 +59,6 @@ void loop()
     }
     TM_influx_send_point(sensor);
 
-    delay(60000); // 60s //TODO: calc sleep time till next fill minute
+    // delay(60000); // 60s //TODO: calc sleep time till next fill minute
     // delay(1000); //TODO
 }

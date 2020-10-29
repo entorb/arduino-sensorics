@@ -2,8 +2,9 @@
   TM_BME280.cpp - Library for Connection to Sensor BME280 (Temp, Humidity, Pressure) via I2C
 */
 
-#include <Arduino.h>
+#include "TM_Sensor_Class.h"
 #include "TM_BME280_Class.h"
+#include <Arduino.h>
 
 // Based on:
 
@@ -37,14 +38,16 @@
 
 #define SEALEVELPRESSURE_HPA (1013.25)
 
-TM_BME280_Class::TM_BME280_Class(bool myVerbose)
+TM_BME280_Class::TM_BME280_Class() : TM_Sensor_Class()
 {
-  verbose = myVerbose;
 }
 
 void TM_BME280_Class::init()
 {
-  Serial.println(F("BME280 init"));
+  if (verbose)
+  {
+    Serial.println(F("BME280 init"));
+  }
   // You can also pass in a Wire library object like &Wire2
   status = bme.begin(0x76); //, &Wire2
   if (!status)

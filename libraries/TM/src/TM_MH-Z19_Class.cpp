@@ -3,9 +3,10 @@
 */
 
 // Based on MHZ19 BasicExample
+#include "TM_Sensor_Class.h"
+#include "TM_MH-Z19_Class.h"
 #include <Arduino.h>
 #include "MHZ19.h"
-#include "TM_MH-Z19_Class.h"
 
 #define RX_PIN 16           // Rx pin which the MHZ19 Tx pin is attached to
 #define TX_PIN 17           // Tx pin which the MHZ19 Rx pin is attached to
@@ -14,17 +15,18 @@
 // TODO: move into class, but this led to reboots of the Arduino, so research needed
 HardwareSerial mySerial_Class(1); // (ESP32 Example) create device to MH-Z19 serial
 
-TM_MH_Z19_Class::TM_MH_Z19_Class(bool myVerbose)
+TM_MH_Z19_Class::TM_MH_Z19_Class() : TM_Sensor_Class()
 {
-  verbose = myVerbose;
 }
 
 //unsigned long getDataTimer = 0;
 
 void TM_MH_Z19_Class::init()
 {
-  Serial.println(F("MH-Z19 init"));
-
+  if (verbose)
+  {
+    Serial.println(F("MH-Z19 init"));
+  }
   //  HardwareSerial mySerial(1);
   mySerial_Class.begin(MHZ19_BAUDRATE, SERIAL_8N1, RX_PIN, TX_PIN); // (ESP32 Example) device to MH-Z19 serial start
   myMHZ19.begin(mySerial_Class);                                    // *Serial(Stream) refence must be passed to library begin().

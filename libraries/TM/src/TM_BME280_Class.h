@@ -5,19 +5,20 @@
 #ifndef TM_BME280_Class_H
 #define TM_BME280_Class_H
 
+#include "TM_Sensor_Class.h"
 #include <Adafruit_BME280.h>
 
-class TM_BME280_Class
+class TM_BME280_Class : public TM_Sensor_Class
 {
 public:
   // constructor
-  TM_BME280_Class(bool verbose);
+  TM_BME280_Class();
   // variables
+  // functions
   void init();
   float *read_values();
 
 private:
-  bool verbose;
   unsigned status;
   float TM_BME280_data[3];
   Adafruit_BME280 bme; // I2C
