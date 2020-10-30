@@ -2,13 +2,14 @@
   TM_BME280_Class.h - Library for Connection to Sensor BME280 (Temp, Humidity, Pressure) via I2C
 */
 
-#ifndef TM_BME280_Class_H
-#define TM_BME280_Class_H
+#ifndef TM_BME280_CLASS_H
+#define TM_BME280_CLASS_H
 
-#include "TM_Sensor_Class.h"
+#include "TM_Device_Class.h"
+
 #include <Adafruit_BME280.h>
 
-class TM_BME280_Class : public TM_Sensor_Class
+class TM_BME280_Class : public TM_Device_Class
 {
 public:
   // constructor

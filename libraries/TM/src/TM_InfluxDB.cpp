@@ -3,7 +3,14 @@
   based on https://github.com/tobiasschuerg/InfluxDB-Client-for-Arduino/blob/master/examples/BasicWrite/BasicWrite.ino
 */
 
+// InfluxDB
+#include "TM_Device_Class.h"
+#include "TM_InfluxDB.h"
+#include "TM_InfluxDB_secret.h"
+
 #include "Arduino.h"
+
+#include <InfluxDbClient.h>
 
 //WiFi
 #include <WiFi.h>
@@ -17,28 +24,23 @@ WiFiMulti my_wifiMulti;
 #include "TM_WiFi_secret.h"
 #include "esp_wifi.h" // for esp_wifi_set_ps (WIFI_PS_MODEM); = power saving
 
-// InfluxDB
-#include "TM_InfluxDB.h"
-#include "TM_InfluxDB_secret.h"
-#include <InfluxDbClient.h>
-
-// TimeZone for Time Sync
-#define TZ_INFO "CET-1CEST,M3.5.0,M10.5.0/3" // = Central Europe
-
 // TODO: how to move this as private variabled into the class???
 InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
-TM_Influx_Class::TM_Influx_Class()
+TM_Influx_Class::TM_Influx_Class() : TM_Device_Class()
 {
 }
 // InfluxDB client instance for InfluxDB 1
 // InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
-void TM_Influx_Class::connect_wifi(char *devicename)
+void TM_Influx_Class::connect_wifi(const char *devicename)
 {
   // esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
   // TODO: add some timeout / retry mechanism
-  Serial.println("Connecting to WiFi");
+  if (verbose == true)
+  {
+    Serial.println("Connecting to WiFi");
+  }
   WiFi.disconnect(true);
   WiFi.mode(WIFI_OFF);
   // delay(1000);
@@ -53,45 +55,73 @@ void TM_Influx_Class::connect_wifi(char *devicename)
       WiFi.reconnect();
       i = 0;
     }
-    Serial.print(".");
+    if (verbose == true)
+    {
+      Serial.print(".");
+    }
     delay(500);
     i++;
   }
-  Serial.println();
-  // Sync Time
-  timeSync(TZ_INFO, "de.pool.ntp.org");
+  if (verbose == true)
+  {
+    Serial.println();
+  }
   esp_wifi_set_ps(WIFI_PS_MODEM);
 }
 
 void TM_Influx_Class::connect_influxdb()
 {
   // Set Influx Connection Settings
-  Serial.println("Setting InfluxDB 1.X authentication params");
+  if (verbose == true)
+  {
+    Serial.println("Setting InfluxDB 1.X authentication params");
+  }
   my_InfluxClient.setConnectionParamsV1(INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD);
   // Test InfluxDB connection
   if (my_InfluxClient.validateConnection())
   {
-    Serial.print("Connected to InfluxDB: ");
-    Serial.println(my_InfluxClient.getServerUrl());
+    if (verbose == true)
+    {
+      Serial.print("Connected to InfluxDB: ");
+      Serial.println(my_InfluxClient.getServerUrl());
+    }
   }
   else
   {
-    Serial.print("InfluxDB connection failed: ");
-    Serial.println(my_InfluxClient.getLastErrorMessage());
+    if (verbose == true)
+    {
+      Serial.print("InfluxDB connection failed: ");
+      Serial.println(my_InfluxClient.getLastErrorMessage());
+    }
   }
 }
 
 void TM_Influx_Class::send_point(Point sensor)
 {
-  Serial.print("Sending: ");
-  Serial.println(sensor.toLineProtocol());
+  if (verbose == true)
+  {
+    Serial.print("Sending: ");
+    Serial.println(sensor.toLineProtocol());
+  }
   // If no Wifi signal, try  reconnecting
   if ((WiFi.RSSI() == 0) && (my_wifiMulti.run() != WL_CONNECTED))
-    Serial.println("Wifi connection lost");
+    if (verbose == true)
+    {
+      Serial.println("Wifi connection lost");
+    }
   // Write point
   if (!my_InfluxClient.writePoint(sensor))
   {
-    Serial.print("InfluxDB write failed: ");
-    Serial.println(my_InfluxClient.getLastErrorMessage());
+    if (verbose == true)
+    {
+      Serial.print("InfluxDB write failed: ");
+      Serial.println(my_InfluxClient.getLastErrorMessage());
+    }
   }
+}
+
+void TM_Influx_Class::sync_time()
+{
+  timeSync("CET-1CEST,M3.5.0,M10.5.0/3", "de.pool.ntp.org");
+  // "CET-1CEST,M3.5.0,M10.5.0/3" = Central Europe
 }
