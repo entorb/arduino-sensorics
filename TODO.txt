@@ -8,9 +8,6 @@ typen wie uint8_t sind eindeutig und erzeugen portierbaren code
 Arduino IDE
 Delete unused libs
 
-Sleep till next full minute, maybe like this
-$prev = 1330518155 - (1330518155 % 1800);
-$next = $prev + 1800;
 
 
 ESP32 Over The Air Update
@@ -22,3 +19,5 @@ DONE
 ESP32 Deep Sleep zum Stromsparen oder zumindest Modem Sleep
 https://lastminuteengineers.com/esp32-sleep-modes-power-consumption/
 Und Bluetooth ausschalten
+
+Sleep till next full minute, via measuring the time of the loop

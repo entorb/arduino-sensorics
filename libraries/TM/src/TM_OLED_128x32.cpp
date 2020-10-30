@@ -8,6 +8,9 @@
   Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
 */
 
+#include "TM_Device_Class.h"
+#include "TM_OLED_128x32.h"
+
 #include <Arduino.h>
 #include <U8g2lib.h>
 
@@ -18,11 +21,13 @@
 #include <Wire.h>
 #endif
 
+// TODO: move into class, but this led to reboots of the Arduino, so research needed
 U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE); // Adafruit ESP8266/32u4/ARM Boards + FeatherWing OLED
 
-#include "TM_OLED_128x32.h"
-
-void TM_OLED_128x32_init()
+TM_OLED_128x32_Class ::TM_OLED_128x32_Class() : TM_Device_Class()
+{
+}
+void TM_OLED_128x32_Class::init()
 {
   u8g2.begin();
   u8g2.setFont(u8g2_font_inb19_mf); // https://github.com/olikraus/u8g2/wiki/fntlistall
@@ -32,7 +37,7 @@ void TM_OLED_128x32_init()
   u8g2.setFontDirection(0); // 0..3
 }
 
-void TM_OLED_128x32_drawStr(int offset_x, int offset_y, char *text)
+void TM_OLED_128x32_Class::drawStr(const int offset_x, const int offset_y, const char *text)
 {
   u8g2.clearBuffer();
   u8g2.drawStr(8, 7, text);

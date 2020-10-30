@@ -2,10 +2,21 @@
   TM_OLED_128x32.h - Library for Connection to my InfluxDB
 */
 
-#ifndef TM_OLED_128x32_h
-#define TM_OLED_128x32_h
+#ifndef TM_OLED_128x32_H
+#define TM_OLED_128x32_H
 
-void TM_OLED_128x32_init();
-void TM_OLED_128x32_drawStr(int, int, char *);
+#include "TM_Device_Class.h"
+
+class TM_OLED_128x32_Class : public TM_Device_Class
+{
+public:
+  // constructor
+  TM_OLED_128x32_Class();
+  // functions
+  void init();
+  void drawStr(const int, const int, const char *);
+
+private:
+};
 
 #endif
