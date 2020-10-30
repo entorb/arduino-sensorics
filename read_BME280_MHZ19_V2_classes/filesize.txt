@@ -1,6 +1,0 @@
-BME280 and MH-Z19: 873kb
-BME280 only: 871kb
-MH-Z19 only: 866kb
-no BME280 , no MH-Z19: 864kb
-
-MH-Z19 and OLED
