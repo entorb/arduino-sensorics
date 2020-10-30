@@ -2,8 +2,9 @@
   TM_BME280.cpp - Library for Connection to Sensor BME280 (Temp, Humidity, Pressure) via I2C
 */
 
-#include "TM_Sensor_Class.h"
+#include "TM_Device_Class.h"
 #include "TM_BME280_Class.h"
+
 #include <Arduino.h>
 
 // Based on:
@@ -39,13 +40,13 @@
 #define SEALEVELPRESSURE_HPA (1013.25)
 */
 
-TM_BME280_Class::TM_BME280_Class() : TM_Sensor_Class()
+TM_BME280_Class::TM_BME280_Class() : TM_Device_Class()
 {
 }
 
 void TM_BME280_Class::init()
 {
-  if (verbose)
+  if (verbose == true)
   {
     Serial.println(F("BME280 init"));
   }
@@ -53,9 +54,12 @@ void TM_BME280_Class::init()
   status = bme.begin(0x76); //, &Wire2
   if (!status)
   {
-    Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
-    Serial.print("SensorID was: 0x");
-    Serial.println(bme.sensorID(), 16);
+    if (verbose == true)
+    {
+      Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
+      Serial.print("SensorID was: 0x");
+      Serial.println(bme.sensorID(), 16);
+    }
     while (1)
       delay(10);
   }
@@ -66,7 +70,7 @@ float *TM_BME280_Class::read_values()
   TM_BME280_data[0] = bme.readTemperature();
   TM_BME280_data[1] = bme.readHumidity();
   TM_BME280_data[2] = bme.readPressure() / 100.0F;
-  if (verbose)
+  if (verbose == true)
   {
     Serial.print("Temperature = ");
     Serial.print(TM_BME280_data[0]);
@@ -78,11 +82,11 @@ float *TM_BME280_Class::read_values()
     Serial.print(TM_BME280_data[3]);
     Serial.println(" hPa");
     Serial.println();
-  }
-  /*
-  Serial.print("Approx. Altitude = ");
-  Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-  Serial.println(" m");
+    /*                                              \
+  Serial.print("Approx. Altitude = ");                  \
+  Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA)); \
+  Serial.println(" m");                                 \
   */
+  }
   return (float *)&TM_BME280_data; // return array of floats
 }
