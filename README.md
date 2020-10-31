@@ -1,6 +1,6 @@
 # arduino-sensorics
 Code for reading various sensors attached to an Arduino ESP32 micro-controller.  
-Data is uploaded via WiFi to an InfluxDB on a Raspberry Pi 3 Model B and visualized via Grafana, see https://github.com/entorb/raspi-sensorics/ 
+Data is uploaded via WiFi to an InfluxDB on a Raspberry Pi 3 Model B and visualized via Grafana, see my [raspi-sensorics](https://github.com/entorb/raspi-sensorics/) repository
 
 # Devices implemented
 * Abstract device class that all other devices inherit from in [TM_Device_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_Device_Class.cpp)
