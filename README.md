@@ -6,15 +6,6 @@
   * writing to various displays
   * using a config.h file to select the devices available to that Arduino
 
-## Next goals
-* create CO2 measurement device
-  * build device for our kindergarden and school
-  * optional offline version: display only
-  * in proper case
-  * using display and traffic light for visualization
-* add more displays
-* add more sensors
-
 ## Devices implemented so far
 * BME280 sensor for temperature, humidity and pressure in [TM_BME280_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BME280_Class.cpp)
 * MH-Z19 sensor for CO2 concentration in [TM_MH-Z19_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_MH-Z19_Class.cpp)
@@ -28,7 +19,17 @@
   * Under-clocking the ESP32 from 240 to 80 MHz via setCpuFrequencyMhz(80) in ([TM_ESP32-Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_ESP32-Class.cpp)
   * Enabling WiFi modem sleep via esp_wifi_set_ps(WIFI_PS_MODEM) in [TM_InfluxDB.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB.cpp)
 
-## Photos and Screenshots
+## Next steps
+* standalone CO2 measurement device
+  * build device for our kindergarden and school
+  * in proper case
+  * offline version, display only
+  * using display and traffic light for visualization
+* experiment with more display units
+* design and build cases
+* add more sensors
+
+## Photos and screenshots
 Displaying of CO2 level on small OLED display (measured by MH-Z19)
 ![ESP32-MHZ19-OLED128x32.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ESP32-MHZ19-OLED128x32.jpg)
 
