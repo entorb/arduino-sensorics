@@ -6,7 +6,7 @@ static const bool myVerbose = false;
 #define TM_LOAD_DEVICE_INFLUXDB 1
 #define TM_LOAD_DEVICE_BME280 0
 #define TM_LOAD_DEVICE_MHZ19 1
-#define TM_LOAD_DEVICE_OLED_128X32 1
+#define TM_LOAD_DEVICE_OLED_128X32 0
 static const char my_device_name[] = "T-ESP32-1";
 static const char my_room[] = "Arbeitszimmer";
 /*
