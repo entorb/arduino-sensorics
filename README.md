@@ -20,10 +20,9 @@
   * Enabling WiFi modem sleep via esp_wifi_set_ps(WIFI_PS_MODEM) in [TM_InfluxDB.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB.cpp)
 
 ## Next steps
-* standalone CO2 measurement device
-  * build device for our kindergarden and school
-  * in proper case
+* standalone CO2 traffic light for our kindergarden and school
   * offline version, display only
+  * in proper case
   * using display and traffic light for visualization
 * experiment with more display units
 * design and build cases
