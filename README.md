@@ -1,6 +1,5 @@
 # arduino-sensorics
 * Arduino ESP32 micro-controller programming
-* reading various sensors devices attached to an Arduino ESP32 micro-controller.  
 * provides simple and clean library for 
   * reading of various sensors
   * export data via WiFi to InfluxDB for visualization in Grafana, see my [raspi-sensorics](https://github.com/entorb/raspi-sensorics/) repository
