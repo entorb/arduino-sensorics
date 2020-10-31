@@ -1,5 +1,5 @@
 # arduino-sensorics
-Code for reading various sensors attached to an Arduino ESP32 micro-controller.  
+Reading various sensors and using divices attached to an Arduino ESP32 micro-controller.  
 Data is uploaded via WiFi to an InfluxDB on a Raspberry Pi 3 Model B and visualized via Grafana, see my [raspi-sensorics](https://github.com/entorb/raspi-sensorics/) repository
 
 ## Devices implemented
