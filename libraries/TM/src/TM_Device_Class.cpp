@@ -1,5 +1,5 @@
 /*
-  TM_Device_Class.cpp - My Device interface
+  TM_Device_Class.cpp - interface that all devices inherit from
 */
 #include "TM_Device_Class.h"
 
