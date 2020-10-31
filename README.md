@@ -30,7 +30,7 @@
 * add more sensors
 
 ## Photos and screenshots
-Displaying of CO2 level on small OLED display (measured by MH-Z19)
+Display of CO2 level on small OLED display (measured by MH-Z19)
 ![ESP32-MHZ19-OLED128x32.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ESP32-MHZ19-OLED128x32.jpg)
 
 Display of CO2 in Grafana (measured by MH-Z19)
