@@ -38,3 +38,6 @@ Display of CO2 in Grafana (measured by MH-Z19)
 Display of temperature, humidity and pressure in Grafana (measured by BME280)
 ![Grafana-T-H-P.png](https://github.com/entorb/arduino-sensorics/blob/main/photos/Grafana-T-H-P.png)
 
+## Similar projects
+* https://git.unhb.de/smash/co2ampel
+* [Heise: CO2-Ampel: Erfahrungsbericht aus der Schule](https://www.heise.de/news/CO2-Ampel-Erfahrungsbericht-aus-der-Schule-4932471.html)
