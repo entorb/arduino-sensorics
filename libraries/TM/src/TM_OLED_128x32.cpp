@@ -35,6 +35,7 @@ void TM_OLED_128x32_Class::init()
   // u8g2.setFontRefHeightExtendedText(); //https://github.com/olikraus/u8g2/wiki/u8g2reference#setfontrefheightextendedtext
   u8g2.setFontPosTop();     // setFontPosTop() , setFontPosBaseline() , setFontPosCenter() , setFontPosBottom()
   u8g2.setFontDirection(0); // 0..3
+  u8g2.drawLine(0, 10, 20, 30);
 }
 
 void TM_OLED_128x32_Class::drawStr(const int offset_x, const int offset_y, const char *text)

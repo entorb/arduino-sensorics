@@ -17,6 +17,9 @@ public:
   void drawStr(const int, const int, const char *);
 
 private:
+  int barchart_min;
+  int barchart_max;
+  int barchart_line;
 };
 
 #endif
