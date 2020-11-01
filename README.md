@@ -39,6 +39,7 @@ Display of temperature, humidity and pressure in Grafana (measured by BME280)
 ![Grafana-T-H-P.png](https://github.com/entorb/arduino-sensorics/blob/main/photos/Grafana-T-H-P.png)
 
 ## Similar projects
-* https://git.unhb.de/smash/co2ampel
+* [UN-Hack-Bar: CO2 Ampeln für alle](https://www.un-hack-bar.de/2020/10/25/co2-ampeln-fuer-alle/)
+* [UN-Hack-Bar: Repository](https://git.unhb.de/smash/co2ampel)
 * [Heise: CO2-Ampel: Bauanleitung](https://www.heise.de/select/make/2020/5/2022015381334973804)
 * [Heise: CO2-Ampel: Erfahrungsbericht aus der Schule](https://www.heise.de/news/CO2-Ampel-Erfahrungsbericht-aus-der-Schule-4932471.html)
