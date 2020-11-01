@@ -28,6 +28,7 @@ public:
   void drawStr(const char *);
   void drawInt(const unsigned int);
   void drawBarchart(const float);
+  void drawFrame();
   void drawAltBarchartOrInt(const float);
   void setBarchartRange(const float, const float);
   //variables

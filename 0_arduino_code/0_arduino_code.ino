@@ -1,6 +1,7 @@
 // here the parameters for my device are set: name, room, as well als verbose mode
 #include "device_setup.h"
 
+#include <Arduino.h>
 #include "TM_ESP32_Class.h"
 auto my_esp32 = TM_ESP32_Class();
 
@@ -31,6 +32,7 @@ auto my_oled = TM_OLED_128x32_Class();
 
 // variables
 unsigned long timeStart;
+float data_to_display = 0;
 
 void setup()
 {
@@ -89,6 +91,7 @@ void loop()
 
 #if TM_LOAD_DEVICE_MHZ19 == 1
   data_mhz_CO2 = my_mh_z19.read_values();
+  float data_to_display = data_mhz_CO2;
 #if TM_LOAD_DEVICE_INFLUXDB == 1
   sensor.addField("CO2", data_mhz_CO2);
 #endif
@@ -98,7 +101,9 @@ void loop()
 #endif
 
 #if TM_LOAD_DEVICE_OLED_128X32 == 1
-  my_oled.drawAltBarchartOrInt(float(data_mhz_CO2));
+  Serial.print("sending to OLED: ");
+  Serial.println(data_to_display);
+  my_oled.drawAltBarchartOrInt(float(data_to_display));
 #endif
 
   sleep_exact_time(timeStart, millis());
