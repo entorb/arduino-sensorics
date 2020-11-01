@@ -1,5 +1,5 @@
 /*
-  TM_OLED_128x32.cpp - Library for Connection to 128x32 OLED Display
+  TM_OLED_128x32_Class.cpp - Library for Connection to 128x32 OLED Display
 */
 //based on
 /*
@@ -9,7 +9,7 @@
 */
 
 #include "TM_Device_Class.h"
-#include "TM_OLED_128x32.h"
+#include "TM_OLED_128x32_Class.h"
 
 #include <Arduino.h>
 #include <U8g2lib.h>
