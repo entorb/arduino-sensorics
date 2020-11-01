@@ -12,7 +12,8 @@
 #include "TM_OLED_128x32_Class.h"
 
 #include <Arduino.h>
-#include <U8g2lib.h>
+//#include <U8g2lib.h>
+#include "U8g2lib.h"
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
 #endif
@@ -20,16 +21,17 @@
 #include <Wire.h>
 #endif
 
-// TODO: move into class, but this led to reboots of the Arduino, so research needed
-U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE); // Adafruit ESP8266/32u4/ARM Boards + FeatherWing OLED
+// TODO:
+// U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE); // Adafruit ESP8266/32u4/ARM Boards + FeatherWing OLED
 
-TM_OLED_128x32_Class ::TM_OLED_128x32_Class() : TM_Device_Class()
-{
-  barchart_data[px_x] = {0}; // initialize with all with 0
-}
-void TM_OLED_128x32_Class::init()
+TM_OLED_128x32_Class ::TM_OLED_128x32_Class() : TM_Device_Class(), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
 {
   my_u8g2.begin();
+  barchart_data[px_x] = {0}; // initialize with all with 0
+}
+
+void TM_OLED_128x32_Class::init()
+{
   my_u8g2.setFont(u8g2_font_inb19_mf); // https://github.com/olikraus/u8g2/wiki/fntlistall
   // u8g2_font_inb19_mf: bbox = 16, max height = 31
   // my_u8g2.setFontRefHeightExtendedText(); //https://github.com/olikraus/u8g2/wiki/u8g2reference#setfontrefheightextendedtext
