@@ -6,7 +6,7 @@ auto my_esp32 = TM_ESP32_Class();
 
 // InfluxDB
 #if TM_LOAD_DEVICE_INFLUXDB == 1
-#include "TM_InfluxDB.h"
+#include "TM_InfluxDB_Class.h"
 #include <InfluxDbClient.h>
 auto my_influx = TM_Influx_Class();
 Point sensor("Raumklima");
