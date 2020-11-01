@@ -25,7 +25,7 @@ int data_mhz_CO2;
 #endif
 
 #if TM_LOAD_DEVICE_OLED_128X32 == 1
-#include "TM_OLED_128x32.h"
+#include "TM_OLED_128x32_Class.h"
 auto my_oled = TM_OLED_128x32_Class();
 #endif
 

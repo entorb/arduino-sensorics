@@ -1,9 +1,9 @@
 /*
-  TM_OLED_128x32.h - Library for Connection to my InfluxDB
+  TM_OLED_128x32_Class.h - Library for Connection to OLED Displays
 */
 
-#ifndef TM_OLED_128x32_H
-#define TM_OLED_128x32_H
+#ifndef TM_OLED_128x32_CLASS_H
+#define TM_OLED_128x32_CLASS_H
 
 #include "TM_Device_Class.h"
 
