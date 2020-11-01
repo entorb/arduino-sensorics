@@ -21,6 +21,7 @@
 class TM_OLED_Class : public TM_Device_Class
 {
 public:
+  // TODO: this is not overwritten by children, can't remove here, because functions need it
   U8G2_SSD1306_128X64_NONAME_F_HW_I2C my_u8g2;
   // constructor
   TM_OLED_Class();
@@ -33,13 +34,13 @@ public:
   void drawAltBarchartOrInt(const float);
   void setBarchartRange(const float, const float);
 
-private:
-  //variables
-  // these 3 will be overwritten by the children
+  // TODO: this is not overwritten by children
   const unsigned int px_x = 128;
-  const unsigned int px_y = 10;
+  const unsigned int px_y = 64;
   unsigned int barchart_data[128];
 
+private:
+  // variables
   unsigned int barchart_min;
   unsigned int barchart_max;
   bool last_was_barchart = false; // alternate between bar and int chart
