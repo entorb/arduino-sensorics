@@ -12,7 +12,6 @@
 #include "TM_OLED_128x32_Class.h"
 
 #include <Arduino.h>
-//#include <U8g2lib.h>
 #include "U8g2lib.h"
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
@@ -26,28 +25,28 @@
 
 TM_OLED_128x32_Class ::TM_OLED_128x32_Class() : TM_Device_Class(), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
 {
-  my_u8g2.begin();
   barchart_data[px_x] = {0}; // initialize with all with 0
 }
 
 void TM_OLED_128x32_Class::init()
 {
+  my_u8g2.begin();
+  my_u8g2.clearBuffer();
   my_u8g2.setFont(u8g2_font_inb19_mf); // https://github.com/olikraus/u8g2/wiki/fntlistall
-  // u8g2_font_inb19_mf: bbox = 16, max height = 31
-  // my_u8g2.setFontRefHeightExtendedText(); //https://github.com/olikraus/u8g2/wiki/u8g2reference#setfontrefheightextendedtext
+  // my_u8g2.setFont(u8g2_font_ncenB08_tr); // https://github.com/olikraus/u8g2/wiki/fntlistall
   my_u8g2.setFontPosTop();     // setFontPosTop() , setFontPosBaseline() , setFontPosCenter() , setFontPosBottom()
   my_u8g2.setFontDirection(0); // 0..3
-  my_u8g2.clearBuffer();
+
+  //my_u8g2.firstPage();
+  // u8g2_font_inb19_mf: bbox = 16, max height = 31
+  // my_u8g2.setFontRefHeightExtendedText(); //https://github.com/olikraus/u8g2/wiki/u8g2reference#setfontrefheightextendedtext
   //Serial.println(sizeof(barchart_data) / sizeof(barchart_data[0]));
-  // draw rectangular frame
-  // my_u8g2.drawLine(0, 0, 0, px_y - 1);
-  // my_u8g2.drawLine(px_x - 1, 0, px_x - 1, px_y - 1);
-  // my_u8g2.drawLine(0, 0, px_x - 1, 0);
-  // my_u8g2.drawLine(0, px_y - 1, px_x - 1, px_y - 1);
 }
 
 void TM_OLED_128x32_Class::drawStr(const char *text)
 {
+  // my_u8g2.nextPage();
+  my_u8g2.clearBuffer();
   my_u8g2.drawStr(8, 7, text);
   my_u8g2.sendBuffer();
 }
@@ -66,6 +65,7 @@ void TM_OLED_128x32_Class::drawInt(const unsigned int value)
   char cstr[16];
   itoa(value, cstr, 10);   /// base 10
   char const *text = cstr; //+ "ppm";  my_u8g2.clearBuffer();
+  // my_u8g2.nextPage();
   my_u8g2.clearBuffer();
   my_u8g2.drawStr(8, 7, text);
   my_u8g2.sendBuffer();
@@ -114,6 +114,7 @@ void TM_OLED_128x32_Class::drawBarchart(const float value_to_append)
   barchart_data[px_x - 1] = value_to_append_px;
 
   // draw the barchart
+  // my_u8g2.nextPage();
   my_u8g2.clearBuffer();
   for (unsigned int i = 0; i < px_x; i++)
   {
@@ -125,14 +126,31 @@ void TM_OLED_128x32_Class::drawBarchart(const float value_to_append)
 
 void TM_OLED_128x32_Class::drawAltBarchartOrInt(const float value_to_append)
 {
-  if (last_was_barchart)
-  {
-    last_was_barchart = false;
-    drawInt(value_to_append);
-  }
-  else
-  {
-    last_was_barchart = true;
-    drawBarchart(value_to_append);
-  }
+  // my_u8g2.begin();
+  my_u8g2.clearBuffer(); // clear the internal memory
+  // my_u8g2.setFont(u8g2_font_ncenB08_tr);    // choose a suitable font
+  my_u8g2.drawStr(0, 10, "Hello World 4"); // write something to the internal memory
+  my_u8g2.sendBuffer();                    // transfer internal memory to the display
+
+  // if (last_was_barchart)
+  // {
+  //   last_was_barchart = false;
+  //   drawInt(value_to_append);
+  // }
+  // else
+  // {
+  //   last_was_barchart = true;
+  //   drawBarchart(value_to_append);
+  // }
+}
+
+void TM_OLED_128x32_Class::drawFrame()
+{
+  // draw rectangular frame
+  my_u8g2.clearBuffer();
+  my_u8g2.drawLine(0, 0, 0, px_y - 1);
+  my_u8g2.drawLine(px_x - 1, 0, px_x - 1, px_y - 1);
+  my_u8g2.drawLine(0, 0, px_x - 1, 0);
+  my_u8g2.drawLine(0, px_y - 1, px_x - 1, px_y - 1);
+  my_u8g2.sendBuffer();
 }
