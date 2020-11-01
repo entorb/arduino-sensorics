@@ -26,9 +26,6 @@ public:
   TM_OLED_128x64_Class();
   // functions
   // variables
-  const unsigned int px_x = 128;
-  const unsigned int px_y = 64;
-  unsigned int barchart_data[128];
 
 private:
   // variables

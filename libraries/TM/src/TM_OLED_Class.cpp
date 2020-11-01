@@ -23,7 +23,6 @@
 // Initialisierungsliste
 TM_OLED_Class::TM_OLED_Class() : TM_Device_Class(), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
 {
-  // barchart_data[px_x] = {0}; // initialize with all with 0
 }
 
 void TM_OLED_Class::init()
