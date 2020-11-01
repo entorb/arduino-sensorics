@@ -22,6 +22,6 @@ public:
 
 private:
   MHZ19 myMHZ19;
-  // HardwareSerial mySerial_Class;
+  HardwareSerial mySerial_Class;
 };
 #endif
