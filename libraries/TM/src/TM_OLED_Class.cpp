@@ -13,12 +13,12 @@
 
 #include <Arduino.h>
 #include "U8g2lib.h"
-#ifdef U8X8_HAVE_HW_SPI
-#include <SPI.h>
-#endif
-#ifdef U8X8_HAVE_HW_I2C
-#include <Wire.h>
-#endif
+// #ifdef U8X8_HAVE_HW_SPI
+// #include <SPI.h>
+// #endif
+// #ifdef U8X8_HAVE_HW_I2C
+// #include <Wire.h>
+// #endif
 
 // Initialisierungsliste
 TM_OLED_Class::TM_OLED_Class() : TM_Device_Class(), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
@@ -28,6 +28,7 @@ TM_OLED_Class::TM_OLED_Class() : TM_Device_Class(), my_u8g2(U8G2_R0, /* reset=*/
 void TM_OLED_Class::init()
 {
   my_u8g2.begin();
+  my_u8g2.sleepOff();
   my_u8g2.clearBuffer();
   my_u8g2.setFont(u8g2_font_inb19_mf); // https://github.com/olikraus/u8g2/wiki/fntlistall
   // my_u8g2.setFont(u8g2_font_ncenB08_tr); // https://github.com/olikraus/u8g2/wiki/fntlistall
@@ -152,4 +153,24 @@ void TM_OLED_Class::drawFrame()
   my_u8g2.drawLine(0, 0, px_x - 1, 0);
   my_u8g2.drawLine(0, px_y - 1, px_x - 1, px_y - 1);
   my_u8g2.sendBuffer();
+}
+
+void TM_OLED_Class::ensure_wake()
+{
+  if (sleeping == false)
+  {
+    Serial.println("Sending display to sleep");
+    my_u8g2.sleepOn();
+    sleeping = true;
+  }
+}
+
+void TM_OLED_Class::ensure_sleep()
+{
+  if (sleeping == true)
+  {
+    Serial.println("Waking display to up");
+    my_u8g2.sleepOff();
+    sleeping = false;
+  }
 }

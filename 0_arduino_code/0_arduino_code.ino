@@ -55,7 +55,6 @@ void setup()
   my_influx.connect_influxdb();
   sensor.addTag("device", my_device_name);
   sensor.addTag("room", my_room);
-  // TODO: my_influx.enable_wifi_power_saving();
 #endif
 
 #if TM_LOAD_DEVICE_BME280 == 1
@@ -79,6 +78,8 @@ void loop()
 {
   timeStart = millis();
   // Serial.println("Start Loop");
+
+  getHour();
 
 #if TM_LOAD_DEVICE_INFLUXDB == 1
   sensor.clearFields();
@@ -106,14 +107,19 @@ void loop()
 #endif
 
 #if TM_LOAD_DEVICE_OLED_128X32 == 1 || TM_LOAD_DEVICE_OLED_128X64 == 1
-  Serial.print("sending to OLED: ");
-  Serial.println(data_to_display);
+if (getHour() <= 21 && getHour() >= 7 ) {
+  my_oled.ensure_wake();
   my_oled.drawAltBarchartOrInt(float(data_to_display));
+} else {
+  my_oled.ensure_sleep();
+  }
 #endif
 
   sleep_exact_time(timeStart, millis());
 }
 
+
+// my helpers
 void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd)
 {
   // calc delay time based on start and stop
@@ -131,3 +137,61 @@ void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd
     // usually 0.1-0.2sec for one loop of reading my_bme280 and my_mh_z19 and pushing to InfluxDB
   }
 }
+
+#include "time.h"
+byte getHour()
+// returns hour (00..23), if unknown returns 12
+{
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo))
+  {
+    Serial.println("Failed to obtain time, returning 12");
+    return 12 ; //-1;
+  }
+  return timeinfo.tm_hour ;
+}
+
+
+
+
+
+
+
+// not used any more
+/*
+void printLocalTime()
+{
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo))
+  {
+    Serial.println("Failed to obtain time");
+    return;
+  }
+  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+  Serial.print("Day of week: ");
+  Serial.println(&timeinfo, "%A");
+  Serial.print("Month: ");
+  Serial.println(&timeinfo, "%B");
+  Serial.print("Day of Month: ");
+  Serial.println(&timeinfo, "%d");
+  Serial.print("Year: ");
+  Serial.println(&timeinfo, "%Y");
+  Serial.print("Hour: ");
+  Serial.println(&timeinfo, "%H");
+  Serial.print("Hour (12 hour format): ");
+  Serial.println(&timeinfo, "%I");
+  Serial.print("Minute: ");
+  Serial.println(&timeinfo, "%M");
+  Serial.print("Second: ");
+  Serial.println(&timeinfo, "%S");
+
+  Serial.println("Time variables");
+  char timeHour[3];
+  strftime(timeHour, 3, "%H", &timeinfo);
+  Serial.println(timeHour);
+  char timeWeekDay[10];
+  strftime(timeWeekDay, 10, "%A", &timeinfo);
+  Serial.println(timeWeekDay);
+  Serial.println();
+}
+*/
