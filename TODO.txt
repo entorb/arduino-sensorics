@@ -1,15 +1,13 @@
 IS: fixed width types
 wenn du nur "int" oder "unsigned" schreibst, dann kann das je nach plattform alles heißen (ganz übel wird es bei "long long")
 typen wie uint8_t sind eindeutig und erzeugen portierbaren code
+erfordert inttypes.h oder so
 
 Arduino IDE
 Delete unused libs
 
-
-
 ESP32 Over The Air Update
 https://randomnerdtutorials.com/esp32-over-the-air-ota-programming/
-
 
 
 DONE
