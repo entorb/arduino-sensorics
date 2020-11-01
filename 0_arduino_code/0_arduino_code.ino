@@ -37,7 +37,7 @@ void setup()
   Serial.begin(115200);
   while (!Serial)
     ; // time to get serial running
-    
+
   my_esp32.setVerbose(myVerbose);
   my_esp32.underclocking();
 
@@ -64,6 +64,7 @@ void setup()
 #if TM_LOAD_DEVICE_OLED_128X32 == 1
   my_oled.setVerbose(myVerbose);
   my_oled.init();
+  my_oled.setBarchartRange (400,1000); // for ppm
 #endif
 }
 
@@ -97,19 +98,7 @@ void loop()
 #endif
 
 #if TM_LOAD_DEVICE_OLED_128X32 == 1
-  // convert int -> char[]
-  // C++17 style
-  // std::array<char, 10> str;
-  // std::to_chars(str.data(), str.data() + str.size(), 42);
-  // C++11 style
-  // std::string s = std::to_string(data_mhz_CO2);
-  // s += "ppm";
-  // char const *text = s.c_str();
-  // Arduino Style
-  char cstr[16];
-  itoa(data_mhz_CO2, cstr, 10); /// base 10
-  char const *text = cstr;      //+ "ppm";
-  my_oled.drawStr(8, 7, text);
+  my_oled.drawAltBarchartOrInt(float(data_mhz_CO2));
 #endif
 
   sleep_exact_time(timeStart, millis());
