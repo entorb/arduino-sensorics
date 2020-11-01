@@ -1,3 +1,7 @@
+printing cases via 3D printer
+Templates can be found at https://www.thingiverse.com
+
+
 IS: fixed width types
 wenn du nur "int" oder "unsigned" schreibst, dann kann das je nach plattform alles heißen (ganz übel wird es bei "long long")
 typen wie uint8_t sind eindeutig und erzeugen portierbaren code
