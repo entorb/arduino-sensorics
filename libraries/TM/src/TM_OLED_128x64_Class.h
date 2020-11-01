@@ -1,9 +1,9 @@
 /*
-  TM_OLED_128x32_Class.h - Library for Connection to OLED Displays
+  TM_OLED_128x64_Class.h - Library for Connection to OLED Displays
 */
 
-#ifndef TM_OLED_128x32_CLASS_H
-#define TM_OLED_128x32_CLASS_H
+#ifndef TM_OLED_128x64_CLASS_H
+#define TM_OLED_128x64_CLASS_H
 
 #include "TM_Device_Class.h"
 #include "TM_OLED_Class.h"
@@ -18,18 +18,18 @@
 #include <Wire.h>
 #endif
 
-class TM_OLED_128x32_Class : public TM_OLED_Class
+class TM_OLED_128x64_Class : public TM_OLED_Class
 {
 public:
-  U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C my_u8g2;
+  U8G2_SSD1306_128X64_NONAME_F_HW_I2C my_u8g2;
   // constructor
-  TM_OLED_128x32_Class();
+  TM_OLED_128x64_Class();
   // functions
 
 private:
   //variables
   const unsigned int px_x = 128;
-  const unsigned int px_y = 32;
+  const unsigned int px_y = 64;
   unsigned int barchart_data[128];
 };
 
