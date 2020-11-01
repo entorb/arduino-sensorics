@@ -14,7 +14,7 @@
 #define MHZ19_BAUDRATE 9600 // Device to MH-Z19 Serial baudrate (should not be changed)
 
 // TODO: move into class, but this led to reboots of the Arduino, so research needed
-// HardwareSerial mySerial_Class(1); // (ESP32 Example) create device to MH-Z19 serial
+HardwareSerial mySerial_Class(1); // (ESP32 Example) create device to MH-Z19 serial
 
 TM_MH_Z19_Class::TM_MH_Z19_Class() : TM_Device_Class()
 {
@@ -26,7 +26,7 @@ void TM_MH_Z19_Class::init()
   {
     Serial.println(F("MH-Z19 init"));
   }
-  mySerial_Class(1);                                                // TODO: Tut nicht
+  // TODO: mySerial_Class(1);                                                // TODO: Tut nicht
   mySerial_Class.begin(MHZ19_BAUDRATE, SERIAL_8N1, RX_PIN, TX_PIN); // (ESP32 Example) device to MH-Z19 serial start
   myMHZ19.begin(mySerial_Class);                                    // *Serial(Stream) reference must be passed to library begin().
 
