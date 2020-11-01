@@ -10,13 +10,13 @@
 
 #include <U8g2lib.h>
 
-#include <Arduino.h>
-#ifdef U8X8_HAVE_HW_SPI
-#include <SPI.h>
-#endif
-#ifdef U8X8_HAVE_HW_I2C
-#include <Wire.h>
-#endif
+// #include <Arduino.h>
+// #ifdef U8X8_HAVE_HW_SPI
+// #include <SPI.h>
+// #endif
+// #ifdef U8X8_HAVE_HW_I2C
+// #include <Wire.h>
+// #endif
 
 class TM_OLED_128x64_Class : public TM_OLED_Class
 {
