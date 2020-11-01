@@ -30,6 +30,11 @@ int data_mhz_CO2;
 auto my_oled = TM_OLED_128x32_Class();
 #endif
 
+#if TM_LOAD_DEVICE_OLED_128X64 == 1
+#include "TM_OLED_128x64_Class.h"
+auto my_oled = TM_OLED_128x64_Class();
+#endif
+
 // variables
 unsigned long timeStart;
 float data_to_display = 0;
@@ -63,10 +68,10 @@ void setup()
   my_mh_z19.init();
 #endif
 
-#if TM_LOAD_DEVICE_OLED_128X32 == 1
+#if TM_LOAD_DEVICE_OLED_128X32 == 1 || TM_LOAD_DEVICE_OLED_128X64 == 1
   my_oled.setVerbose(myVerbose);
   my_oled.init();
-  my_oled.setBarchartRange (400,1000); // for ppm
+  my_oled.setBarchartRange(400, 1000); // for ppm
 #endif
 }
 
@@ -100,7 +105,7 @@ void loop()
   my_influx.send_point(sensor);
 #endif
 
-#if TM_LOAD_DEVICE_OLED_128X32 == 1
+#if TM_LOAD_DEVICE_OLED_128X32 == 1 || TM_LOAD_DEVICE_OLED_128X64 == 1
   Serial.print("sending to OLED: ");
   Serial.println(data_to_display);
   my_oled.drawAltBarchartOrInt(float(data_to_display));
