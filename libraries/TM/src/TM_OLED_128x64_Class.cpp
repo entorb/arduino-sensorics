@@ -24,5 +24,7 @@
 // Initialisierungsliste
 TM_OLED_128x64_Class ::TM_OLED_128x64_Class() : TM_OLED_Class(), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
 {
+  px_x = 128;
+  px_y = 64;
   barchart_data[px_x] = {0}; // initialize with all with 0
 }
