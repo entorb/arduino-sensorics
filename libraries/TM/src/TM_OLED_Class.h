@@ -34,10 +34,10 @@ public:
   void drawAltBarchartOrInt(const float);
   void setBarchartRange(const float, const float);
 
-  // TODO: this is not overwritten by children
-  const unsigned int px_x = 128;
-  const unsigned int px_y = 64;
-  unsigned int barchart_data[128];
+  unsigned int px_x = 128;
+  unsigned int px_y = 10;
+  // TODO: length of array shall be overwritten by children
+  unsigned int barchart_data[128] = {0};
 
 private:
   // variables
