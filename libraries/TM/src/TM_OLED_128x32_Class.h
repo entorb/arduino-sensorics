@@ -25,12 +25,13 @@ public:
   // constructor
   TM_OLED_128x32_Class();
   // functions
-
-private:
-  //variables
+  // variables
   const unsigned int px_x = 128;
   const unsigned int px_y = 32;
   unsigned int barchart_data[128];
+
+private:
+  //variables
 };
 
 #endif
