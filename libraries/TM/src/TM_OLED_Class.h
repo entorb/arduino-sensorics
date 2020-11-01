@@ -10,13 +10,13 @@
 
 #include <U8g2lib.h>
 
-#include <Arduino.h>
-#ifdef U8X8_HAVE_HW_SPI
-#include <SPI.h>
-#endif
-#ifdef U8X8_HAVE_HW_I2C
-#include <Wire.h>
-#endif
+// #include <Arduino.h>
+// #ifdef U8X8_HAVE_HW_SPI
+// #include <SPI.h>
+// #endif
+// #ifdef U8X8_HAVE_HW_I2C
+// #include <Wire.h>
+// #endif
 
 class TM_OLED_Class : public TM_Device_Class
 {
@@ -33,6 +33,8 @@ public:
   void drawFrame();
   void drawAltBarchartOrInt(const float);
   void setBarchartRange(const float, const float);
+  void ensure_wake();
+  void ensure_sleep();
 
   unsigned int px_x = 128;
   unsigned int px_y = 10;
@@ -44,6 +46,7 @@ private:
   unsigned int barchart_min;
   unsigned int barchart_max;
   bool last_was_barchart = false; // alternate between bar and int chart
+  bool sleeping = false;
 };
 
 #endif
