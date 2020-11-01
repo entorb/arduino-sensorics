@@ -15,8 +15,8 @@
 //WiFi
 #include <WiFi.h>
 // #if defined(ESP32)
-#include <WiFiMulti.h>
-WiFiMulti my_wifiMulti;
+// #include <WiFiMulti.h>
+// WiFiMulti my_wifiMulti; -> TM_InfuxDB.h
 // #elif defined(ESP8266)
 // #include <ESP8266WiFiMulti.h>
 // ESP8266WiFiMulti my_wifiMulti;
