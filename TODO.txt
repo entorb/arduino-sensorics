@@ -1,6 +1,3 @@
-IS: define
-statt #define bei die cpp constexpressions verwenden, sind typsicher und geben bessere compilerfehler. defines werden nur vom preprozessor blind ausgetauscht.
-
 IS: fixed width types
 wenn du nur "int" oder "unsigned" schreibst, dann kann das je nach plattform alles heißen (ganz übel wird es bei "long long")
 typen wie uint8_t sind eindeutig und erzeugen portierbaren code
@@ -21,3 +18,7 @@ https://lastminuteengineers.com/esp32-sleep-modes-power-consumption/
 Und Bluetooth ausschalten
 
 Sleep till next full minute, via measuring the time of the loop
+
+IS: define
+statt #define bei die cpp constexpressions verwenden, sind typsicher und geben bessere compilerfehler. defines werden nur vom preprozessor blind ausgetauscht.
+
