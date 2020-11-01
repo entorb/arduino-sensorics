@@ -2,8 +2,8 @@
   TM_Device_Class.h - My Sensor interface
 */
 
-#ifndef TM_Device_CLASS_H
-#define TM_Device_CLASS_H
+#ifndef TM_DEVICE_CLASS_H
+#define TM_DEVICE_CLASS_H
 
 class TM_Device_Class
 {
@@ -15,6 +15,8 @@ public:
   void setVerbose(bool);
   // variables
   bool verbose;
+  // TODO:
+  //char *devicename[];
 
 private:
 };
