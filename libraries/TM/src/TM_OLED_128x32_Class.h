@@ -6,6 +6,7 @@
 #define TM_OLED_128x32_CLASS_H
 
 #include "TM_Device_Class.h"
+#include "TM_OLED_Class.h"
 
 #include <U8g2lib.h>
 
@@ -17,32 +18,19 @@
 #include <Wire.h>
 #endif
 
-class TM_OLED_128x32_Class : public TM_Device_Class
+class TM_OLED_128x32_Class : public TM_OLED_Class
 {
 public:
   U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C my_u8g2;
   // constructor
   TM_OLED_128x32_Class();
   // functions
-  void init();
-  void drawStr(const char *);
-  void drawInt(const unsigned int);
-  void drawBarchart(const float);
-  void drawFrame();
-  void drawAltBarchartOrInt(const float);
-  void setBarchartRange(const float, const float);
-  //variables
-  // static U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE);
-  // Adafruit ESP8266/32u4/ARM Boards + FeatherWing OLED
 
 private:
   //variables
   const static unsigned int px_x = 128;
   const static unsigned int px_y = 32;
-  unsigned int barchart_min;
-  unsigned int barchart_max;
   unsigned int barchart_data[px_x]; //TODO: is there a way of defining the array length upon creation of object from class
-  bool last_was_barchart = false;   // alternate between bar and int chart
 };
 
 #endif
