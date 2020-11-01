@@ -7,7 +7,7 @@
                 "C:\\Users\\t\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\**",
                 "C:\\\\Program Files (x86)\\\\Arduino\\\\hardware\\\\arduino\\\\avr\\\\**",
                 "C:\\\\Program Files (x86)\\\\Arduino\\\\hardware\\\\tools\\\\**",
-                "C:\\\\Program Files (x86)\\\\Arduino\\\\libraries\\\\**"
+                "C:\\\\Program Files (x86)\\\\Arduino\\\\libraries\\\\**",
                 "C:\\\\Program Files (x86)\\\\Arduino\\\\tools\\\\**",
                 "${workspaceFolder}/**",
             ],
