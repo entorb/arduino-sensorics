@@ -22,6 +22,6 @@ public:
   void sync_time();
 
 private:
-  // InfluxDBClient my_InfluxClient;
+  InfluxDBClient my_InfluxClient;
 };
 #endif
