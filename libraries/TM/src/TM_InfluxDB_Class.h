@@ -1,5 +1,5 @@
 /*
-  TM_InfluxDB.h - Library for Connection to my InfluxDB
+  TM_InfluxDB_Class.h - Library for Connection to my InfluxDB
 */
 
 #ifndef TM_INFLUXDB_H

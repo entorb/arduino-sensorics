@@ -1,11 +1,11 @@
 /*
-  TM_InfluxDB.cpp - Library for Connection to my WiFi
+  TM_InfluxDB_Class.cpp - Library for Connection to my WiFi
   based on https://github.com/tobiasschuerg/InfluxDB-Client-for-Arduino/blob/master/examples/BasicWrite/BasicWrite.ino
 */
 
 // InfluxDB
 #include "TM_Device_Class.h"
-#include "TM_InfluxDB.h"
+#include "TM_InfluxDB_Class.h"
 #include "TM_InfluxDB_secret.h"
 
 #include "Arduino.h"
