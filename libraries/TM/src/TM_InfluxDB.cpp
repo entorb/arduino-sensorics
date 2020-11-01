@@ -15,8 +15,8 @@
 //WiFi
 #include <WiFi.h>
 // #if defined(ESP32)
-#include <WiFiMulti.h>
-WiFiMulti my_wifiMulti;
+// #include <WiFiMulti.h>
+// WiFiMulti my_wifiMulti; -> TM_InfuxDB.h
 // #elif defined(ESP8266)
 // #include <ESP8266WiFiMulti.h>
 // ESP8266WiFiMulti my_wifiMulti;
@@ -25,13 +25,12 @@ WiFiMulti my_wifiMulti;
 #include "esp_wifi.h" // for esp_wifi_set_ps (WIFI_PS_MODEM); = power saving
 
 // TODO: how to move this as private variabled into the class???
+// InfluxDB client instance for InfluxDB 1
 InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
 TM_Influx_Class::TM_Influx_Class() : TM_Device_Class()
 {
 }
-// InfluxDB client instance for InfluxDB 1
-// InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
 
 void TM_Influx_Class::connect_wifi(const char *devicename)
 {

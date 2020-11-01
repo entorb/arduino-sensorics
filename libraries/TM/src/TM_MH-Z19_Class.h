@@ -13,6 +13,7 @@ class TM_MH_Z19_Class : public TM_Device_Class
 {
 public:
   // constructor
+  // HardwareSerial mySerial_Class(1); // (ESP32 Example) create device to MH-Z19 serial
   TM_MH_Z19_Class();
   // functions
   void init();
@@ -20,6 +21,7 @@ public:
   // variables
 
 private:
-  MHZ19 myMHZ19; // Constructor for library
+  MHZ19 myMHZ19;
+  // HardwareSerial mySerial_Class;
 };
 #endif
