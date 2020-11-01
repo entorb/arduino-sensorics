@@ -7,9 +7,9 @@
 
 #include "TM_Device_Class.h"
 
-#include <Arduino.h>
-
 #include <U8g2lib.h>
+
+#include <Arduino.h>
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
 #endif
@@ -20,6 +20,7 @@
 class TM_OLED_128x32_Class : public TM_Device_Class
 {
 public:
+  U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C my_u8g2;
   // constructor
   TM_OLED_128x32_Class();
   // functions
