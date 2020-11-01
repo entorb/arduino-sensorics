@@ -14,35 +14,22 @@
 
 //WiFi
 #include <WiFi.h>
-// #if defined(ESP32)
-// #include <WiFiMulti.h>
-// WiFiMulti my_wifiMulti; -> TM_InfuxDB.h
-// #elif defined(ESP8266)
-// #include <ESP8266WiFiMulti.h>
-// ESP8266WiFiMulti my_wifiMulti;
-// #endif
 #include "TM_WiFi_secret.h"
 #include "esp_wifi.h" // for esp_wifi_set_ps (WIFI_PS_MODEM); = power saving
 
-// TODO: how to move this as private variabled into the class???
-// InfluxDB client instance for InfluxDB 1
+// TODO: does not like to be moved into Initialisierungsliste:
 InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
-
-TM_Influx_Class::TM_Influx_Class() : TM_Device_Class()
+TM_Influx_Class::TM_Influx_Class() : TM_Device_Class() // , my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
 {
 }
 
 void TM_Influx_Class::connect_wifi(const char *devicename)
 {
-  // esp_wifi_set_ps(WIFI_PS_MIN_MODEM);
-  // TODO: add some timeout / retry mechanism
   if (verbose == true)
-  {
     Serial.println("Connecting to WiFi");
-  }
+
   WiFi.disconnect(true);
   WiFi.mode(WIFI_OFF);
-  // delay(1000);
   WiFi.setHostname(devicename);
   WiFi.mode(WIFI_STA);
   my_wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
@@ -55,16 +42,12 @@ void TM_Influx_Class::connect_wifi(const char *devicename)
       i = 0;
     }
     if (verbose == true)
-    {
       Serial.print(".");
-    }
     delay(500);
     i++;
   }
   if (verbose == true)
-  {
     Serial.println();
-  }
   esp_wifi_set_ps(WIFI_PS_MODEM);
 }
 
@@ -72,9 +55,7 @@ void TM_Influx_Class::connect_influxdb()
 {
   // Set Influx Connection Settings
   if (verbose == true)
-  {
     Serial.println("Setting InfluxDB 1.X authentication params");
-  }
   my_InfluxClient.setConnectionParamsV1(INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD);
   // Test InfluxDB connection
   if (my_InfluxClient.validateConnection())
