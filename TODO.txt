@@ -13,6 +13,20 @@ Delete unused libs
 ESP32 Over The Air Update
 https://randomnerdtutorials.com/esp32-over-the-air-ota-programming/
 
+furthers Sensors
+MQ-2 LPG, i-Butan, Propan, Methan, Alkohol, Wasserstoff und Rauch.
+MQ-4 Methangas Gas Sensor
+MQ-6 Gas Sensor für Arduino und Raspberry Pi. Schnelles Erkennen von Butangas, Flüssiggas, LPG, LNG und weitere Gase. 
+MQ-7 Kohlenmonoxid Sensor CO
+MQ-9 CO Kohlenmonoxid Brennbares Gas
+Pinbelegung:
+    VCC - Stromversorgung 5V
+    GND - Masseanschluss
+    AOUT - Analoger Output
+    DOUT -  Digitaler Output
+
+
+
 
 DONE
 ESP32 Deep Sleep zum Stromsparen oder zumindest Modem Sleep
@@ -24,3 +38,4 @@ Sleep till next full minute, via measuring the time of the loop
 IS: define
 statt #define bei die cpp constexpressions verwenden, sind typsicher und geben bessere compilerfehler. defines werden nur vom preprozessor blind ausgetauscht.
 
+Display off at night

@@ -7,3 +7,4 @@ photos/originals
 
 *_secret.h
 *.bin
+.vstags

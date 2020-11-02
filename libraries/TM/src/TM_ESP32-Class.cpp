@@ -5,7 +5,7 @@
 #include "TM_Device_Class.h"
 #include "TM_ESP32_Class.h"
 
-#include <Arduino.h>       // for Serial
+#include <Arduino.h>       // for Serial.println()
 #include "esp32-hal-cpu.h" // for: power saving
 // setCpuFrequencyMhz(80); // for
 // Serial.println( getCpuFrequencyMhz() );
@@ -15,15 +15,22 @@ TM_ESP32_Class::TM_ESP32_Class() : TM_Device_Class()
 }
 
 void TM_ESP32_Class::underclocking()
+// Attention: underclocking leeds to problems in Adafruit_NeoPixel
 {
-  if (verbose == true)
-  {
-    Serial.print(F("ESP32 underclocked to "));
-  }
   setCpuFrequencyMhz(80); // 240, 160, 80
   if (verbose == true)
-  {
-    Serial.print(getCpuFrequencyMhz());
-    Serial.println("MHz");
-  }
+    printSpeed();
+}
+
+void TM_ESP32_Class::normalclocking()
+{
+  setCpuFrequencyMhz(240); // 240, 160, 80
+  if (verbose == true)
+    printSpeed();
+}
+
+void TM_ESP32_Class::printSpeed()
+{
+  Serial.print(getCpuFrequencyMhz());
+  Serial.println("MHz");
 }
