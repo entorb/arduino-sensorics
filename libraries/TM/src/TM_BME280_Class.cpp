@@ -46,7 +46,7 @@ TM_BME280_Class::TM_BME280_Class() : TM_Device_Class()
 
 void TM_BME280_Class::init()
 {
-  if (verbose == true)
+  if (verbose)
   {
     Serial.println(F("BME280 init"));
   }
@@ -54,7 +54,7 @@ void TM_BME280_Class::init()
   status = bme.begin(0x76); //, &Wire2
   if (!status)
   {
-    if (verbose == true)
+    if (verbose)
     {
       Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
       Serial.print("SensorID was: 0x");
@@ -70,7 +70,7 @@ float *TM_BME280_Class::read_values()
   TM_BME280_data[0] = bme.readTemperature();
   TM_BME280_data[1] = bme.readHumidity();
   TM_BME280_data[2] = bme.readPressure() / 100.0F;
-  if (verbose == true)
+  if (verbose)
   {
     Serial.print("Temperature = ");
     Serial.print(TM_BME280_data[0]);
