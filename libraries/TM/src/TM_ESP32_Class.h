@@ -15,6 +15,8 @@ public:
   // variables
   // functions
   void underclocking();
+  void normalclocking();
+  void printSpeed();
 
 private:
 };
