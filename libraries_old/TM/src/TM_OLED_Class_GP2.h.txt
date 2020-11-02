@@ -1,6 +1,5 @@
 /*
   TM_OLED_Class.h - Library for Connection to OLED Displays
-  Thanks to Gerhard for converting into template!
 */
 
 #ifndef TM_OLED_CLASS_H
@@ -31,8 +30,6 @@ public:
   void drawInt(const unsigned int);
   void drawBarchart(const float);
   void drawFrame();
-  void ensure_wake();
-  void ensure_sleep();
   void drawAltBarchartOrInt(const float);
   void setBarchartRange(const float, const float);
 
@@ -40,7 +37,6 @@ public:
 
 private:
   U8G2 my_u8g2;
-  bool sleeping = true;
   unsigned int barchart_data[x];
   // variables
   unsigned int barchart_min;
@@ -59,7 +55,7 @@ typedef TM_OLED_Class<U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C, 128, 32> TM_OLED_1
 */
 
 #include "TM_Device_Class.h"
-// #include "TM_OLED_Class.h"
+#include "TM_OLED_Class.h"
 
 #include <Arduino.h>
 #include "U8g2lib.h"
@@ -72,13 +68,13 @@ typedef TM_OLED_Class<U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C, 128, 32> TM_OLED_1
 
 // Initialisierungsliste
 template <class U8G2, int px_x, int px_y>
-TM_OLED_Class<U8G2, px_x, px_y>::TM_OLED_Class() : TM_Device_Class(), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
+TM_OLED_Class<U8G2,px_x,px_y>::TM_OLED_Class() : TM_Device_Class(), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
 {
   // barchart_data[px_x] = {0}; // initialize with all with 0
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::init()
+void TM_OLED_Class<U8G2,px_x,px_y>::init()
 {
   my_u8g2.begin();
   my_u8g2.clearBuffer();
@@ -94,7 +90,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::init()
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::drawStr(const char *text)
+void TM_OLED_Class<U8G2,px_x,px_y>::drawStr(const char *text)
 {
   // my_u8g2.nextPage();
   my_u8g2.clearBuffer();
@@ -103,7 +99,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawStr(const char *text)
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::drawInt(const unsigned int value)
+void TM_OLED_Class<U8G2,px_x,px_y>::drawInt(const unsigned int value)
 {
   // convert int -> char[]
   // C++17 style
@@ -124,14 +120,14 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawInt(const unsigned int value)
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::setBarchartRange(const float min, const float max)
+void TM_OLED_Class<U8G2,px_x,px_y>::setBarchartRange(const float min, const float max)
 {
   barchart_min = min;
   barchart_max = max;
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::drawBarchart(const float value_to_append)
+void TM_OLED_Class<U8G2,px_x,px_y>::drawBarchart(const float value_to_append)
 {
   unsigned int value_to_append_px;
 
@@ -179,7 +175,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawBarchart(const float value_to_append)
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::drawAltBarchartOrInt(const float value_to_append)
+void TM_OLED_Class<U8G2,px_x,px_y>::drawAltBarchartOrInt(const float value_to_append)
 {
   /*
   // my_u8g2.begin();
@@ -202,7 +198,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawAltBarchartOrInt(const float value_to_
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::drawFrame()
+void TM_OLED_Class<U8G2,px_x,px_y>::drawFrame()
 {
   // draw rectangular frame
   my_u8g2.clearBuffer();
@@ -214,7 +210,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawFrame()
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::ensure_wake()
+void TM_OLED_Class<U8G2,px_x,px_y>::ensure_wake()
 {
   if (sleeping == false)
   {
@@ -225,7 +221,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::ensure_wake()
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::ensure_sleep()
+void TM_OLED_Class<U8G2,px_x,px_y>::ensure_sleep()
 {
   if (sleeping == true)
   {
