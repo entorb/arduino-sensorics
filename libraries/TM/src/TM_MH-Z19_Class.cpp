@@ -8,8 +8,8 @@
 
 #include <Arduino.h>
 #include "MHZ19.h"
-#define RX_PIN 16           // Rx pin which the MHZ19 Tx pin is attached to
-#define TX_PIN 17           // Tx pin which the MHZ19 Rx pin is attached to
+#define RX_PIN 16
+#define TX_PIN 17
 #define MHZ19_BAUDRATE 9600 // Device to MH-Z19 Serial baudrate (should not be changed)
 
 // Initialisierungsliste
@@ -23,7 +23,7 @@ void TM_MH_Z19_Class::init()
 {
   myMHZ19.autoCalibration(true);
 
-  if (verbose == true)
+  if (verbose)
   {
     Serial.println(F("MH-Z19 init"));
   }
@@ -41,7 +41,7 @@ int TM_MH_Z19_Class::read_values()
   int CO2 = myMHZ19.getCO2();
   //  int8_t Temp= myMHZ19.getTemperature();
 
-  if (verbose == true)
+  if (verbose)
   {
     Serial.print("CO2 = ");
     Serial.print(CO2);

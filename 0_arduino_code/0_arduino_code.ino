@@ -88,7 +88,7 @@ void setup()
 #ifdef TM_LOAD_LED_RING
   my_led_ring.setVerbose(myVerbose);
   my_led_ring.init();
-  my_led_ring.my_pixels.begin();
+  my_led_ring.my_pixels.setBrightness(8);
   my_led_ring.setValueRange(400, 1000); // for ppm
 #endif
 
@@ -139,15 +139,14 @@ void loop()
 #endif
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
-  /*
-    if (getHour() <= 21 && getHour() >= 7 ) {
-      my_oled.ensure_wake();
-      my_oled.drawAltBarchartOrInt(float(data_to_display));
-    } else {
-      my_oled.ensure_sleep();
-    }
-  */
-  my_oled.drawAltBarchartOrInt(float(data_to_display));
+  int hour = getHour();
+  if (hour <= 21 && hour >= 7 ) {
+    my_oled.ensure_wake();
+    my_oled.draw_alternating_barchart_and_value(data_to_display);
+  } else {
+    my_oled.ensure_sleep();
+  }
+  //  my_oled.draw_alternating_barchart_and_value(data_to_display);
 #endif
 
 #ifdef TM_LOAD_LED_RING
