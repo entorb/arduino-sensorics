@@ -33,7 +33,7 @@ public:
   void drawFrame();
   void ensure_wake();
   void ensure_sleep();
-  void drawAltBarchartOrInt(const float);
+  void draw_alternating_barchart_and_value(const float);
   void setBarchartRange(const float, const float);
 
   // TODO: this is not overwritten by children
@@ -51,15 +51,7 @@ private:
 typedef TM_OLED_Class<U8G2_SSD1306_128X64_NONAME_F_HW_I2C, 128, 64> TM_OLED_128x64_Class;
 typedef TM_OLED_Class<U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C, 128, 32> TM_OLED_128x32_Class;
 
-//based on
-/*
-  HelloWorld.ino
-  by
-  Universal 8bit Graphics Library (https://github.com/olikraus/u8g2/)
-*/
-
 #include "TM_Device_Class.h"
-// #include "TM_OLED_Class.h"
 
 #include <Arduino.h>
 #include "U8g2lib.h"
@@ -87,7 +79,6 @@ void TM_OLED_Class<U8G2, px_x, px_y>::init()
   my_u8g2.setFontPosTop();     // setFontPosTop() , setFontPosBaseline() , setFontPosCenter() , setFontPosBottom()
   my_u8g2.setFontDirection(0); // 0..3
 
-  //my_u8g2.firstPage();
   // u8g2_font_inb19_mf: bbox = 16, max height = 31
   // my_u8g2.setFontRefHeightExtendedText(); //https://github.com/olikraus/u8g2/wiki/u8g2reference#setfontrefheightextendedtext
   //Serial.println(sizeof(barchart_data) / sizeof(barchart_data[0]));
@@ -152,12 +143,6 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawBarchart(const float value_to_append)
     value_to_append_px = px_y * (value_rel / range_rel);
   }
 
-  // Serial.print("value: ");
-  // Serial.print(value_to_append);
-  // Serial.print(" -> ");
-  // Serial.print(value_to_append_px);
-  // Serial.println("px");
-
   // shift array to left
   for (unsigned int i = 0; i < px_x - 1; i++)
   { // ends at px_x - 2
@@ -168,7 +153,6 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawBarchart(const float value_to_append)
   barchart_data[px_x - 1] = value_to_append_px;
 
   // draw the barchart
-  // my_u8g2.nextPage();
   my_u8g2.clearBuffer();
   for (unsigned int i = 0; i < px_x; i++)
   {
@@ -179,16 +163,8 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawBarchart(const float value_to_append)
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::drawAltBarchartOrInt(const float value_to_append)
+void TM_OLED_Class<U8G2, px_x, px_y>::draw_alternating_barchart_and_value(const float value_to_append)
 {
-  /*
-  // my_u8g2.begin();
-  my_u8g2.clearBuffer(); // clear the internal memory
-  // my_u8g2.setFont(u8g2_font_ncenB08_tr);    // choose a suitable font
-  my_u8g2.drawStr(0, 10, "Hello World 4"); // write something to the internal memory
-  my_u8g2.sendBuffer();                    // transfer internal memory to the display
-*/
-
   if (last_was_barchart)
   {
     last_was_barchart = false;

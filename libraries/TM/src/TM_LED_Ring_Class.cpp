@@ -15,7 +15,7 @@ TM_LED_Ring_Class::TM_LED_Ring_Class() : TM_Device_Class(), my_pixels(NUMPIXELS,
 {
   my_pixels.begin();
   my_pixels.clear();
-  my_pixels.setBrightness(16);
+  my_pixels.setBrightness(8);
 }
 
 void TM_LED_Ring_Class::init()
@@ -49,13 +49,9 @@ void TM_LED_Ring_Class::displayValue(const float value)
 
   unsigned int num_px_to_activate;
   if (value <= value_min)
-  { // 1 on
-    num_px_to_activate = 0;
-  }
+    num_px_to_activate = 0; // only 1 on
   else if (value >= value_max)
-  { // -> all on
-    num_px_to_activate = num_pixels - 1;
-  }
+    num_px_to_activate = num_pixels - 1; // -> all on
   else
   {
     // convert value to number of pixels
@@ -70,12 +66,12 @@ void TM_LED_Ring_Class::displayValue(const float value)
     Serial.print("num_px_to_activate: ");
     Serial.println(num_px_to_activate);
   }
+  // currently using the same amount of colors as num_pixels, this might be changed
   uint32_t my_color = color_scale[num_px_to_activate];
 
   my_pixels.clear();
   for (int i = 0; i <= num_px_to_activate; i++)
   {
-    // currently using the same amount of colors as num_pixels, this might be changed
     my_pixels.setPixelColor(i, my_color);
   }
   my_pixels.show();
