@@ -18,7 +18,7 @@ TM_7SegmentDisplay_Class::TM_7SegmentDisplay_Class() : TM_Device_Class()
 
 void TM_7SegmentDisplay_Class::init()
 {
-  if (verbose == true)
+  if (verbose)
   {
     Serial.println(F("TM_7SegmentDisplay_Class init"));
   }

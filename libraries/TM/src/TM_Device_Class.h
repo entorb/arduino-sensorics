@@ -15,8 +15,8 @@ public:
   void setVerbose(bool);
   // variables
   bool verbose;
-  // TODO:
-  //char *devicename[];
+  // Idea:
+  // char devicename[8];
 
 private:
 };
