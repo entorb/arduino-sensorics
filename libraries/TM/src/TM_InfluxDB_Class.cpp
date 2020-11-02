@@ -19,13 +19,13 @@
 
 // TODO: does not like to be moved into Initialisierungsliste:
 InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
-TM_Influx_Class::TM_Influx_Class() : TM_Device_Class() // , my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
+TM_Influx_Class::TM_Influx_Class() : TM_Device_Class() //, my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
 {
 }
 
 void TM_Influx_Class::connect_wifi(const char *devicename)
 {
-  if (verbose == true)
+  if (verbose)
     Serial.println("Connecting to WiFi");
 
   WiFi.disconnect(true);
@@ -41,12 +41,12 @@ void TM_Influx_Class::connect_wifi(const char *devicename)
       WiFi.reconnect();
       i = 0;
     }
-    if (verbose == true)
+    if (verbose)
       Serial.print(".");
     delay(500);
     i++;
   }
-  if (verbose == true)
+  if (verbose)
     Serial.println();
   esp_wifi_set_ps(WIFI_PS_MODEM);
 }
@@ -54,13 +54,13 @@ void TM_Influx_Class::connect_wifi(const char *devicename)
 void TM_Influx_Class::connect_influxdb()
 {
   // Set Influx Connection Settings
-  if (verbose == true)
+  if (verbose)
     Serial.println("Setting InfluxDB 1.X authentication params");
   my_InfluxClient.setConnectionParamsV1(INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD);
   // Test InfluxDB connection
   if (my_InfluxClient.validateConnection())
   {
-    if (verbose == true)
+    if (verbose)
     {
       Serial.print("Connected to InfluxDB: ");
       Serial.println(my_InfluxClient.getServerUrl());
@@ -68,7 +68,7 @@ void TM_Influx_Class::connect_influxdb()
   }
   else
   {
-    if (verbose == true)
+    if (verbose)
     {
       Serial.print("InfluxDB connection failed: ");
       Serial.println(my_InfluxClient.getLastErrorMessage());
@@ -78,21 +78,21 @@ void TM_Influx_Class::connect_influxdb()
 
 void TM_Influx_Class::send_point(Point sensor)
 {
-  if (verbose == true)
+  if (verbose)
   {
     Serial.print("Sending: ");
     Serial.println(sensor.toLineProtocol());
   }
   // If no Wifi signal, try  reconnecting
   if ((WiFi.RSSI() == 0) && (my_wifiMulti.run() != WL_CONNECTED))
-    if (verbose == true)
+    if (verbose)
     {
       Serial.println("Wifi connection lost");
     }
   // Write point
   if (!my_InfluxClient.writePoint(sensor))
   {
-    if (verbose == true)
+    if (verbose)
     {
       Serial.print("InfluxDB write failed: ");
       Serial.println(my_InfluxClient.getLastErrorMessage());

@@ -17,7 +17,7 @@ private:
   WiFiMulti my_wifiMulti;
 
 public:
-  // InfluxDBClient my_InfluxClient;
+  //InfluxDBClient my_InfluxClient;
   // constructor
   TM_Influx_Class();
   // variables
