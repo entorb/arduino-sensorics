@@ -4,7 +4,7 @@
 */
 
 #include "TM_Device_Class.h"
-#include "TM_MH-Z19_Class.h"
+#include "TM_MH_Z19_Class.h"
 
 #include <Arduino.h>
 #include "MHZ19.h"
