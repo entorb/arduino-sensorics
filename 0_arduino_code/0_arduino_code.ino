@@ -1,7 +1,7 @@
+#include <Arduino.h>
+
 // here the parameters for my device are set: name, room, as well als verbose mode
 #include "device_setup.h"
-
-#include <Arduino.h>
 
 #include "TM_ESP32_Class.h"
 auto my_esp32 = TM_ESP32_Class();
@@ -10,7 +10,7 @@ auto my_esp32 = TM_ESP32_Class();
 #include "TM_InfluxDB_Class.h"
 #include <InfluxDbClient.h>
 auto my_influx = TM_Influx_Class();
-Point sensor("Raumklima");  // TODO: -> my_sensor
+Point sensor("Raumklima"); // TODO: -> my_sensor
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
@@ -20,7 +20,7 @@ float *data_bme280;
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-#include "TM_MH-Z19_Class.h"
+#include "TM_MH_Z19_Class.h"
 auto my_mh_z19 = TM_MH_Z19_Class();
 int data_mhz_CO2;
 #endif
@@ -40,14 +40,15 @@ auto my_oled = TM_OLED_128x64_Class();
 auto my_led_ring = TM_LED_Ring_Class();
 #endif
 
+#ifdef TM_LOAD_LED_KY_016
+#include "TM_LED_KY_016_Class.h"
+auto my_led_ky_016 = TM_LED_KY_016_Class();
+#endif
+
 // variables
 unsigned int loopNum = 0;
 unsigned long timeStart;
 float data_to_display = 0;
-
-
-
-
 
 void setup()
 {
@@ -92,23 +93,18 @@ void setup()
   my_led_ring.setValueRange(400, 1000); // for ppm
 #endif
 
+#ifdef TM_LOAD_LED_KY_016
+  my_led_ky_016.fadeIn_fadeOut();
+#endif
 
 } // end setup
-
-
-
-
-
-
-
-
-
 
 void loop()
 {
   timeStart = millis();
   data_to_display = loopNum; // dummy in case we have no sensor
-  if (myVerbose) {
+  if (myVerbose)
+  {
     Serial.print("Start Loop: ");
     Serial.println(loopNum);
   }
@@ -140,10 +136,13 @@ void loop()
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
   int hour = getHour();
-  if (hour <= 21 && hour >= 7 ) {
+  if (hour <= 21 && hour >= 7)
+  {
     my_oled.ensure_wake();
     my_oled.draw_alternating_barchart_and_value(data_to_display);
-  } else {
+  }
+  else
+  {
     my_oled.ensure_sleep();
   }
   //  my_oled.draw_alternating_barchart_and_value(data_to_display);
@@ -153,19 +152,11 @@ void loop()
   my_led_ring.displayValue(data_to_display);
 #endif
 
-
-  loopNum ++;
+  loopNum++;
   sleep_exact_time(timeStart, millis());
 } // end loop
 
-
-
-
-
-
-
 // my helpers
-
 
 void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd)
 {
@@ -193,16 +184,10 @@ byte getHour()
   if (!getLocalTime(&timeinfo))
   {
     Serial.println("Failed to obtain time, returning 12");
-    return 12 ; //-1;
+    return 12; //-1;
   }
-  return timeinfo.tm_hour ;
+  return timeinfo.tm_hour;
 }
-
-
-
-
-
-
 
 // not used any more
 /*
