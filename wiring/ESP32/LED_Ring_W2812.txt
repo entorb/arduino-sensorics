@@ -1,0 +1,4 @@
+ESP32  LED Ring
+5V     5V  (lila)
+GND    GND (schwarz)
+G15    DIn (weiß) über 300Ohm Wiederstand
