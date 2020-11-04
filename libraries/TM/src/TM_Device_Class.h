@@ -15,10 +15,10 @@ public:
   // functions
   void setVerbose(bool);
   void init();
+  // void println(); no, too much efford to overload all the different types of Serial.println()
   // variables
   bool verbose = false;
-  // Idea:
-  // char devicename[8];
+  // char devicename[8]; no uses for this,as overwriting print is too much efford
 
 private:
 };
