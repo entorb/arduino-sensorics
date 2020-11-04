@@ -45,4 +45,20 @@ private:
 };
 #endif
 
-// TODO: Sensor class?
+#ifndef TM_DEVICE_SENSOR_CLASS_H
+#define TM_DEVICE_SENSOR_CLASS_H
+
+#include "Arduino.h"
+
+// this is a sub-class of Device_Class, that stores min, max value
+class TM_Sensor_Device_Class : public TM_Device_Class
+{
+public:
+  // constructor
+  TM_Sensor_Device_Class(const bool verbose = true);
+  // functions
+  // variables
+
+private:
+};
+#endif
