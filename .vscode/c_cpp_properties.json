@@ -3,20 +3,20 @@
         {
             "name": "Arduino",
             "includePath": [
-                "C:\\Users\\t\\AppData\\Local\\Arduino15\\packages\\esp32\\tools\\**",
-                "C:\\Users\\t\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\1.0.4\\**",
-                "D:\\files\\Hacken\\GitHub\\entorb\\arduino-sensorics\\libraries\\**"
+                "C:/Users/t/AppData/Local/Arduino15/packages/esp32/tools/**",
+                "C:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/**",
+                "D:/files/Hacken/GitHub/entorb/arduino-sensorics/libraries/**"
             ],
             "forcedInclude": [
-                "C:\\\\Program Files (x86)\\\\Arduino\\\\hardware\\\\arduino\\\\avr\\\\cores\\\\arduino\\\\Arduino.h"
+                "C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h"
             ],
             "defines": [
                 "USBCON"
             ],
-            //            "intelliSenseMode": "msvc-x64",
-            "compilerPath": "c:\\\\Program Files (x86)\\\\Arduino/hardware/tools/avr/bin/avr-gcc.exe",
+            "compilerPath": "c:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-gcc.exe",
             "cStandard": "c11",
             "cppStandard": "c++14"
+            // "intelliSenseMode": "msvc-x64",
         }
     ],
     "version": 4
