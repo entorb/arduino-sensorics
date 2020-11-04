@@ -1,6 +1,6 @@
 /*
-  TM_MH-Z19_Class.cpp - Library for reading a MH-Z19 CO2 sensor
-  Based on MHZ19 BasicExample
+Class for reading a MH-Z19 CO2 sensor
+Based on MHZ19 BasicExample
 */
 
 #include "TM_Device_Class.h"
@@ -8,26 +8,19 @@
 
 #include <Arduino.h>
 #include "MHZ19.h"
-#define RX_PIN 16
-#define TX_PIN 17
+// #define RX_PIN 16
+// #define TX_PIN 17
 #define MHZ19_BAUDRATE 9600 // Device to MH-Z19 Serial baudrate (should not be changed)
 
 // Initialisierungsliste
-TM_MH_Z19_Class::TM_MH_Z19_Class() : TM_Device_Class(), mySerial(1)
+TM_MH_Z19_Class::TM_MH_Z19_Class(const uint8_t rx, const uint8_t tx, const bool v) : TM_Device_Class(v), mySerial(1)
 {
-  mySerial.begin(MHZ19_BAUDRATE, SERIAL_8N1, RX_PIN, TX_PIN); // (ESP32 Example) device to MH-Z19 serial start
-  myMHZ19.begin(mySerial);                                    // *Serial(Stream) reference must be passed to library begin().
-}
+  _pin_rx = rx;
+  _pin_tx = tx;
 
-void TM_MH_Z19_Class::init()
-{
+  mySerial.begin(MHZ19_BAUDRATE, SERIAL_8N1, _pin_rx, _pin_tx); // (ESP32 Example) device to MH-Z19 serial start
+  myMHZ19.begin(mySerial);                                      // *Serial(Stream) reference must be passed to library begin().
   myMHZ19.autoCalibration(true);
-
-  if (verbose)
-  {
-    Serial.println(F("MH-Z19 init"));
-  }
-
   // calibration
   /*   
       myMHZ19.setRange(2000);

@@ -1,10 +1,11 @@
 /*
-  TM_BME280_Class.h - Library for Connection to Sensor BME280 (Temp, Humidity, Pressure) via I2C
+Class for reading BME280 Temperature, Humidity and Pressure Sensore
 */
 
 #ifndef TM_BME280_CLASS_H
 #define TM_BME280_CLASS_H
 
+#include "Arduino.h"
 #include "TM_Device_Class.h"
 
 #include <Adafruit_BME280.h>
@@ -13,7 +14,7 @@ class TM_BME280_Class : public TM_Device_Class
 {
 public:
   // constructor
-  TM_BME280_Class();
+  TM_BME280_Class(const bool verbose = false);
   // variables
   // functions
   void init();
