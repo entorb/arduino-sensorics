@@ -10,19 +10,18 @@ Class for accessing 4 x 7 segment clock display
 
 #include <TM1637Display.h>
 
-class TM_7SegmentDisplay_Class : public TM_Device_Class
+class TM_7SegmentDisplay_Class : public TM_Display_Device_Class
 {
 public:
   // constructor
   TM_7SegmentDisplay_Class(const uint8_t pin_clk, const uint8_t pin_dio, const bool verbose = false);
   // functions
-  void test();
   void setBrightness(uint8_t brightness);
   void displayValue(uint16_t value);
-  // variables
+  void displayValueAndSetBrightness(uint16_t value);
 
 private:
-  uint8_t data[4] = {0xff, 0xff, 0xff, 0xff};
   TM1637Display myDisplay;
+  const uint8_t _num_brightness_levels = 7;
 };
 #endif

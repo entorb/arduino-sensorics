@@ -8,13 +8,13 @@ Class for powering 3 color RGB LED KY-016
 #include "Arduino.h"
 #include "TM_Device_Class.h"
 
-class TM_LED_KY_016_Class : public TM_Device_Class
+class TM_LED_KY_016_Class : public TM_Display_Device_Class
 {
 public:
   // constructor
   TM_LED_KY_016_Class(const uint8_t pin_red, const uint8_t pin_green, const uint8_t pin_blue, const bool verbose = false);
   // functions
-  void setValueRange(const float, const float);
+  // void setValueRange(const float, const float);
   void setColor(const uint8_t red, const uint8_t green, const uint8_t blue, const uint8_t brightness = 255);
   void setColor(const uint32_t rgb, const uint8_t brightness = 255);
   void displayValue(const float);
@@ -36,7 +36,5 @@ private:
   uint8_t _pin_red;
   uint8_t _pin_green;
   uint8_t _pin_blue;
-  float value_min = 400;
-  float value_max = 1200;
 };
 #endif

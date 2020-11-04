@@ -22,7 +22,7 @@ TODO: int -> uint8_t
 #endif
 
 template <class U8G2, int x, int y>
-class TM_OLED_Class : public TM_Device_Class
+class TM_OLED_Class : public TM_Display_Device_Class
 {
 public:
   // constructor
@@ -36,7 +36,7 @@ public:
   void ensure_wake();
   void ensure_sleep();
   void draw_alternating_barchart_and_value(const float);
-  void setBarchartRange(const float, const float);
+  void setBarChartRange(const float, const float);
 
   // TODO: this is not overwritten by children
 
@@ -45,8 +45,6 @@ private:
   bool sleeping = true;
   unsigned int barchart_data[x];
   // variables
-  unsigned int barchart_min;
-  unsigned int barchart_max;
   bool last_was_barchart = false; // alternate between bar and int chart
 };
 
@@ -55,7 +53,7 @@ typedef TM_OLED_Class<U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C, 128, 32> TM_OLED_1
 
 // Initialisierungsliste
 template <class U8G2, int px_x, int px_y>
-TM_OLED_Class<U8G2, px_x, px_y>::TM_OLED_Class(const bool v) : TM_Device_Class(v), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
+TM_OLED_Class<U8G2, px_x, px_y>::TM_OLED_Class(const bool v) : TM_Display_Device_Class(v), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
 {
   // barchart_data[px_x] = {0}; // initialize with all with 0
 }
@@ -107,16 +105,15 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawInt(const unsigned int value)
 }
 
 template <class U8G2, int px_x, int px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::setBarchartRange(const float min, const float max)
+void TM_OLED_Class<U8G2, px_x, px_y>::setBarChartRange(const float barchart_min, const float barchart_max)
 {
-  barchart_min = min;
-  barchart_max = max;
+  setValueRange(barchart_min, barchart_max);
 }
 
 template <class U8G2, int px_x, int px_y>
 void TM_OLED_Class<U8G2, px_x, px_y>::drawBarchart(const float value_to_append)
 {
-  unsigned int value_to_append_px = tm_helper_value_to_category(value_to_append, barchart_min, barchart_max, px_y);
+  unsigned int value_to_append_px = tm_helper_value_to_category(value_to_append, value_min, value_max, px_y);
 
   // shift array to left
   for (unsigned int i = 0; i < px_x - 1; i++)
