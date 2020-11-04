@@ -11,13 +11,13 @@ static const bool myVerbose = true;
 // static const bool myVerbose = false;
 
 // Devices to load
-#define TM_LOAD_DEVICE_INFLUXDB
-#define TM_LOAD_DEVICE_BME280
+// #define TM_LOAD_DEVICE_INFLUXDB
+// #define TM_LOAD_DEVICE_BME280
 #define TM_LOAD_DEVICE_MHZ19
-// #define TM_LOAD_DEVICE_OLED_128X32
-#define TM_LOAD_DEVICE_OLED_128X64
-#define TM_LOAD_DEVICE_LED_RING
-#define TM_LOAD_DEVICE_LED_KY_016
+#define TM_LOAD_DEVICE_OLED_128X32
+// #define TM_LOAD_DEVICE_OLED_128X64
+// #define TM_LOAD_DEVICE_LED_RING
+// #define TM_LOAD_DEVICE_LED_KY_016
 #define TM_LOAD_DEVICE_7_SEGMENT
 
 // EPS32 Setup
