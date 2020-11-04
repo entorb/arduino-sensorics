@@ -2,6 +2,7 @@
 
 // here the parameters for my device are set: name, room, as well als verbose mode
 #include "device_setup.h"
+#include "TM_Helper.h"
 
 #include "TM_ESP32_Class.h"
 auto my_esp32 = TM_ESP32_Class(myVerbose);
@@ -22,7 +23,7 @@ float *data_bme280;
 #ifdef TM_LOAD_DEVICE_MHZ19
 #include "TM_MH_Z19_Class.h"
 auto my_mh_z19 = TM_MH_Z19_Class(16, 17, myVerbose);
-int data_mhz_CO2;
+uint16_t data_mhz_CO2;
 #endif
 
 #ifdef TM_LOAD_DEVICE_OLED_128X32
@@ -44,7 +45,7 @@ auto my_led_ring = TM_LED_Ring_Class(15, 8, myVerbose);
 #include "TM_LED_KY_016_Class.h"
 //#include <analogWrite.h>
 //#include "RGBLed.h"
-auto my_led_ky_016 = TM_LED_KY_016_Class(12, 13, 14, true);
+auto my_led_ky_016 = TM_LED_KY_016_Class(12, 13, 14, myVerbose);
 #endif
 
 #ifdef TM_LOAD_DEVICE_7_SEGMENT
@@ -53,11 +54,11 @@ auto my_7segment = TM_7SegmentDisplay_Class(26, 25, myVerbose);
 #endif
 
 // variables
-unsigned int loopNum = 0;
-unsigned long timeStart;
+uint8_t loopNum = 0;
+uint32_t timeStart;
 float data_to_display = 0;
 const float value_min_CO2 = 400;
-const float value_max_CO2 = 1200;
+const float value_max_CO2 = 1000;
 
 //
 //
@@ -93,7 +94,7 @@ void setup()
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
   my_oled.init();
-  my_oled.setBarchartRange(value_min_CO2, value_max_CO2);
+  my_oled.setBarChartRange(value_min_CO2, value_max_CO2);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
@@ -124,8 +125,8 @@ void loop()
   data_to_display = loopNum; // dummy in case we have no sensor
   if (myVerbose)
   {
-    Serial.print("Start Loop: ");
-    Serial.println(loopNum);
+    // Serial.print("Start Loop: ");
+    // Serial.println(loopNum);
   }
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
@@ -154,7 +155,7 @@ void loop()
 #endif
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
-  int hour = getHour();
+  uint8_t hour = getHour();
   if (hour <= 21 && hour >= 7)
   {
     my_oled.ensure_wake();
@@ -175,13 +176,22 @@ void loop()
   my_led_ky_016.displayValue(data_to_display);
 #endif
 
+  // data_to_display = loopNum * 50;
 #ifdef TM_LOAD_DEVICE_7_SEGMENT
-  my_7segment.displayValue(data_to_display);
-  // my_7segment.test();
+  my_7segment.displayValueAndSetBrightness(data_to_display);
 #endif
+
+  // Serial.print("Loop: ");
+  // Serial.print(loopNum);
+  // Serial.print("value: ");
+  // Serial.println(data_to_display);
+  // Serial.print(" cat: ");
+
   //
-  //
-  loopNum++;
+  if (loopNum > 30)
+    loopNum = 0;
+  else
+    loopNum++;
   sleep_exact_time(timeStart, millis());
 } // end loop
 
