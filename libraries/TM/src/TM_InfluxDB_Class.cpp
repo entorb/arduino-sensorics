@@ -1,14 +1,13 @@
 /*
-  TM_InfluxDB_Class.cpp - Library for Connection to my WiFi
+  Class for connection to WiFi and InfluxDB
   based on https://github.com/tobiasschuerg/InfluxDB-Client-for-Arduino/blob/master/examples/BasicWrite/BasicWrite.ino
 */
 
 // InfluxDB
+#include "Arduino.h"
 #include "TM_Device_Class.h"
 #include "TM_InfluxDB_Class.h"
 #include "TM_InfluxDB_secret.h"
-
-#include "Arduino.h"
 
 #include <InfluxDbClient.h>
 
@@ -19,7 +18,7 @@
 
 // TODO: does not like to be moved into Initialisierungsliste:
 InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
-TM_Influx_Class::TM_Influx_Class() : TM_Device_Class() //, my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
+TM_Influx_Class::TM_Influx_Class(const bool v) : TM_Device_Class(v) //, my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
 {
 }
 

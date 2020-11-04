@@ -1,7 +1,12 @@
+/*
+Class for accessing 4 x 7 segment clock display
+*/
+
+#include <Arduino.h>
+
 #include "TM_Device_Class.h"
 #include "TM_7SegmentDisplay_Class.h"
 
-#include <Arduino.h>
 #include <TM1637Display.h>
 
 // Module connection pins (Digital Pins)
@@ -12,7 +17,7 @@ TM1637Display display(CLK, DIO); // TODO: my_display
 uint8_t data[4] = {0xff, 0xff, 0xff, 0xff};
 uint8_t blank[] = {0x00, 0x00, 0x00, 0x00};
 
-TM_7SegmentDisplay_Class::TM_7SegmentDisplay_Class() : TM_Device_Class()
+TM_7SegmentDisplay_Class::TM_7SegmentDisplay_Class(const bool v) : TM_Device_Class(v)
 {
 }
 

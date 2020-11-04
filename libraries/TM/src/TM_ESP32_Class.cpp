@@ -1,14 +1,13 @@
 /*
-  TM_ESP32.cpp - Library for Connection to Sensor BME280 (Temp, Humidity, Pressure) via I2C
+Class for EPS32 Microcontroller 
 */
 
+#include "Arduino.h"
 #include "TM_Device_Class.h"
 #include "TM_ESP32_Class.h"
-
-#include <Arduino.h>       // for Serial.println()
 #include "esp32-hal-cpu.h" // for: power saving
 
-TM_ESP32_Class::TM_ESP32_Class() : TM_Device_Class()
+TM_ESP32_Class::TM_ESP32_Class(const bool v) : TM_Device_Class(v)
 {
 }
 

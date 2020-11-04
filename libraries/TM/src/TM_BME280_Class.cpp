@@ -1,14 +1,10 @@
 /*
-  TM_BME280.cpp - Library for Connection to Sensor BME280 (Temp, Humidity, Pressure) via I2C
+Class for reading BME280 Temperature, Humidity and Pressure Sensore
+
+
 */
 
-#include "TM_Device_Class.h"
-#include "TM_BME280_Class.h"
-
-#include <Arduino.h>
-
 // Based on:
-
 /***************************************************************************
   This is a library for the BME280 humidity, temperature & pressure sensor
 
@@ -27,6 +23,10 @@
   See the LICENSE file for details.
  ***************************************************************************/
 
+#include "Arduino.h"
+#include "TM_Device_Class.h"
+#include "TM_BME280_Class.h"
+
 #include <Wire.h>
 #include <SPI.h>
 #include <Adafruit_Sensor.h>
@@ -40,16 +40,13 @@
 #define SEALEVELPRESSURE_HPA (1013.25)
 */
 
-TM_BME280_Class::TM_BME280_Class() : TM_Device_Class()
+TM_BME280_Class::TM_BME280_Class(const bool v) : TM_Device_Class(v)
 {
 }
 
 void TM_BME280_Class::init()
 {
-  if (verbose)
-  {
-    Serial.println(F("BME280 init"));
-  }
+  TM_Device_Class::init();
   // You can also pass in a Wire library object like &Wire2
   status = bme.begin(0x76); //, &Wire2
   if (!status)
@@ -81,7 +78,6 @@ float *TM_BME280_Class::read_values()
     Serial.print("Pressure = ");
     Serial.print(TM_BME280_data[3]);
     Serial.println(" hPa");
-    Serial.println();
     /*                                              \
   Serial.print("Approx. Altitude = ");                  \
   Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA)); \
