@@ -24,6 +24,10 @@ TM_LED_KY_016_Class::TM_LED_KY_016_Class(const uint8_t pin_red, const uint8_t pi
   pinMode(_pin_red, OUTPUT);
   pinMode(_pin_green, OUTPUT);
   pinMode(_pin_green, OUTPUT);
+
+  digitalWrite(_pin_red, LOW);
+  digitalWrite(_pin_green, LOW);
+  digitalWrite(_pin_blue, LOW);
 }
 void TM_LED_KY_016_Class::setValueRange(const float min, const float max)
 {
@@ -51,6 +55,11 @@ void TM_LED_KY_016_Class::displayValue(const float value)
 {
   const uint8_t num_colors = sizeof(color_scale) / sizeof(color_scale[0]);
   uint8_t color_index = tm_helper_value_to_category(value, value_min, value_max, num_colors);
+  if (verbose)
+  {
+    Serial.print("color_index=");
+    Serial.println(color_index);
+  }
   setColor(color_scale[color_index]);
 }
 
