@@ -35,16 +35,21 @@ auto my_oled = TM_OLED_128x32_Class(myVerbose);
 auto my_oled = TM_OLED_128x64_Class(myVerbose);
 #endif
 
-#ifdef TM_LOAD_LED_RING
+#ifdef TM_LOAD_DEVICE_LED_RING
 #include "TM_LED_Ring_Class.h"
 auto my_led_ring = TM_LED_Ring_Class(15, 8, myVerbose);
 #endif
 
-#ifdef TM_LOAD_LED_KY_016
+#ifdef TM_LOAD_DEVICE_LED_KY_016
 #include "TM_LED_KY_016_Class.h"
 //#include <analogWrite.h>
 //#include "RGBLed.h"
-auto my_led_ky_016 = TM_LED_KY_016_Class(12, 13, 14, myVerbose);
+auto my_led_ky_016 = TM_LED_KY_016_Class(12, 13, 14, true);
+#endif
+
+#ifdef TM_LOAD_DEVICE_7_SEGMENT
+#include "TM_7SegmentDisplay_Class.h"
+auto my_7segment = TM_7SegmentDisplay_Class(26, 25, myVerbose);
 #endif
 
 // variables
@@ -66,7 +71,7 @@ void setup()
     ; // time to get serial running
 
 // TODO: check if TM_LOAD_LED_KY_016 compatible with underclocking
-#if !defined(TM_LOAD_LED_RING) && !defined(TM_LOAD_LED_KY_016)
+#if !defined(TM_LOAD_DEVICE_LED_RING) && !defined(TM_LOAD_DEVICE_LED_KY_016)
   my_esp32.underclocking(); // underclocking breaks Adafruit_NeoPixel !!!
 #endif
 
@@ -91,19 +96,21 @@ void setup()
   my_oled.setBarchartRange(value_min_CO2, value_max_CO2);
 #endif
 
-#ifdef TM_LOAD_LED_RING
+#ifdef TM_LOAD_DEVICE_LED_RING
   my_led_ring.init();
   my_led_ring.my_pixels.setBrightness(8);
   my_led_ring.setValueRange(value_min_CO2, value_max_CO2);
 #endif
 
-#ifdef TM_LOAD_LED_KY_016
+#ifdef TM_LOAD_DEVICE_LED_KY_016
   my_led_ky_016.init();
   // TODO: setBrightness
   my_led_ky_016.setValueRange(value_min_CO2, value_max_CO2);
-
 #endif
 
+#ifdef TM_LOAD_DEVICE_7_SEGMENT
+  // my_7segment.test();
+#endif
 } // end setup
 
 //
@@ -160,14 +167,18 @@ void loop()
   //  my_oled.draw_alternating_barchart_and_value(data_to_display);
 #endif
 
-#ifdef TM_LOAD_LED_RING
+#ifdef TM_LOAD_DEVICE_LED_RING
   my_led_ring.displayValue(data_to_display);
 #endif
 
-#ifdef TM_LOAD_LED_KY_016
+#ifdef TM_LOAD_DEVICE_LED_KY_016
   my_led_ky_016.displayValue(data_to_display);
 #endif
 
+#ifdef TM_LOAD_DEVICE_7_SEGMENT
+  my_7segment.displayValue(data_to_display);
+  // my_7segment.test();
+#endif
   //
   //
   loopNum++;
