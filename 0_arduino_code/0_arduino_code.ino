@@ -155,17 +155,19 @@ void loop()
 #endif
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
-  uint8_t hour = getHour();
-  if (hour <= 21 && hour >= 7)
-  {
-    my_oled.ensure_wake();
-    // my_oled.draw_alternating_barchart_and_value(data_to_display);
-    my_oled.drawBarchart(data_to_display);
-  }
-  else
-  {
-    my_oled.ensure_sleep();
-  }
+  // my_oled.draw_alternating_barchart_and_value(data_to_display);
+  my_oled.drawBarchart(data_to_display);
+  //uint8_t hour = getHour();
+  // if (hour <= 21 && hour >= 7)
+  // {
+  //   my_oled.ensure_wake();
+  //   // my_oled.draw_alternating_barchart_and_value(data_to_display);
+  //   my_oled.drawBarchart(data_to_display);
+  // }
+  // else
+  // {
+  //   my_oled.ensure_sleep();
+  // }
   //  my_oled.draw_alternating_barchart_and_value(data_to_display);
 #endif
 
