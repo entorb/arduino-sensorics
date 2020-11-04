@@ -11,8 +11,8 @@ static const bool myVerbose = true;
 // static const bool myVerbose = false;
 
 // Devices to load
-// #define TM_LOAD_DEVICE_INFLUXDB
-// #define TM_LOAD_DEVICE_BME280
+#define TM_LOAD_DEVICE_INFLUXDB
+#define TM_LOAD_DEVICE_BME280
 #define TM_LOAD_DEVICE_MHZ19
 // #define TM_LOAD_DEVICE_OLED_128X32
 #define TM_LOAD_DEVICE_OLED_128X64

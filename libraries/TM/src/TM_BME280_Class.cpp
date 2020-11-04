@@ -48,8 +48,8 @@ void TM_BME280_Class::init()
 {
   TM_Sensor_Device_Class::init();
   // You can also pass in a Wire library object like &Wire2
-  status = bme.begin(0x76); //, &Wire2
-  if (!status)
+  _status = bme.begin(0x76); //, &Wire2
+  if (!_status)
   {
     if (verbose)
     {
@@ -64,19 +64,19 @@ void TM_BME280_Class::init()
 
 float *TM_BME280_Class::read_values()
 {
-  TM_BME280_data[0] = bme.readTemperature();
-  TM_BME280_data[1] = bme.readHumidity();
-  TM_BME280_data[2] = bme.readPressure() / 100.0F;
+  _TM_BME280_data[0] = bme.readTemperature();
+  _TM_BME280_data[1] = bme.readHumidity();
+  _TM_BME280_data[2] = bme.readPressure() / 100.0F;
   if (verbose)
   {
     Serial.print("Temperature = ");
-    Serial.print(TM_BME280_data[0]);
+    Serial.print(_TM_BME280_data[0]);
     Serial.println(" *C");
     Serial.print("Humidity = ");
-    Serial.print(TM_BME280_data[1]);
+    Serial.print(_TM_BME280_data[1]);
     Serial.println(" %");
     Serial.print("Pressure = ");
-    Serial.print(TM_BME280_data[3]);
+    Serial.print(_TM_BME280_data[3]);
     Serial.println(" hPa");
     /*                                              \
   Serial.print("Approx. Altitude = ");                  \
@@ -84,5 +84,5 @@ float *TM_BME280_Class::read_values()
   Serial.println(" m");                                 \
   */
   }
-  return (float *)&TM_BME280_data; // return array of floats
+  return (float *)&_TM_BME280_data; // return array of floats
 }
