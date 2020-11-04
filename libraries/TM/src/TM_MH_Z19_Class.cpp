@@ -15,11 +15,11 @@ Based on MHZ19 BasicExample
 // Initialisierungsliste
 TM_MH_Z19_Class::TM_MH_Z19_Class(const uint8_t rx, const uint8_t tx, const bool v) : TM_Sensor_Device_Class(v), mySerial(1)
 {
-  _pin_rx = rx;
-  _pin_tx = tx;
+  pin_rx = rx;
+  pin_tx = tx;
 
-  mySerial.begin(MHZ19_BAUDRATE, SERIAL_8N1, _pin_rx, _pin_tx); // (ESP32 Example) device to MH-Z19 serial start
-  myMHZ19.begin(mySerial);                                      // *Serial(Stream) reference must be passed to library begin().
+  mySerial.begin(MHZ19_BAUDRATE, SERIAL_8N1, pin_rx, pin_tx); // (ESP32 Example) device to MH-Z19 serial start
+  myMHZ19.begin(mySerial);                                    // *Serial(Stream) reference must be passed to library begin().
   myMHZ19.autoCalibration(true);
   // calibration
   /*   

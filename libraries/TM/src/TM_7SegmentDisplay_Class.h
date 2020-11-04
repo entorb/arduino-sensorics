@@ -22,6 +22,6 @@ public:
 
 private:
   TM1637Display myDisplay;
-  const uint8_t _num_brightness_levels = 7;
+  const uint8_t num_brightness_levels = 7;
 };
 #endif

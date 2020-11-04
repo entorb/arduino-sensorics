@@ -34,7 +34,7 @@ public:
 
 private:
   // variables
-  byte _num_pixels = 8;
+  byte num_pixels = 8;
   // byte brightness = 32; // 0..255
 
   // currently as many colors as pixels, but this could be changed
