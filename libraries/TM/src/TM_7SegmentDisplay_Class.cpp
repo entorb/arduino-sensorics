@@ -31,7 +31,7 @@ void TM_7SegmentDisplay_Class::displayValue(uint16_t value)
 
 void TM_7SegmentDisplay_Class::displayValueAndSetBrightness(uint16_t value)
 {
-  uint8_t brightnessLevel = tm_helper_value_to_category(value, value_min, value_max, _num_brightness_levels);
+  uint8_t brightnessLevel = tm_helper_value_to_category(value, value_min, value_max, num_brightness_levels);
 
   setBrightness(brightnessLevel);
   displayValue(value);
