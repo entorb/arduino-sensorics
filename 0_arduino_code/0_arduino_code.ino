@@ -4,51 +4,60 @@
 #include "device_setup.h"
 
 #include "TM_ESP32_Class.h"
-auto my_esp32 = TM_ESP32_Class();
+auto my_esp32 = TM_ESP32_Class(myVerbose);
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
 #include "TM_InfluxDB_Class.h"
 #include <InfluxDbClient.h>
-auto my_influx = TM_Influx_Class();
+auto my_influx = TM_Influx_Class(myVerbose);
 Point sensor("Raumklima"); // TODO: -> my_sensor
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
 #include "TM_BME280_Class.h"
-auto my_bme280 = TM_BME280_Class();
+auto my_bme280 = TM_BME280_Class(myVerbose);
 float *data_bme280;
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
 #include "TM_MH_Z19_Class.h"
-auto my_mh_z19 = TM_MH_Z19_Class();
+auto my_mh_z19 = TM_MH_Z19_Class(16, 17, myVerbose);
 int data_mhz_CO2;
 #endif
 
 #ifdef TM_LOAD_DEVICE_OLED_128X32
 #include "TM_OLED_Class.h"
-auto my_oled = TM_OLED_128x32_Class();
+auto my_oled = TM_OLED_128x32_Class(myVerbose);
 #endif
 
 #ifdef TM_LOAD_DEVICE_OLED_128X64
 #include "TM_OLED_Class.h"
-auto my_oled = TM_OLED_128x64_Class();
+auto my_oled = TM_OLED_128x64_Class(myVerbose);
 #endif
 
 #ifdef TM_LOAD_LED_RING
 #include "TM_LED_Ring_Class.h"
-auto my_led_ring = TM_LED_Ring_Class();
+auto my_led_ring = TM_LED_Ring_Class(15, 8, myVerbose);
 #endif
 
 #ifdef TM_LOAD_LED_KY_016
 #include "TM_LED_KY_016_Class.h"
-auto my_led_ky_016 = TM_LED_KY_016_Class();
+//#include <analogWrite.h>
+//#include "RGBLed.h"
+auto my_led_ky_016 = TM_LED_KY_016_Class(12, 13, 14, myVerbose);
 #endif
 
 // variables
 unsigned int loopNum = 0;
 unsigned long timeStart;
 float data_to_display = 0;
+const float value_min_CO2 = 400;
+const float value_max_CO2 = 1200;
+
+//
+//
+//
+//
 
 void setup()
 {
@@ -56,13 +65,12 @@ void setup()
   while (!Serial)
     ; // time to get serial running
 
-  my_esp32.setVerbose(myVerbose);
-#ifndef TM_LOAD_LED_RING
+// TODO: check if TM_LOAD_LED_KY_016 compatible with underclocking
+#if !defined(TM_LOAD_LED_RING) && !defined(TM_LOAD_LED_KY_016)
   my_esp32.underclocking(); // underclocking breaks Adafruit_NeoPixel !!!
 #endif
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-  my_influx.setVerbose(myVerbose);
   my_influx.connect_wifi(my_device_name);
   my_influx.sync_time();
   my_influx.connect_influxdb();
@@ -71,33 +79,37 @@ void setup()
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
-  my_bme280.setVerbose(myVerbose);
   my_bme280.init();
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-  my_mh_z19.setVerbose(myVerbose);
   my_mh_z19.init();
 #endif
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
-  my_oled.setVerbose(myVerbose);
   my_oled.init();
-  my_oled.setBarchartRange(400, 1000); // for ppm
+  my_oled.setBarchartRange(value_min_CO2, value_max_CO2);
 #endif
 
 #ifdef TM_LOAD_LED_RING
-  my_led_ring.setVerbose(myVerbose);
   my_led_ring.init();
   my_led_ring.my_pixels.setBrightness(8);
-  my_led_ring.setValueRange(400, 1000); // for ppm
+  my_led_ring.setValueRange(value_min_CO2, value_max_CO2);
 #endif
 
 #ifdef TM_LOAD_LED_KY_016
-  my_led_ky_016.fadeIn_fadeOut();
+  my_led_ky_016.init();
+  // TODO: setBrightness
+  my_led_ky_016.setValueRange(value_min_CO2, value_max_CO2);
+
 #endif
 
 } // end setup
+
+//
+//
+//
+//
 
 void loop()
 {
@@ -152,11 +164,28 @@ void loop()
   my_led_ring.displayValue(data_to_display);
 #endif
 
+#ifdef TM_LOAD_LED_KY_016
+  my_led_ky_016.displayValue(data_to_display);
+#endif
+
+  //
+  //
   loopNum++;
   sleep_exact_time(timeStart, millis());
 } // end loop
 
+//
+//
+//
+//
+//
+//
+//
+//
+// -----------------
 // my helpers
+// -----------------
+//
 
 void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd)
 {

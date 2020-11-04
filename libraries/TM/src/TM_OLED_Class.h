@@ -1,17 +1,19 @@
 /*
-  TM_OLED_Class.h - Library for Connection to OLED Displays
-  Thanks to Gerhard for converting into template!
+Class of Templates for Connection to OLED Displays
+Thanks to Gerhard for converting into template!
+
+TODO: int -> uint8_t
 */
 
 #ifndef TM_OLED_CLASS_H
 #define TM_OLED_CLASS_H
 
+#include <Arduino.h>
 #include "TM_Device_Class.h"
-//
+#include "TM_Helper.h"
 
 #include <U8g2lib.h>
 
-#include <Arduino.h>
 #ifdef U8X8_HAVE_HW_SPI
 #include <SPI.h>
 #endif
@@ -24,7 +26,7 @@ class TM_OLED_Class : public TM_Device_Class
 {
 public:
   // constructor
-  TM_OLED_Class();
+  TM_OLED_Class(const bool verbose = false);
   // functions
   void init();
   void drawStr(const char *);
@@ -51,20 +53,9 @@ private:
 typedef TM_OLED_Class<U8G2_SSD1306_128X64_NONAME_F_HW_I2C, 128, 64> TM_OLED_128x64_Class;
 typedef TM_OLED_Class<U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C, 128, 32> TM_OLED_128x32_Class;
 
-#include "TM_Device_Class.h"
-
-#include <Arduino.h>
-#include "U8g2lib.h"
-#ifdef U8X8_HAVE_HW_SPI
-#include <SPI.h>
-#endif
-#ifdef U8X8_HAVE_HW_I2C
-#include <Wire.h>
-#endif
-
 // Initialisierungsliste
 template <class U8G2, int px_x, int px_y>
-TM_OLED_Class<U8G2, px_x, px_y>::TM_OLED_Class() : TM_Device_Class(), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
+TM_OLED_Class<U8G2, px_x, px_y>::TM_OLED_Class(const bool v) : TM_Device_Class(v), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
 {
   // barchart_data[px_x] = {0}; // initialize with all with 0
 }
@@ -72,6 +63,7 @@ TM_OLED_Class<U8G2, px_x, px_y>::TM_OLED_Class() : TM_Device_Class(), my_u8g2(U8
 template <class U8G2, int px_x, int px_y>
 void TM_OLED_Class<U8G2, px_x, px_y>::init()
 {
+  TM_Device_Class::init();
   my_u8g2.begin();
   my_u8g2.clearBuffer();
   my_u8g2.setFont(u8g2_font_inb19_mf); // https://github.com/olikraus/u8g2/wiki/fntlistall
@@ -124,24 +116,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::setBarchartRange(const float min, const fl
 template <class U8G2, int px_x, int px_y>
 void TM_OLED_Class<U8G2, px_x, px_y>::drawBarchart(const float value_to_append)
 {
-  unsigned int value_to_append_px;
-
-  if (value_to_append <= barchart_min)
-  {
-    // -> min bar size => 0
-    value_to_append_px = 0;
-  }
-  else if (value_to_append >= barchart_max)
-  { // -> max bar size
-    value_to_append_px = px_y - 1;
-  }
-  else
-  {
-    // convert value_to_append to y-px scale
-    const float value_rel = value_to_append - barchart_min;
-    const float range_rel = barchart_max - barchart_min;
-    value_to_append_px = px_y * (value_rel / range_rel);
-  }
+  unsigned int value_to_append_px = tm_helper_value_to_category(value_to_append, barchart_min, barchart_max, px_y);
 
   // shift array to left
   for (unsigned int i = 0; i < px_x - 1; i++)
