@@ -4,16 +4,20 @@
   * reading of various sensors
   * export data via WiFi to InfluxDB for visualization in Grafana, see my [raspi-sensorics](https://github.com/entorb/raspi-sensorics/) repository
   * writing to various displays
-  * using a config.h file to select the devices available to that Arduino
+  * using a device_setup.h file to select the devices attached to that specific Arduino ESP32
 
 ## Devices implemented so far
 * BME280 sensor for temperature, humidity and pressure in [TM_BME280_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BME280_Class.cpp)
 * MH-Z19 sensor for CO2 concentration in [TM_MH-Z19_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_MH-Z19_Class.cpp)
 * OLED display 128x32px in [TM_OLED_128x32.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_OLED_128x32.cpp)
+* OLED display 128x64px in [TM_OLED_128x64.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_OLED_128x64.cpp)
+* RGB-LEDs: Ring and Single LED
+* 7-segment 4-digit display
 * InfuxDB interface via WiFi in [TM_InfluxDB.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB.cpp)
 * Abstract device class that all other devices inherit from in [TM_Device_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_Device_Class.cpp)
 
 ## Achievements 
+* Getting started in C++
 * Using pre compiler #define in device_setup.h file to select which classes are compiled to save time and memory
 * Power reduction from 1W to 0.3W by
   * Under-clocking the ESP32 from 240 to 80 MHz via setCpuFrequencyMhz(80) in ([TM_ESP32-Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_ESP32-Class.cpp)
