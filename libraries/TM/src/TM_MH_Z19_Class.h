@@ -23,7 +23,7 @@ private:
   // variables
   MHZ19 myMHZ19;
   HardwareSerial mySerial;
-  uint8_t _pin_rx;
-  uint8_t _pin_tx;
+  uint8_t pin_rx;
+  uint8_t pin_tx;
 };
 #endif

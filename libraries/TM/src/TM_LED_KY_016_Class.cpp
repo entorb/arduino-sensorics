@@ -14,19 +14,19 @@ based on "RGBLed.h"
 #include "TM_LED_KY_016_Class.h"
 #include "TM_Helper.h"
 
-TM_LED_KY_016_Class::TM_LED_KY_016_Class(const uint8_t pin_red, const uint8_t pin_green, const uint8_t pin_blue, const bool v) : TM_Display_Device_Class(v)
+TM_LED_KY_016_Class::TM_LED_KY_016_Class(const uint8_t this_pin_red, const uint8_t this_pin_green, const uint8_t this_pin_blue, const bool v) : TM_Display_Device_Class(v)
 {
-  _pin_red = pin_red;
-  _pin_green = pin_green;
-  _pin_blue = pin_blue;
+  pin_red = this_pin_red;
+  pin_green = this_pin_green;
+  pin_blue = this_pin_blue;
 
-  pinMode(_pin_red, OUTPUT);
-  pinMode(_pin_green, OUTPUT);
-  pinMode(_pin_green, OUTPUT);
+  pinMode(pin_red, OUTPUT);
+  pinMode(pin_green, OUTPUT);
+  pinMode(pin_green, OUTPUT);
 
-  digitalWrite(_pin_red, LOW);
-  digitalWrite(_pin_green, LOW);
-  digitalWrite(_pin_blue, LOW);
+  digitalWrite(pin_red, LOW);
+  digitalWrite(pin_green, LOW);
+  digitalWrite(pin_blue, LOW);
 }
 
 void TM_LED_KY_016_Class::setColor(const uint32_t rgb, const uint8_t brightness)
@@ -41,9 +41,9 @@ void TM_LED_KY_016_Class::setColor(const uint32_t rgb, const uint8_t brightness)
 void TM_LED_KY_016_Class::setColor(const uint8_t red, const uint8_t green, const uint8_t blue, const uint8_t brightness)
 {
   // brightness 0..255
-  analogWrite(_pin_red, (red * brightness / 255));
-  analogWrite(_pin_green, (green * brightness / 255));
-  analogWrite(_pin_blue, (blue * brightness / 255));
+  analogWrite(pin_red, (red * brightness / 255));
+  analogWrite(pin_green, (green * brightness / 255));
+  analogWrite(pin_blue, (blue * brightness / 255));
 }
 
 void TM_LED_KY_016_Class::displayValue(const float value)

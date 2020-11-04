@@ -33,8 +33,8 @@ public:
 
 private:
   // variables
-  uint8_t _pin_red;
-  uint8_t _pin_green;
-  uint8_t _pin_blue;
+  uint8_t pin_red;
+  uint8_t pin_green;
+  uint8_t pin_blue;
 };
 #endif
