@@ -1,10 +1,11 @@
 /*
-  TM_InfluxDB_Class.h - Library for Connection to my InfluxDB
+  Class for connection to WiFi and InfluxDB
 */
 
 #ifndef TM_INFLUXDB_H
 #define TM_INFLUXDB_H
 
+#include "Arduino.h"
 #include "TM_Device_Class.h"
 #include "TM_InfluxDB_secret.h"
 
@@ -19,7 +20,7 @@ private:
 public:
   //InfluxDBClient my_InfluxClient;
   // constructor
-  TM_Influx_Class();
+  TM_Influx_Class(const bool verbose = false);
   // variables
   // functions
   void connect_wifi(const char *);

@@ -1,8 +1,11 @@
 /*
-  TM_LED_Ring_Class.h - Library for powering WS2812 LED Ring
+Class for powering WS2812 LED Ring
 */
+
 #ifndef TM_LED_RING_CLASS_H
 #define TM_LED_RING_CLASS_H
+
+#include "Arduino.h"
 
 #include <Adafruit_NeoPixel.h>
 
@@ -13,9 +16,8 @@ class TM_LED_Ring_Class : public TM_Device_Class
 public:
   // constructor
   Adafruit_NeoPixel my_pixels;
-  TM_LED_Ring_Class();
+  TM_LED_Ring_Class(const uint8_t pin_data, const uint8_t num_pixels, const bool verbose = false);
   // functions
-  void init();
   void setValueRange(const float, const float);
   void setPixelColor(const uint16_t, const uint32_t);
   void displayValue(const float);
@@ -33,10 +35,10 @@ public:
 
 private:
   // variables
-  byte num_pixels = 8;
+  byte _num_pixels = 8;
   // byte brightness = 32; // 0..255
-  float value_min = 400;
-  float value_max = 1200;
+  float _value_min = 400;
+  float _value_max = 1200;
 
   // currently as many colors as pixels, but this could be changed
 };

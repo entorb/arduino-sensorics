@@ -1,17 +1,18 @@
 /*
-  TM_ESP32_Class.h - Library for Connection to Sensor BME280 (Temp, Humidity, Pressure) via I2C
+Class for EPS32 Microcontroller 
 */
 
 #ifndef TM_ESP32_CLASS_H
 #define TM_ESP32_CLASS_H
 
+#include "Arduino.h"
 #include "TM_Device_Class.h"
 
 class TM_ESP32_Class : public TM_Device_Class
 {
 public:
   // constructor
-  TM_ESP32_Class();
+  TM_ESP32_Class(const bool verbose = false);
   // variables
   // functions
   void underclocking();
