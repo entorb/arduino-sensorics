@@ -4,18 +4,17 @@ Class for powering 3 color RGB LED KY-016
 
 /*
 based on "RGBLed.h"
-
+#include "RGBLed.h"
 */
 
 #include "Arduino.h"
 #include <analogWrite.h>
-// #include "RGBLed.h"
 
 #include "TM_Device_Class.h"
 #include "TM_LED_KY_016_Class.h"
 #include "TM_Helper.h"
 
-TM_LED_KY_016_Class::TM_LED_KY_016_Class(const uint8_t pin_red, const uint8_t pin_green, const uint8_t pin_blue, const bool v) : TM_Device_Class(v)
+TM_LED_KY_016_Class::TM_LED_KY_016_Class(const uint8_t pin_red, const uint8_t pin_green, const uint8_t pin_blue, const bool v) : TM_Display_Device_Class(v)
 {
   _pin_red = pin_red;
   _pin_green = pin_green;
@@ -29,11 +28,7 @@ TM_LED_KY_016_Class::TM_LED_KY_016_Class(const uint8_t pin_red, const uint8_t pi
   digitalWrite(_pin_green, LOW);
   digitalWrite(_pin_blue, LOW);
 }
-void TM_LED_KY_016_Class::setValueRange(const float min, const float max)
-{
-  value_min = min;
-  value_max = max;
-}
+
 void TM_LED_KY_016_Class::setColor(const uint32_t rgb, const uint8_t brightness)
 {
   // html rgb code to int

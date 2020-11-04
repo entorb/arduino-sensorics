@@ -17,7 +17,7 @@ PIN as class parameter
 // #define PIN 15
 // #define NUMPIXELS 8
 
-TM_LED_Ring_Class::TM_LED_Ring_Class(const uint8_t pin_data, const uint8_t num_pixels, const bool v) : TM_Device_Class(v), my_pixels(num_pixels, pin_data, NEO_GRB + NEO_KHZ800)
+TM_LED_Ring_Class::TM_LED_Ring_Class(const uint8_t pin_data, const uint8_t num_pixels, const bool v) : TM_Display_Device_Class(v), my_pixels(num_pixels, pin_data, NEO_GRB + NEO_KHZ800)
 {
   _num_pixels = num_pixels;
 
@@ -25,12 +25,6 @@ TM_LED_Ring_Class::TM_LED_Ring_Class(const uint8_t pin_data, const uint8_t num_p
   my_pixels.begin();
   my_pixels.clear();
   my_pixels.setBrightness(8);
-}
-
-void TM_LED_Ring_Class::setValueRange(const float min, const float max)
-{
-  _value_min = min;
-  _value_max = max;
 }
 
 void TM_LED_Ring_Class::setPixelColor(uint16_t px, uint32_t color)
@@ -49,7 +43,7 @@ void TM_LED_Ring_Class::setPixelColor(uint16_t px, uint32_t color)
 
 void TM_LED_Ring_Class::displayValue(const float value)
 {
-  const uint8_t num_px_to_activate = tm_helper_value_to_category(value, _value_min, _value_max, _num_pixels);
+  const uint8_t num_px_to_activate = tm_helper_value_to_category(value, value_min, value_max, _num_pixels);
   // currently using the same amount of colors as num_pixels, this might be changed
   uint32_t my_color = color_scale[num_px_to_activate];
 
