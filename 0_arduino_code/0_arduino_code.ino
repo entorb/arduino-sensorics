@@ -94,7 +94,7 @@ void setup()
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
   my_oled.init();
-  my_oled.setBarChartRange(value_min_CO2, value_max_CO2);
+  my_oled.setBarChartRange(value_min_CO2, value_max_CO2); // = my_oled.setValueRange(value_min_CO2, value_max_CO2);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
@@ -110,7 +110,7 @@ void setup()
 #endif
 
 #ifdef TM_LOAD_DEVICE_7_SEGMENT
-  // my_7segment.test();
+  my_7segment.setValueRange(value_min_CO2, value_max_CO2);
 #endif
 } // end setup
 
@@ -159,7 +159,8 @@ void loop()
   if (hour <= 21 && hour >= 7)
   {
     my_oled.ensure_wake();
-    my_oled.draw_alternating_barchart_and_value(data_to_display);
+    // my_oled.draw_alternating_barchart_and_value(data_to_display);
+    my_oled.drawBarchart(data_to_display);
   }
   else
   {
