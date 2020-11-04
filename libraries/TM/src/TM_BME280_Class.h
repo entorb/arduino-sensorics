@@ -10,7 +10,7 @@ Class for reading BME280 Temperature, Humidity and Pressure Sensore
 
 #include <Adafruit_BME280.h>
 
-class TM_BME280_Class : public TM_Device_Class
+class TM_BME280_Class : public TM_Sensor_Device_Class
 {
 public:
   // constructor
