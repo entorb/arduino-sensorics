@@ -40,13 +40,13 @@ Class for reading BME280 Temperature, Humidity and Pressure Sensore
 #define SEALEVELPRESSURE_HPA (1013.25)
 */
 
-TM_BME280_Class::TM_BME280_Class(const bool v) : TM_Device_Class(v)
+TM_BME280_Class::TM_BME280_Class(const bool v) : TM_Sensor_Device_Class(v)
 {
 }
 
 void TM_BME280_Class::init()
 {
-  TM_Device_Class::init();
+  TM_Sensor_Device_Class::init();
   // You can also pass in a Wire library object like &Wire2
   status = bme.begin(0x76); //, &Wire2
   if (!status)

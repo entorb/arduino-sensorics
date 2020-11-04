@@ -27,3 +27,7 @@ void TM_Display_Device_Class::setValueRange(const float this_value_min, const fl
   value_min = value_min;
   value_max = value_max;
 }
+
+// this is a sub-class of Device_Class, to be later filled with sensor specific code
+TM_Sensor_Device_Class::TM_Sensor_Device_Class(const bool v) : TM_Device_Class(v){};
+// TODO: add functions, if needed

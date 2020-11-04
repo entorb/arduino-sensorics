@@ -10,7 +10,7 @@ Class for reading a MH-Z19 CO2 sensor
 
 #include "MHZ19.h"
 
-class TM_MH_Z19_Class : public TM_Device_Class
+class TM_MH_Z19_Class : public TM_Sensor_Device_Class
 {
 public:
   // constructor
