@@ -1,0 +1,4 @@
+GPIO 12 did not work for me, led to the following ERROR
+(when attachingMH-Z19 TX to 12)
+Could not auto-detect Flash size
+A fatal error occurred: Timed out waiting for packet content
