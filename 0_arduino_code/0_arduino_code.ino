@@ -22,7 +22,8 @@ float *data_bme280;
 
 #ifdef TM_LOAD_DEVICE_MHZ19
 #include "TM_MH_Z19_Class.h"
-auto my_mh_z19 = TM_MH_Z19_Class(16, 17, myVerbose);
+// Attention from EPS32 point of view the RX and TX are swapped, RX(MH-Z19)=TX(ESP32) and vice versa
+auto my_mh_z19 = TM_MH_Z19_Class(14, 13, myVerbose);
 uint16_t data_mhz_CO2;
 #endif
 
@@ -45,12 +46,12 @@ auto my_led_ring = TM_LED_Ring_Class(15, 8, myVerbose);
 #include "TM_LED_KY_016_Class.h"
 //#include <analogWrite.h>
 //#include "RGBLed.h"
-auto my_led_ky_016 = TM_LED_KY_016_Class(12, 13, 14, myVerbose);
+auto my_led_ky_016 = TM_LED_KY_016_Class(5, 18, 19, myVerbose);
 #endif
 
 #ifdef TM_LOAD_DEVICE_7_SEGMENT
 #include "TM_7SegmentDisplay_Class.h"
-auto my_7segment = TM_7SegmentDisplay_Class(26, 25, myVerbose);
+auto my_7segment = TM_7SegmentDisplay_Class(32, 33, myVerbose);
 #endif
 
 // variables
