@@ -29,8 +29,9 @@ void TM_Influx_Class::connect_wifi(const char *devicename)
 
   WiFi.disconnect(true);
   WiFi.mode(WIFI_OFF);
-  WiFi.setHostname(devicename);
+  // WiFi.setHostname(devicename);
   WiFi.mode(WIFI_STA);
+  WiFi.setHostname(devicename);
   my_wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
   int i = 0;
   while (my_wifiMulti.run() != WL_CONNECTED)

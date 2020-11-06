@@ -72,10 +72,10 @@ void setup()
   while (!Serial)
     ; // time to get serial running
 
-// TODO: check if TM_LOAD_LED_KY_016 compatible with underclocking
-#if !defined(TM_LOAD_DEVICE_LED_RING) && !defined(TM_LOAD_DEVICE_LED_KY_016)
-  my_esp32.underclocking(); // underclocking breaks Adafruit_NeoPixel !!!
+#if !defined(TM_LOAD_DEVICE_LED_RING) // && !defined(TM_LOAD_DEVICE_LED_KY_016)
+  my_esp32.underclocking();           // underclocking breaks Adafruit_NeoPixel !!!
 #endif
+  // seems to be LED_KY_016 is compatible with underclocking
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   my_influx.connect_wifi(my_device_name);
