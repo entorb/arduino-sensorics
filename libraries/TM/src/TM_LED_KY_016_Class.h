@@ -20,15 +20,10 @@ public:
   void displayValue(const float);
   // void fadeIn_fadeOut();
   // variables
-  const uint32_t color_scale[8] = {
+  const uint32_t color_scale[3] = {
       0x00ff00, // green
-      0x19e600,
-      0x95fc00,
-      0xffff00, // yellow
-      0xff8700,
-      0xcc3300,
-      0xe61a00,
-      0xff0000 // red
+      0xffA500, // orange
+      0xff0000  // red
   };
 
 private:
