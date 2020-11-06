@@ -20,13 +20,14 @@ TM_MH_Z19_Class::TM_MH_Z19_Class(const uint8_t rx, const uint8_t tx, const bool 
 
   mySerial.begin(MHZ19_BAUDRATE, SERIAL_8N1, pin_rx, pin_tx); // (ESP32 Example) device to MH-Z19 serial start
   myMHZ19.begin(mySerial);                                    // *Serial(Stream) reference must be passed to library begin().
-  myMHZ19.autoCalibration(true);
+
   // calibration
-  /*   
-      myMHZ19.setRange(2000);
-      myMHZ19.calibrateZero();
-      myMHZ19.setSpan(2000);
-  */
+  // manually
+  myMHZ19.setRange(3000);
+  myMHZ19.calibrateZero();
+  myMHZ19.setSpan(3000);
+  // automatically
+  myMHZ19.autoCalibration(true);
 }
 
 int TM_MH_Z19_Class::read_values()

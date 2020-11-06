@@ -49,13 +49,18 @@ void TM_LED_KY_016_Class::setColor(const uint8_t red, const uint8_t green, const
 void TM_LED_KY_016_Class::displayValue(const float value)
 {
   const uint8_t num_colors = sizeof(color_scale) / sizeof(color_scale[0]);
-  uint8_t color_index = tm_helper_value_to_category(value, value_min, value_max, num_colors);
+  const uint8_t color_index = tm_helper_value_to_category(value, value_min, value_max, num_colors);
+  // use 128 as min brightness
+  uint8_t calc_brightness = tm_helper_value_to_category(value, value_min, value_max, calc_brightness);
+  if (calc_brightness < 128)
+    calc_brightness = 128;
+
   if (verbose)
   {
     Serial.print("color_index=");
     Serial.println(color_index);
   }
-  setColor(color_scale[color_index]);
+  setColor(color_scale[color_index], calc_brightness);
 }
 
 /*
