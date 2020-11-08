@@ -3,8 +3,8 @@
 //
 
 // Debugging
-static const int mySleep = 30 * 1000;
-static const bool myVerbose = false;
+static const int mySleep = 1 * 3000;
+static const bool myVerbose = true;
 
 // Normal Mode
 // static const int mySleep = 60 * 1000;
@@ -21,7 +21,7 @@ static const bool myVerbose = false;
 // #define TM_LOAD_DEVICE_7_SEGMENT
 
 // EPS32 Setup
-static const char my_device_name[] = "T-ESP32-4";
+static const char my_device_name[] = "T-ESP32-1";
 static const char my_room[] = "Arbeitszimmer";
 
 /*
@@ -30,6 +30,6 @@ static const char my_room[] = "Arbeitszimmer";
   Kind 2
   Bad
   Wintergarten
-
+WohnzimmerFalls
   KiTa
 */
