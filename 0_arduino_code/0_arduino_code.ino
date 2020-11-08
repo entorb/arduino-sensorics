@@ -23,7 +23,8 @@ float *data_bme280;
 #ifdef TM_LOAD_DEVICE_MHZ19
 #include "TM_MH_Z19_Class.h"
 // Attention from EPS32 point of view the RX and TX are swapped, RX(MH-Z19)=TX(ESP32) and vice versa
-auto my_mh_z19 = TM_MH_Z19_Class(14, 13, myVerbose);
+// auto my_mh_z19 = TM_MH_Z19_Class(14, 13, myVerbose);
+auto my_mh_z19 = TM_MH_Z19_Class(16, 17, myVerbose);
 uint16_t data_mhz_CO2;
 #endif
 
