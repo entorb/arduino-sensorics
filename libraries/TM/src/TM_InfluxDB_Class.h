@@ -10,12 +10,12 @@
 #include "TM_InfluxDB_secret.h"
 
 #include <InfluxDbClient.h>
-#include <WiFiMulti.h>
+// #include <WiFiMulti.h>
 
 class TM_Influx_Class : public TM_Device_Class
 {
 private:
-  WiFiMulti my_wifiMulti;
+  // WiFiMulti my_wifiMulti;
 
 public:
   //InfluxDBClient my_InfluxClient;
