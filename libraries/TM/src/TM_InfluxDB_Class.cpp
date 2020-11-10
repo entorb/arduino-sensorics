@@ -27,14 +27,21 @@ void TM_Influx_Class::connect_wifi(const char *devicename)
   if (verbose)
     Serial.println("Connecting to WiFi");
 
-  WiFi.disconnect(true);
-  WiFi.mode(WIFI_OFF);
+  // Old version
+  // WiFi.disconnect(true);
+  // WiFi.mode(WIFI_OFF);
   // WiFi.setHostname(devicename);
-  WiFi.mode(WIFI_STA);
+  // WiFi.mode(WIFI_STA);
+  // WiFi.setHostname(devicename);
+  // my_wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
+  // while (my_wifiMulti.run() != WL_CONNECTED)
+
+  // New Version
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
   WiFi.setHostname(devicename);
-  my_wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
   int i = 0;
-  while (my_wifiMulti.run() != WL_CONNECTED)
+  while (WiFi.status() != WL_CONNECTED)
   {
     if (i == 15)
     {
@@ -48,6 +55,8 @@ void TM_Influx_Class::connect_wifi(const char *devicename)
   }
   if (verbose)
     Serial.println();
+
+  // enable Power Saving Modem -> only WiFi keep alive
   esp_wifi_set_ps(WIFI_PS_MODEM);
 }
 
@@ -84,11 +93,14 @@ void TM_Influx_Class::send_point(Point sensor)
     Serial.println(sensor.toLineProtocol());
   }
   // If no Wifi signal, try  reconnecting
-  if ((WiFi.RSSI() == 0) && (my_wifiMulti.run() != WL_CONNECTED))
+  // if ((WiFi.RSSI() == 0) && (my_wifiMulti.run() != WL_CONNECTED))
+  if ((WiFi.RSSI() == 0) && (WiFi.status() != WL_CONNECTED))
+  {
     if (verbose)
-    {
       Serial.println("Wifi connection lost");
-    }
+    WiFi.reconnect();
+  }
+
   // Write point
   if (!my_InfluxClient.writePoint(sensor))
   {
