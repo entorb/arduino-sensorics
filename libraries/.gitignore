@@ -1,0 +1,5 @@
+# Ignore everything in the root
+/*
+# Un-ignore all of subtree
+!/TM/
+!.gitignore

@@ -3,17 +3,18 @@
         {
             "name": "Arduino",
             "includePath": [
-                "C:/Users/t/AppData/Local/Arduino15/packages/esp32/tools/**",
-                "C:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/**",
+                "/Users/torben/Library/Arduino15/packages/esp32/tools/**",
+                "/Users/torben/Library/Arduino15/packages/esp32/hardware/esp32/1.0.4/**",
                 "${workspaceFolder}/libraries/**"
             ],
             "forcedInclude": [
-                "C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h"
+                // "C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h",
+                "/Users/torben/Library/Arduino15/packages/esp32/hardware/esp32/1.0.4/cores/esp32/Arduino.h"
             ],
             "defines": [
                 "USBCON"
             ],
-            "compilerPath": "c:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-gcc.exe",
+            "compilerPath": "/usr/bin/gcc",
             "cStandard": "c11",
             "cppStandard": "c++14"
             // "intelliSenseMode": "msvc-x64",
