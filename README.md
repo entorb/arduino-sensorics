@@ -7,14 +7,14 @@
   * using a device_setup.h file to select the devices attached to that specific Arduino ESP32
 
 ## Devices implemented so far
-* BME280 sensor for temperature, humidity and pressure in [TM_BME280_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BME280_Class.cpp)
-* MH-Z19 sensor for CO2 concentration in [TM_MH-Z19_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_MH-Z19_Class.cpp)
-* OLED display 128x32px in [TM_OLED_128x32.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_OLED_128x32.cpp)
-* OLED display 128x64px in [TM_OLED_128x64.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_OLED_128x64.cpp)
-* RGB-LEDs: Ring and Single LED
-* 7-segment 4-digit display
-* InfuxDB interface via WiFi in [TM_InfluxDB.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB.cpp)
 * Abstract device class that all other devices inherit from in [TM_Device_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_Device_Class.cpp)
+* InfuxDB interface via WiFi in [TM_InfluxDB.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB.cpp)
+* BME280 sensor for temperature, humidity and pressure in [TM_BME280_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BME280_Class.cpp)
+* BH1750 sensor for illumination in [TM_BH1750_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BH1750_Class.cpp)
+* MH-Z19 sensor for CO2 concentration in [TM_MH_Z19_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_MH_Z19_Class.cpp)
+* 7-segment 4-digit TM1637 display in [TM_7SegmentDisplay_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_7SegmentDisplay_Class.cpp)
+* OLED display 128x32px and 128x64px in [TM_OLED_128x32.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_OLED_Class.cpp)
+* RGB-LEDs: Ring and Single LED in [TM_LED_Ring_Class.cpp] (https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_LED_Ring_Class.cpp)
 
 ## Achievements 
 * Getting started in C++
@@ -23,13 +23,13 @@
   * Under-clocking the ESP32 from 240 to 80 MHz via setCpuFrequencyMhz(80) in ([TM_ESP32-Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_ESP32-Class.cpp)
   * Enabling WiFi modem sleep via esp_wifi_set_ps(WIFI_PS_MODEM) in [TM_InfluxDB.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB.cpp)
 * OLED display: alternating display of value and bar chart
-
-## Next steps
 * standalone CO2 traffic light for our kindergarden and school
   * offline version, display only
   * in proper case
   * using display and traffic light for visualization
 * experiment with more display units
+
+## Next steps
 * design and build cases
 * add more sensors
 
