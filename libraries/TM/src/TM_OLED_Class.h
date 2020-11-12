@@ -31,7 +31,8 @@ public:
   void init();
   void drawStr(const char *);
   void drawInt(const uint16_t);
-  void drawBarchart(const float);
+  void drawBarChart(const float);
+  void appendValueToBarChart(const float);
   void drawFrame();
   void ensure_wake();
   void ensure_sleep();
@@ -111,7 +112,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::setBarChartRange(const float barchart_min,
 }
 
 template <class U8G2, uint16_t px_x, uint16_t px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::drawBarchart(const float value_to_append)
+void TM_OLED_Class<U8G2, px_x, px_y>::appendValueToBarChart(const float value_to_append)
 {
   uint16_t value_to_append_px = tm_helper_value_to_category(value_to_append, value_min, value_max, px_y);
 
@@ -123,6 +124,12 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawBarchart(const float value_to_append)
 
   // append new value
   barchart_data[px_x - 1] = value_to_append_px;
+}
+
+template <class U8G2, uint16_t px_x, uint16_t px_y>
+void TM_OLED_Class<U8G2, px_x, px_y>::drawBarChart(const float value_to_append)
+{
+  appendValueToBarChart(value_to_append);
 
   // draw the barchart
   my_u8g2.clearBuffer();
@@ -145,7 +152,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::draw_alternating_barchart_and_value(const 
   else
   {
     last_was_barchart = true;
-    drawBarchart(value_to_append);
+    drawBarChart(value_to_append);
   }
 }
 
@@ -162,7 +169,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawFrame()
 }
 
 template <class U8G2, uint16_t px_x, uint16_t px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::ensure_wake()
+void TM_OLED_Class<U8G2, px_x, px_y>::ensure_sleep()
 {
   if (sleeping == false)
   {
@@ -173,7 +180,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::ensure_wake()
 }
 
 template <class U8G2, uint16_t px_x, uint16_t px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::ensure_sleep()
+void TM_OLED_Class<U8G2, px_x, px_y>::ensure_wake()
 {
   if (sleeping == true)
   {
