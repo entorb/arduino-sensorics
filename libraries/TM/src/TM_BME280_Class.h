@@ -1,5 +1,5 @@
 /*
-Class for reading BME280 Temperature, Humidity and Pressure Sensore
+Class for reading BME280 Temperature, Humidity and Pressure Sensor
 */
 
 #ifndef TM_BME280_CLASS_H
