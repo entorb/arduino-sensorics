@@ -20,6 +20,12 @@ auto my_bme280 = TM_BME280_Class(myVerbose);
 float *data_bme280;
 #endif
 
+#ifdef TM_LOAD_DEVICE_BH1750
+#include "TM_BH1750_Class.h"
+auto my_bh1750 = TM_BH1750_Class(myVerbose);
+float data_lux;
+#endif
+
 #ifdef TM_LOAD_DEVICE_MHZ19
 #include "TM_MH_Z19_Class.h"
 // Attention from EPS32 point of view the RX and TX are swapped, RX(MH-Z19)=TX(ESP32) and vice versa
@@ -61,7 +67,7 @@ uint32_t timeStart;
 float data_to_display = 0;
 const float value_min_CO2 = 400;
 const float value_max_CO2 = 1000;
-
+bool display_shall_sleep = false;
 //
 //
 //
@@ -88,6 +94,10 @@ void setup()
 
 #ifdef TM_LOAD_DEVICE_BME280
   my_bme280.init();
+#endif
+
+#ifdef TM_LOAD_DEVICE_BH1750
+  my_bh1750.init();
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
@@ -145,6 +155,14 @@ void loop()
 #endif
 #endif
 
+#ifdef TM_LOAD_DEVICE_BH1750
+  data_lux = my_bh1750.read();
+  if (data_lux < 30)
+    display_shall_sleep = true;
+  else
+    display_shall_sleep = false;
+#endif
+
 #ifdef TM_LOAD_DEVICE_MHZ19
   data_mhz_CO2 = my_mh_z19.read_values();
   data_to_display = data_mhz_CO2;
@@ -158,13 +176,22 @@ void loop()
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
   // my_oled.draw_alternating_barchart_and_value(data_to_display);
-  my_oled.drawBarchart(data_to_display);
+  if (display_shall_sleep)
+  {
+    my_oled.ensure_sleep();
+    my_oled.appendValueToBarChart(data_to_display);
+  }
+  else
+  {
+    my_oled.ensure_wake();
+    my_oled.drawBarChart(data_to_display);
+  }
   //uint8_t hour = getHour();
   // if (hour <= 21 && hour >= 7)
   // {
   //   my_oled.ensure_wake();
   //   // my_oled.draw_alternating_barchart_and_value(data_to_display);
-  //   my_oled.drawBarchart(data_to_display);
+  //   my_oled.drawBarChart(data_to_display);
   // }
   // else
   // {
@@ -188,9 +215,8 @@ void loop()
 
   // Serial.print("Loop: ");
   // Serial.print(loopNum);
-  // Serial.print("value: ");
-  // Serial.println(data_to_display);
-  // Serial.print(" cat: ");
+  Serial.print("value: ");
+  Serial.println(data_to_display);
 
   //
   if (loopNum > 30)
