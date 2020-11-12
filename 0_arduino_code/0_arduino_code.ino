@@ -176,15 +176,15 @@ void loop()
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
   // my_oled.draw_alternating_barchart_and_value(data_to_display);
-  if (display_shall_sleep)
-  {
-    my_oled.ensure_sleep();
-    my_oled.appendValueToBarChart(data_to_display);
-  }
-  else
+  if (display_shall_sleep == false)
   {
     my_oled.ensure_wake();
     my_oled.drawBarChart(data_to_display);
+  }
+  else
+  {
+    my_oled.ensure_sleep();
+    my_oled.appendValueToBarChart(data_to_display);
   }
   //uint8_t hour = getHour();
   // if (hour <= 21 && hour >= 7)
@@ -210,7 +210,15 @@ void loop()
 
   // data_to_display = loopNum * 50;
 #ifdef TM_LOAD_DEVICE_7_SEGMENT
-  my_7segment.displayValueAndSetBrightness(data_to_display);
+  if (display_shall_sleep == false)
+  {
+    my_7segment.ensure_wake();
+    my_7segment.displayValueAndSetBrightness(data_to_display);
+  }
+  else
+  {
+    my_7segment.ensure_sleep();
+  }
 #endif
 
   // Serial.print("Loop: ");

@@ -16,12 +16,14 @@ public:
   // constructor
   TM_7SegmentDisplay_Class(const uint8_t pin_clk, const uint8_t pin_dio, const bool verbose = false);
   // functions
-  void setBrightness(uint8_t brightness);
+  void ensure_wake();
+  void ensure_sleep();
   void displayValue(uint16_t value);
   void displayValueAndSetBrightness(uint16_t value);
 
 private:
   TM1637Display myDisplay;
   const uint8_t num_brightness_levels = 7;
+  const uint8_t segments_blank[] = {0x00, 0x00, 0x00, 0x00};
 };
 #endif
