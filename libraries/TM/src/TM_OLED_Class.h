@@ -43,7 +43,6 @@ public:
 
 private:
   U8G2 my_u8g2;
-  bool sleeping = true;
   uint16_t barchart_data[x];
   // variables
   bool last_was_barchart = false; // alternate between bar and int chart
@@ -169,24 +168,22 @@ void TM_OLED_Class<U8G2, px_x, px_y>::drawFrame()
 }
 
 template <class U8G2, uint16_t px_x, uint16_t px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::ensure_sleep()
-{
-  if (sleeping == false)
-  {
-    Serial.println("Sending display to sleep");
-    my_u8g2.sleepOn();
-    sleeping = true;
-  }
-}
-
-template <class U8G2, uint16_t px_x, uint16_t px_y>
 void TM_OLED_Class<U8G2, px_x, px_y>::ensure_wake()
 {
   if (sleeping == true)
   {
-    Serial.println("Waking display to up");
+    TM_Display_Device_Class::ensure_wake();
     my_u8g2.sleepOff();
-    sleeping = false;
+  }
+}
+
+template <class U8G2, uint16_t px_x, uint16_t px_y>
+void TM_OLED_Class<U8G2, px_x, px_y>::ensure_sleep()
+{
+  if (sleeping == false)
+  {
+    TM_Display_Device_Class::ensure_sleep();
+    my_u8g2.sleepOn();
   }
 }
 

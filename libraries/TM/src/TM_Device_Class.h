@@ -36,8 +36,11 @@ public:
   // constructor
   TM_Display_Device_Class(const bool verbose = true);
   // functions
+  void ensure_wake();
+  void ensure_sleep();
   void setValueRange(const float value_min, const float value_max);
   // variables
+  bool sleeping = false;
   float value_min = 400;
   float value_max = 1000;
 
