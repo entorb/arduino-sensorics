@@ -8,20 +8,20 @@
 
 ## Devices implemented so far
 * Abstract device class that all other devices inherit from in [TM_Device_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_Device_Class.cpp)
-* InfuxDB interface via WiFi in [TM_InfluxDB.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB.cpp)
+* InfuxDB interface via WiFi in [TM_InfluxDB_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB_Class.cpp)
 * BME280 sensor for temperature, humidity and pressure in [TM_BME280_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BME280_Class.cpp)
 * BH1750 sensor for illumination in [TM_BH1750_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BH1750_Class.cpp)
-* MH-Z19 sensor for CO2 concentration in [TM_MH_Z19_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_MH_Z19_Class.cpp)
+* MH-Z19B sensor for CO2 concentration in [TM_MH_Z19_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_MH_Z19_Class.cpp)
 * 7-segment 4-digit TM1637 display in [TM_7SegmentDisplay_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_7SegmentDisplay_Class.cpp)
-* OLED display 128x32px and 128x64px in [TM_OLED_128x32.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_OLED_Class.cpp)
-* RGB-LEDs: Ring and Single LED in [TM_LED_Ring_Class.cpp] (https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_LED_Ring_Class.cpp)
+* OLED display 128x32px and 128x64px in [TM_OLED_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_OLED_Class.h)
+* RGB-LEDs: Ring and Single LED in [TM_LED_Ring_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_LED_Ring_Class.cpp)
 
 ## Achievements 
 * Getting started in C++
 * Using pre compiler #define in device_setup.h file to select which classes are compiled to save time and memory
 * Power reduction from 1W to 0.3W by
-  * Under-clocking the ESP32 from 240 to 80 MHz via setCpuFrequencyMhz(80) in ([TM_ESP32-Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_ESP32-Class.cpp)
-  * Enabling WiFi modem sleep via esp_wifi_set_ps(WIFI_PS_MODEM) in [TM_InfluxDB.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB.cpp)
+  * Under-clocking the ESP32 from 240 to 80 MHz via setCpuFrequencyMhz(80) in ([TM_ESP32_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_ESP32_Class.cpp)
+  * Enabling WiFi modem sleep via esp_wifi_set_ps(WIFI_PS_MODEM) in [TM_InfluxDB_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB_Class.cpp)
 * OLED display: alternating display of value and bar chart
 * standalone CO2 traffic light for our kindergarden and school
   * offline version, display only
@@ -34,10 +34,13 @@
 * add more sensors
 
 ## Photos and screenshots
-Display of CO2 level on small OLED display (measured by MH-Z19)
+CO2 Traffic Light Prototype for our Kindergarten: Display of CO2 level (measured by MH-Z19B) on a 7-segment display and RGB-LED
+![KiTa-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/KiTa-V1.jpg)
+
+Display of CO2 level on small OLED display (measured by MH-Z19B)
 ![ESP32-MHZ19-OLED128x32.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ESP32-MHZ19-OLED128x32.jpg)
 
-Display of CO2 in Grafana (measured by MH-Z19)
+Display of CO2 in Grafana (measured by MH-Z1B9)
 ![Grafana-CO2.png](https://github.com/entorb/arduino-sensorics/blob/main/photos/Grafana-CO2.png)
 
 Display of temperature, humidity and pressure in Grafana (measured by BME280)
