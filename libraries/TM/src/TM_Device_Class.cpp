@@ -22,6 +22,20 @@ void TM_Device_Class::init()
 // this is a sub-class of Device_Class, that additionally stores value_min and value_max as display scale range
 TM_Display_Device_Class::TM_Display_Device_Class(const bool v) : TM_Device_Class(v){};
 
+void TM_Display_Device_Class::ensure_wake()
+{
+  if (verbose)
+    Serial.println("Waking display to up");
+  sleeping = false;
+}
+
+void TM_Display_Device_Class::ensure_sleep()
+{
+  if (verbose)
+    Serial.println("Sending display to sleep");
+  sleeping = true;
+}
+
 void TM_Display_Device_Class::setValueRange(const float this_value_min, const float this_value_max)
 {
   value_min = value_min;
