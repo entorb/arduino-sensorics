@@ -122,6 +122,7 @@ void setup()
 #endif
 
 #ifdef TM_LOAD_DEVICE_7_SEGMENT
+  my_7segment.init();
   my_7segment.setValueRange(value_min_CO2, value_max_CO2);
 #endif
 } // end setup
