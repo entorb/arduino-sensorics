@@ -1,7 +1,7 @@
 ESP32 BMP280
-3,3V VIN
-GND  GND
-G22  SCL
-G21  SDA
+3,3V VIN  rot
+GND  GND  braun/schwarz
+G22  SCL  orange
+G21  SDA  gelb
 
  
