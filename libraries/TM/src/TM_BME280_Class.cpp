@@ -40,7 +40,7 @@ Class for reading BME280 Temperature, Humidity and Pressure Sensor
 #define SEALEVELPRESSURE_HPA (1013.25)
 */
 
-TM_BME280_Class::TM_BME280_Class(const bool v) : TM_Sensor_Device_Class(v)
+TM_BME280_Class::TM_BME280_Class(const bool this_verbose) : TM_Sensor_Device_Class("BME280", this_verbose)
 {
 }
 
@@ -53,7 +53,9 @@ void TM_BME280_Class::init()
   {
     if (verbose)
     {
-      Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
+      TM_Device_Class::printDeviceName();
+      Serial.println("Could not find a valid sensor, check wiring, address, sensor ID!");
+      TM_Device_Class::printDeviceName();
       Serial.print("SensorID was: 0x");
       Serial.println(bme.sensorID(), 16);
     }
@@ -69,12 +71,15 @@ float *TM_BME280_Class::read_values()
   TM_BME280_data[2] = bme.readPressure() / 100.0F;
   if (verbose)
   {
+    TM_Device_Class::printDeviceName();
     Serial.print("Temperature = ");
     Serial.print(TM_BME280_data[0]);
     Serial.println(" *C");
+    TM_Device_Class::printDeviceName();
     Serial.print("Humidity = ");
     Serial.print(TM_BME280_data[1]);
     Serial.println(" %");
+    TM_Device_Class::printDeviceName();
     Serial.print("Pressure = ");
     Serial.print(TM_BME280_data[3]);
     Serial.println(" hPa");
