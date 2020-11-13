@@ -11,54 +11,54 @@ auto my_esp32 = TM_ESP32_Class(myVerbose);
 #include "TM_InfluxDB_Class.h"
 #include <InfluxDbClient.h>
 auto my_influx = TM_Influx_Class(myVerbose);
-Point sensor("Raumklima"); // TODO: -> my_sensor
+Point influx_data_set("Raumklima");
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
 #include "TM_BME280_Class.h"
-auto my_bme280 = TM_BME280_Class(myVerbose);
+auto my_sensor_temp_humid_pres = TM_BME280_Class(myVerbose);
 float *data_bme280;
 #endif
 
 #ifdef TM_LOAD_DEVICE_BH1750
 #include "TM_BH1750_Class.h"
-auto my_bh1750 = TM_BH1750_Class(myVerbose);
+auto my_sensor_illuminance = TM_BH1750_Class(myVerbose);
 float data_lux;
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
 #include "TM_MH_Z19_Class.h"
 // Attention from EPS32 point of view the RX and TX are swapped, RX(MH-Z19)=TX(ESP32) and vice versa
-// auto my_mh_z19 = TM_MH_Z19_Class(14, 13, myVerbose);
-auto my_mh_z19 = TM_MH_Z19_Class(16, 17, myVerbose);
-uint16_t data_mhz_CO2;
+// auto my_sensor_CO2 = TM_MH_Z19_Class(14, 13, myVerbose);
+auto my_sensor_CO2 = TM_MH_Z19_Class(16, 17, myVerbose);
+uint16_t data_CO2;
+#endif
+
+#ifdef TM_LOAD_DEVICE_4_DIGIT
+#include "TM_4DigitDisplay_Class.h"
+auto my_display_4digit = TM_4DigitDisplay_Class(32, 33, myVerbose);
 #endif
 
 #ifdef TM_LOAD_DEVICE_OLED_128X32
 #include "TM_OLED_Class.h"
-auto my_oled = TM_OLED_128x32_Class(myVerbose);
+auto my_display_oled = TM_OLED_128x32_Class(myVerbose);
 #endif
 
 #ifdef TM_LOAD_DEVICE_OLED_128X64
 #include "TM_OLED_Class.h"
-auto my_oled = TM_OLED_128x64_Class(myVerbose);
+auto my_display_oled = TM_OLED_128x64_Class(myVerbose);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
 #include "TM_LED_Ring_Class.h"
-auto my_led_ring = TM_LED_Ring_Class(15, 8, myVerbose);
+auto my_display_led_rbg_ring = TM_LED_Ring_Class(15, 8, myVerbose);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_KY_016
 #include "TM_LED_KY_016_Class.h"
 //#include <analogWrite.h>
 //#include "RGBLed.h"
-auto my_led_ky_016 = TM_LED_KY_016_Class(5, 18, 19, myVerbose);
-#endif
-
-#ifdef TM_LOAD_DEVICE_7_SEGMENT
-#include "TM_7SegmentDisplay_Class.h"
-auto my_7segment = TM_7SegmentDisplay_Class(32, 33, myVerbose);
+auto my_display_led_rbg_single = TM_LED_KY_016_Class(5, 18, 19, myVerbose);
 #endif
 
 // variables
@@ -88,42 +88,41 @@ void setup()
   my_influx.connect_wifi(my_device_name);
   my_influx.sync_time();
   my_influx.connect_influxdb();
-  sensor.addTag("device", my_device_name);
-  sensor.addTag("room", my_room);
+  influx_data_set.addTag("device", my_device_name);
+  influx_data_set.addTag("room", my_room);
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
-  my_bme280.init();
+  my_sensor_temp_humid_pres.init();
 #endif
 
 #ifdef TM_LOAD_DEVICE_BH1750
-  my_bh1750.init();
+  my_sensor_illuminance.init();
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-  my_mh_z19.init();
+  my_sensor_CO2.init();
 #endif
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
-  my_oled.init();
-  my_oled.setBarChartRange(value_min_CO2, value_max_CO2); // = my_oled.setValueRange(value_min_CO2, value_max_CO2);
+  my_display_oled.init();
+  my_display_oled.setBarChartRange(value_min_CO2, value_max_CO2); // = my_display_oled.setValueRange(value_min_CO2, value_max_CO2);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
-  my_led_ring.init();
-  my_led_ring.my_pixels.setBrightness(8);
-  my_led_ring.setValueRange(value_min_CO2, value_max_CO2);
+  my_display_led_rbg_ring.init();
+  my_display_led_rbg_ring.my_pixels.setBrightness(8);
+  my_display_led_rbg_ring.setValueRange(value_min_CO2, value_max_CO2);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_KY_016
-  my_led_ky_016.init();
-  // TODO: setBrightness
-  my_led_ky_016.setValueRange(value_min_CO2, value_max_CO2);
+  my_display_led_rbg_single.init();
+  my_display_led_rbg_single.setValueRange(value_min_CO2, value_max_CO2);
 #endif
 
-#ifdef TM_LOAD_DEVICE_7_SEGMENT
-  my_7segment.init();
-  my_7segment.setValueRange(value_min_CO2, value_max_CO2);
+#ifdef TM_LOAD_DEVICE_4_DIGIT
+  my_display_4digit.init();
+  my_display_4digit.setValueRange(value_min_CO2, value_max_CO2);
 #endif
 } // end setup
 
@@ -143,21 +142,25 @@ void loop()
   }
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-  sensor.clearFields();
+  influx_data_set.clearFields();
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
-  data_bme280 = my_bme280.read_values();
+  data_bme280 = my_sensor_temp_humid_pres.read_values();
   // 0 = T, 1 = Humidity, 2 = Pressure
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-  sensor.addField("temperature", data_bme280[0]);
-  sensor.addField("humidity", data_bme280[1]);
-  sensor.addField("pressure", data_bme280[2]);
+  influx_data_set.addField("temperature", data_bme280[0]);
+  influx_data_set.addField("humidity", data_bme280[1]);
+  influx_data_set.addField("pressure", data_bme280[2]);
 #endif
 #endif
 
 #ifdef TM_LOAD_DEVICE_BH1750
-  data_lux = my_bh1750.read();
+  data_lux = my_sensor_illuminance.read();
+#ifdef TM_LOAD_DEVICE_INFLUXDB
+  influx_data_set.addField("illuminance", data_lux);
+#endif
+
   if (data_lux < 30)
     display_shall_sleep = true;
   else
@@ -165,60 +168,61 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-  data_mhz_CO2 = my_mh_z19.read_values();
-  data_to_display = data_mhz_CO2;
+  data_CO2 = my_sensor_CO2.read_values();
+  data_to_display = data_CO2;
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-  sensor.addField("CO2", data_mhz_CO2);
+  influx_data_set.addField("CO2", data_CO2);
 #endif
 #endif
+
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-  my_influx.send_point(sensor);
+  my_influx.send_point(influx_data_set);
 #endif
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
-  // my_oled.draw_alternating_barchart_and_value(data_to_display);
+  // my_display_oled.draw_alternating_barchart_and_value(data_to_display);
   if (display_shall_sleep == false)
   {
-    my_oled.ensure_wake();
-    my_oled.drawBarChart(data_to_display);
+    my_display_oled.ensure_wake();
+    my_display_oled.drawBarChart(data_to_display);
   }
   else
   {
-    my_oled.ensure_sleep();
-    my_oled.appendValueToBarChart(data_to_display);
+    my_display_oled.ensure_sleep();
+    my_display_oled.appendValueToBarChart(data_to_display);
   }
   //uint8_t hour = getHour();
   // if (hour <= 21 && hour >= 7)
   // {
-  //   my_oled.ensure_wake();
-  //   // my_oled.draw_alternating_barchart_and_value(data_to_display);
-  //   my_oled.drawBarChart(data_to_display);
+  //   my_display_oled.ensure_wake();
+  //   // my_display_oled.draw_alternating_barchart_and_value(data_to_display);
+  //   my_display_oled.drawBarChart(data_to_display);
   // }
   // else
   // {
-  //   my_oled.ensure_sleep();
+  //   my_display_oled.ensure_sleep();
   // }
-  //  my_oled.draw_alternating_barchart_and_value(data_to_display);
+  //  my_display_oled.draw_alternating_barchart_and_value(data_to_display);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
-  my_led_ring.displayValue(data_to_display);
+  my_display_led_rbg_ring.displayValue(data_to_display);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_KY_016
-  my_led_ky_016.displayValue(data_to_display);
+  my_display_led_rbg_single.displayValue(data_to_display);
 #endif
 
   // data_to_display = loopNum * 50;
-#ifdef TM_LOAD_DEVICE_7_SEGMENT
+#ifdef TM_LOAD_DEVICE_4_DIGIT
   if (display_shall_sleep == false)
   {
-    my_7segment.ensure_wake();
-    my_7segment.displayValueAndSetBrightness(data_to_display);
+    my_display_4digit.ensure_wake();
+    my_display_4digit.displayValueAndSetBrightness(data_to_display);
   }
   else
   {
-    my_7segment.ensure_sleep();
+    my_display_4digit.ensure_sleep();
   }
 #endif
 
@@ -262,7 +266,7 @@ void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd
   else
   {
     delay(mySleep - (timeEnd - timeStart));
-    // usually 0.1-0.2sec for one loop of reading my_bme280 and my_mh_z19 and pushing to InfluxDB
+    // usually 0.1-0.2sec for one loop of reading my_sensor_temp_humid_pres and my_sensor_CO2 and pushing to InfluxDB
   }
 }
 
