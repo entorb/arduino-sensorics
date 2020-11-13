@@ -53,7 +53,7 @@ typedef TM_OLED_Class<U8G2_SSD1306_128X32_UNIVISION_F_HW_I2C, 128, 32> TM_OLED_1
 
 // Initialisierungsliste
 template <class U8G2, uint16_t px_x, uint16_t px_y>
-TM_OLED_Class<U8G2, px_x, px_y>::TM_OLED_Class(const bool v) : TM_Display_Device_Class(v), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
+TM_OLED_Class<U8G2, px_x, px_y>::TM_OLED_Class(const bool this_verbose) : TM_Display_Device_Class("OLED", this_verbose), my_u8g2(U8G2_R0, /* reset=*/U8X8_PIN_NONE)
 {
   // barchart_data[px_x] = {0}; // initialize with all with 0
 }

@@ -14,7 +14,7 @@ based on "RGBLed.h"
 #include "TM_LED_KY_016_Class.h"
 #include "TM_Helper.h"
 
-TM_LED_KY_016_Class::TM_LED_KY_016_Class(const uint8_t this_pin_red, const uint8_t this_pin_green, const uint8_t this_pin_blue, const bool v) : TM_Display_Device_Class(v)
+TM_LED_KY_016_Class::TM_LED_KY_016_Class(const uint8_t this_pin_red, const uint8_t this_pin_green, const uint8_t this_pin_blue, const bool this_verbose) : TM_Display_Device_Class("KY-016", this_verbose)
 {
   pin_red = this_pin_red;
   pin_green = this_pin_green;
@@ -57,6 +57,7 @@ void TM_LED_KY_016_Class::displayValue(const float value)
 
   if (verbose)
   {
+    TM_Device_Class::printDeviceName();
     Serial.print("color_index=");
     Serial.println(color_index);
   }
