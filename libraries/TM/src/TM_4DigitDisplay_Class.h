@@ -2,19 +2,19 @@
 Class for accessing 4 x 7 segment clock display
 */
 
-#ifndef TM_7SEGMENTDISPLAY_CLASS_H
-#define TM_7SEGMENTDISPLAY_CLASS_H
+#ifndef TM_DIGITDISPLAY_CLASS_H
+#define TM_DIGITDISPLAY_CLASS_H
 
 #include "Arduino.h"
 #include "TM_Device_Class.h"
 
 #include <TM1637Display.h>
 
-class TM_7SegmentDisplay_Class : public TM_Display_Device_Class
+class TM_4DigitDisplay_Class : public TM_Display_Device_Class
 {
 public:
   // constructor
-  TM_7SegmentDisplay_Class(const uint8_t pin_clk, const uint8_t pin_dio, const bool verbose = false);
+  TM_4DigitDisplay_Class(const uint8_t pin_clk, const uint8_t pin_dio, const bool verbose = false);
   // functions
   void ensure_wake();
   void ensure_sleep();

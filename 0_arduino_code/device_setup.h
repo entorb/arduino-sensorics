@@ -15,7 +15,7 @@ static const bool myVerbose = false;
 #define TM_LOAD_DEVICE_BME280
 #define TM_LOAD_DEVICE_BH1750
 #define TM_LOAD_DEVICE_MHZ19
-#define TM_LOAD_DEVICE_7_SEGMENT
+#define TM_LOAD_DEVICE_4_DIGIT
 #define TM_LOAD_DEVICE_OLED_128X32
 // #define TM_LOAD_DEVICE_OLED_128X64
 // #define TM_LOAD_DEVICE_LED_RING
