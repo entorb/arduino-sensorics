@@ -11,7 +11,7 @@ Based on Advanced BH1750 library usage example
 #include <Wire.h>
 #include <BH1750.h>
 
-TM_BH1750_Class::TM_BH1750_Class(const bool v) : TM_Sensor_Device_Class(v)
+TM_BH1750_Class::TM_BH1750_Class(const bool this_verbose) : TM_Sensor_Device_Class("BH1750", this_verbose)
 {
 }
 
@@ -29,6 +29,7 @@ float TM_BH1750_Class::read()
   lux = my_lightMeter.readLightLevel();
   if (verbose)
   {
+    TM_Device_Class::printDeviceName();
     Serial.print("Light = ");
     Serial.print(lux);
     Serial.println(" lx");

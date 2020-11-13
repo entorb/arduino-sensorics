@@ -17,7 +17,7 @@ PIN as class parameter
 // #define PIN 15
 // #define NUMPIXELS 8
 
-TM_LED_Ring_Class::TM_LED_Ring_Class(const uint8_t pin_data, const uint8_t this_num_pixels, const bool v) : TM_Display_Device_Class(v), my_pixels(this_num_pixels, pin_data, NEO_GRB + NEO_KHZ800)
+TM_LED_Ring_Class::TM_LED_Ring_Class(const uint8_t pin_data, const uint8_t this_num_pixels, const bool this_verbose) : TM_Display_Device_Class("LED-Ring", this_verbose), my_pixels(this_num_pixels, pin_data, NEO_GRB + NEO_KHZ800)
 {
   num_pixels = this_num_pixels;
 
@@ -31,8 +31,10 @@ void TM_LED_Ring_Class::setPixelColor(uint16_t px, uint32_t color)
 {
   if (verbose)
   {
+    TM_Device_Class::printDeviceName();
     Serial.print("px: ");
     Serial.println(px);
+    TM_Device_Class::printDeviceName();
     Serial.print("color: ");
     Serial.println(color);
   }

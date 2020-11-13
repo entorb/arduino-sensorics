@@ -18,14 +18,17 @@
 
 // TODO: does not like to be moved into Initialisierungsliste:
 InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
-TM_Influx_Class::TM_Influx_Class(const bool v) : TM_Device_Class(v) //, my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
+TM_Influx_Class::TM_Influx_Class(const bool this_verbose) : TM_Device_Class("Influx", this_verbose) //, my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
 {
 }
 
 void TM_Influx_Class::connect_wifi(const char *devicename)
 {
   if (verbose)
+  {
+    TM_Device_Class::printDeviceName();
     Serial.println("Connecting to WiFi");
+  }
 
   // Old version
   // WiFi.disconnect(true);
@@ -64,14 +67,18 @@ void TM_Influx_Class::connect_influxdb()
 {
   // Set Influx Connection Settings
   if (verbose)
+  {
+    TM_Device_Class::printDeviceName();
     Serial.println("Setting InfluxDB 1.X authentication params");
+  }
   my_InfluxClient.setConnectionParamsV1(INFLUXDB_URL, INFLUXDB_DB_NAME, INFLUXDB_USER, INFLUXDB_PASSWORD);
   // Test InfluxDB connection
   if (my_InfluxClient.validateConnection())
   {
     if (verbose)
     {
-      Serial.print("Connected to InfluxDB: ");
+      TM_Device_Class::printDeviceName();
+      Serial.print("Connected to: ");
       Serial.println(my_InfluxClient.getServerUrl());
     }
   }
@@ -79,7 +86,8 @@ void TM_Influx_Class::connect_influxdb()
   {
     if (verbose)
     {
-      Serial.print("InfluxDB connection failed: ");
+      TM_Device_Class::printDeviceName();
+      Serial.print("connection failed: ");
       Serial.println(my_InfluxClient.getLastErrorMessage());
     }
   }
@@ -89,6 +97,7 @@ void TM_Influx_Class::send_point(Point sensor)
 {
   if (verbose)
   {
+    TM_Device_Class::printDeviceName();
     Serial.print("Sending: ");
     Serial.println(sensor.toLineProtocol());
   }
@@ -97,7 +106,10 @@ void TM_Influx_Class::send_point(Point sensor)
   if ((WiFi.RSSI() == 0) && (WiFi.status() != WL_CONNECTED))
   {
     if (verbose)
+    {
+      TM_Device_Class::printDeviceName();
       Serial.println("Wifi connection lost");
+    }
     WiFi.reconnect();
   }
 
@@ -106,7 +118,8 @@ void TM_Influx_Class::send_point(Point sensor)
   {
     if (verbose)
     {
-      Serial.print("InfluxDB write failed: ");
+      TM_Device_Class::printDeviceName();
+      Serial.print("write failed: ");
       Serial.println(my_InfluxClient.getLastErrorMessage());
     }
   }

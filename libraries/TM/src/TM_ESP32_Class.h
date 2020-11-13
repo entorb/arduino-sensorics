@@ -15,6 +15,7 @@ public:
   TM_ESP32_Class(const bool verbose = false);
   // variables
   // functions
+  void restart();
   void underclocking();
   void normalclocking();
   void printSpeed();
