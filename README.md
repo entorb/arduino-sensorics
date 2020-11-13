@@ -1,6 +1,6 @@
 # arduino-sensorics
 * Arduino ESP32 micro-controller programming
-* provides simple and clean library for 
+* Provides simple and clean library for 
   * reading of various sensors
   * export data via WiFi to InfluxDB for visualization in Grafana, see my [raspi-sensorics](https://github.com/entorb/raspi-sensorics/) repository
   * writing to various displays
@@ -17,21 +17,21 @@
 * RGB-LEDs: Ring and Single LED in [TM_LED_Ring_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_LED_Ring_Class.cpp)
 
 ## Achievements 
-* Getting started in C++
+* Learning basics of C++: inheritance, templates, ... 
 * Using pre compiler #define in device_setup.h file to select which classes are compiled to save time and memory
 * Power reduction from 1W to 0.3W by
   * Under-clocking the ESP32 from 240 to 80 MHz via setCpuFrequencyMhz(80) in ([TM_ESP32_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_ESP32_Class.cpp)
   * Enabling WiFi modem sleep via esp_wifi_set_ps(WIFI_PS_MODEM) in [TM_InfluxDB_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB_Class.cpp)
-* OLED display: alternating display of value and bar chart
-* standalone CO2 traffic light for our kindergarden and school
-  * offline version, display only
+* OLED display: implemented bar chart
+* Standalone CO2 traffic light for our kindergarden and school
+  * offline
   * in proper case
   * using display and traffic light for visualization
-* experiment with more display units
+* Experiment with display devices
 
 ## Next steps
-* design and build cases
-* add more sensors
+* Design and build cases via CAD and CNC
+* Add more sensors
 
 ## Photos and screenshots
 CO2 Traffic Light Prototype for our Kindergarten: Display of CO2 level (measured by MH-Z19B) on a 7-segment display and RGB-LED
