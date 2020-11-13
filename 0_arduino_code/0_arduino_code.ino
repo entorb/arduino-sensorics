@@ -228,8 +228,8 @@ void loop()
 
   // Serial.print("Loop: ");
   // Serial.print(loopNum);
-  Serial.print("value: ");
-  Serial.println(data_to_display);
+  // Serial.print("value: ");
+  // Serial.println(data_to_display);
 
   //
   if (loopNum > 30)
