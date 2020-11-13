@@ -11,14 +11,18 @@ class TM_Device_Class
 {
 public:
   // constructor
-  TM_Device_Class(const bool verbose = true);
+  TM_Device_Class(const char devicename[], const bool verbose = true);
   // functions
   void setVerbose(bool);
+  void printDeviceName();
   void init();
   // void println(); no, too much efford to overload all the different types of Serial.println()
+
   // variables
-  bool verbose = false;
-  // char devicename[8]; no uses for this,as overwriting print is too much efford
+  // used in verbose: Serial.print() to identify the sending device
+  char devicename[8];
+  // if set to true -> print stuff to Serial.print()
+  bool verbose;
 
 private:
 };
@@ -34,7 +38,7 @@ class TM_Display_Device_Class : public TM_Device_Class
 {
 public:
   // constructor
-  TM_Display_Device_Class(const bool verbose = true);
+  TM_Display_Device_Class(const char devicename[], const bool verbose = true);
   // functions
   void ensure_wake();
   void ensure_sleep();
@@ -58,7 +62,7 @@ class TM_Sensor_Device_Class : public TM_Device_Class
 {
 public:
   // constructor
-  TM_Sensor_Device_Class(const bool verbose = true);
+  TM_Sensor_Device_Class(const char devicename[], const bool verbose = true);
   // functions
   // variables
 

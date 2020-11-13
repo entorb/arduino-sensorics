@@ -10,7 +10,7 @@ Class for accessing 4 x 7 segment clock display
 
 #include <TM1637Display.h>
 
-TM_4DigitDisplay_Class::TM_4DigitDisplay_Class(const uint8_t pin_clk, const uint8_t pin_dio, const bool v) : TM_Display_Device_Class(v), myDisplay(pin_clk, pin_dio)
+TM_4DigitDisplay_Class::TM_4DigitDisplay_Class(const uint8_t pin_clk, const uint8_t pin_dio, const bool this_verbose) : TM_Display_Device_Class("4Digit", this_verbose), myDisplay(pin_clk, pin_dio)
 {
   myDisplay.clear();
   myDisplay.setBrightness(7, true);

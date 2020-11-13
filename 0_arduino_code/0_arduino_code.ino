@@ -31,6 +31,7 @@ float data_lux;
 // Attention from EPS32 point of view the RX and TX are swapped, RX(MH-Z19)=TX(ESP32) and vice versa
 // auto my_sensor_CO2 = TM_MH_Z19_Class(14, 13, myVerbose);
 auto my_sensor_CO2 = TM_MH_Z19_Class(16, 17, myVerbose);
+uint8_t count_same_CO2_values = 0; // MH-Z19 and WiFi/InfluxDB have a problem, that when both are enabled, the MH-Z19 from time to time is stuck and returns always a value of 380
 uint16_t data_CO2;
 #endif
 
@@ -83,6 +84,8 @@ void setup()
   my_esp32.underclocking();           // underclocking breaks Adafruit_NeoPixel !!!
 #endif
   // seems to be LED_KY_016 is compatible with underclocking
+
+  my_esp32.init();
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   my_influx.connect_wifi(my_device_name);
@@ -169,6 +172,20 @@ void loop()
 
 #ifdef TM_LOAD_DEVICE_MHZ19
   data_CO2 = my_sensor_CO2.read_values();
+  if (data_CO2 == 380)
+  {
+    // MH-Z19 sometimes is interrupted by WiFi/InfluxDB, resulting in always returning the same values,
+    // Workaround V1: adding a random sleep
+    delay(random(100, 500));
+    // Workaround V2: rebooting after 10x the same CO2 values of 380
+    count_same_CO2_values++;
+    if (count_same_CO2_values >= 10)
+      my_esp32.restart();
+  }
+  else
+  {
+    count_same_CO2_values = 0;
+  }
   data_to_display = data_CO2;
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.addField("CO2", data_CO2);
