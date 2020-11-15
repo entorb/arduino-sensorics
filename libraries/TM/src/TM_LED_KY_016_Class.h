@@ -22,8 +22,9 @@ public:
   // variables
   const uint32_t color_scale[3] = {
       0x00ff00, // green
-      0xffA500, // orange
-      0xff0000  // red
+      0x0000ff, // blue
+      // 0xffA500, // orange
+      0xff0000 // red
   };
 
 private:
