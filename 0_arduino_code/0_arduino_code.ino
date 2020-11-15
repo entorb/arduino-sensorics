@@ -164,7 +164,7 @@ void loop()
   influx_data_set.addField("illuminance", data_lux);
 #endif
 
-  if (data_lux < 30)
+  if (data_lux <= 10)
     display_shall_sleep = true;
   else
     display_shall_sleep = false;
