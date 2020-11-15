@@ -12,6 +12,8 @@ static const bool myVerbose = false;
 
 // Devices to load
 #define TM_LOAD_DEVICE_INFLUXDB
+// TODO: TM_HOUR_SLEEP 22
+// TODO: TM_HOUR_WAKE 6
 #define TM_LOAD_DEVICE_BME280
 // #define TM_LOAD_DEVICE_BH1750
 #define TM_LOAD_DEVICE_MHZ19
@@ -24,8 +26,6 @@ static const bool myVerbose = false;
 // EPS32 Setup
 static const char my_device_name[] = "T-ESP32-3";
 static const char my_room[] = "Kind 1";
-// static const char my_device_name[] = "T-ESP32-3";
-// static const char my_room[] = "Wohnzimmer";
 
 /*
   Arbeitszimmer
