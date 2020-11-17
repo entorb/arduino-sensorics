@@ -7,25 +7,31 @@
 // static const bool myVerbose = true;
 
 // Normal Mode
-static const int mySleep = 15 * 1000;
+static const int mySleep = 60 * 1000;
 static const bool myVerbose = false;
 
 // Devices to load
 #define TM_LOAD_DEVICE_INFLUXDB
-// TODO: TM_HOUR_SLEEP 22
-// TODO: TM_HOUR_WAKE 6
+// #define TM_HOUR_SLEEP 22
+// #define TM_HOUR_WAKE 6
 #define TM_LOAD_DEVICE_BME280
 // #define TM_LOAD_DEVICE_BH1750
 #define TM_LOAD_DEVICE_MHZ19
-#define TM_LOAD_DEVICE_4_DIGIT
+// #define TM_LOAD_DEVICE_4_DIGIT
 // #define TM_LOAD_DEVICE_OLED_128X32
-#define TM_LOAD_DEVICE_OLED_128X64
-#define TM_LOAD_DEVICE_LED_KY_016
+// #define TM_LOAD_DEVICE_OLED_128X64
+// #define TM_LOAD_DEVICE_LED_KY_016
 // #define TM_LOAD_DEVICE_LED_RING
 
 // EPS32 Setup
-static const char my_device_name[] = "T-ESP32-3";
-static const char my_room[] = "Kind 1";
+
+// static const char my_device_name[] = "T-ESP32-1"; static const char my_room[] = "Arbeitszimmer";
+// static const char my_device_name[] = "T-ESP32-2"; static const char my_room[] = "Bad";
+// static const char my_device_name[] = "T-ESP32-3"; static const char my_room[] = "Kind 1";
+static const char my_device_name[] = "T-ESP32-4";
+static const char my_room[] = "Wohnzimmer";
+// static const char my_device_name[] = "T-ESP32-5"; static const char my_room[] = "Wintergarten";
+// static const char my_device_name[] = "T-ESP32-6"; static const char my_room[] = "WohnzimmerF";
 
 /*
   Arbeitszimmer
@@ -34,6 +40,6 @@ static const char my_room[] = "Kind 1";
   Wohnzimmer
   Bad
   Wintergarten
-  WohnzimmerFalls
+  WohnzimmerF
   KiTa
 */
