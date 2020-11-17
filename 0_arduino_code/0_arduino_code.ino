@@ -137,7 +137,8 @@ void setup()
 void loop()
 {
   timeStart = millis();
-  data_to_display = loopNum; // dummy in case we have no sensor
+  data_to_display = loopNum;   // dummy in case we have no sensor
+  display_shall_sleep = false; // set to on by default in each loop
   if (myVerbose)
   {
     // Serial.print("Start Loop: ");
@@ -146,11 +147,19 @@ void loop()
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.clearFields();
+  // we only know the time if clock is initially set via WiFi and NTP
+#if defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
+  uint8_t hour = getHour();
+  if (hour < TM_HOUR_WAKE || hour >= TM_HOUR_SLEEP)
+  {
+    display_shall_sleep = true;
+  }
+#endif
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
   data_bme280 = my_sensor_temp_humid_pres.read_values();
-  // 0 = T, 1 = Humidity, 2 = Pressure
+  // 0 = Temp, 1 = Humidity, 2 = Pressure
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.addField("temperature", data_bme280[0]);
   influx_data_set.addField("humidity", data_bme280[1]);
@@ -163,33 +172,35 @@ void loop()
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.addField("illuminance", data_lux);
 #endif
-
-  if (data_lux <= 10)
+  if (display_shall_sleep == false and data_lux <= 10)
     display_shall_sleep = true;
   else
     display_shall_sleep = false;
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-  data_CO2 = my_sensor_CO2.read_values();
-  if (data_CO2 == 380)
-  {
-    // MH-Z19 sometimes is interrupted by WiFi/InfluxDB, resulting in always returning the same values,
-    // Workaround V1: adding a random sleep
-    delay(random(100, 500));
-    // Workaround V2: rebooting after 10x the same CO2 values of 380
-    count_same_CO2_values++;
-    if (count_same_CO2_values >= 10)
-      my_esp32.restart();
-  }
-  else
-  {
-    count_same_CO2_values = 0;
-  }
-  data_to_display = data_CO2;
+  if (millis() > 60000)
+  { // first minute is not reliable
+    data_CO2 = my_sensor_CO2.read_values();
+    if (data_CO2 == 380)
+    {
+      // MH-Z19 sometimes is interrupted by WiFi/InfluxDB, resulting in always returning the same values,
+      // Workaround V1: adding a random sleep
+      delay(random(100, 500));
+      // Workaround V2: rebooting after 10x the same CO2 values of 380
+      count_same_CO2_values++;
+      if (count_same_CO2_values >= 10)
+        my_esp32.restart();
+    }
+    else
+    {
+      count_same_CO2_values = 0;
+    }
+    data_to_display = data_CO2;
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-  influx_data_set.addField("CO2", data_CO2);
+    influx_data_set.addField("CO2", data_CO2);
 #endif
+  }
 #endif
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
@@ -208,6 +219,7 @@ void loop()
     my_display_oled.ensure_sleep();
     my_display_oled.appendValueToBarChart(data_to_display);
   }
+
   //uint8_t hour = getHour();
   // if (hour <= 21 && hour >= 7)
   // {
