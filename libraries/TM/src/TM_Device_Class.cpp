@@ -39,7 +39,7 @@ void TM_Display_Device_Class::ensure_wake()
 {
   if (verbose)
   {
-    Serial.print(devicename);
+    printDeviceName();
     Serial.println("Waking display to up");
   }
   sleeping = false;
@@ -49,7 +49,7 @@ void TM_Display_Device_Class::ensure_sleep()
 {
   if (verbose)
   {
-    Serial.print(devicename);
+    printDeviceName();
     Serial.println("Sending display to sleep");
   }
   sleeping = true;
