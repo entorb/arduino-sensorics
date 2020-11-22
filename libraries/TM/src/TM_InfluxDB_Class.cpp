@@ -16,6 +16,8 @@
 #include "TM_WiFi_secret.h"
 #include "esp_wifi.h" // for esp_wifi_set_ps (WIFI_PS_MODEM); = power saving
 
+// TODO: pass seconds_min_delay_upload as parameter
+
 // TODO: does not like to be moved into Initialisierungsliste:
 InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
 TM_Influx_Class::TM_Influx_Class(const bool this_verbose) : TM_Device_Class("Influx", this_verbose) //, my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
@@ -95,32 +97,48 @@ void TM_Influx_Class::connect_influxdb()
 
 void TM_Influx_Class::send_point(Point sensor)
 {
-  if (verbose)
-  {
-    TM_Device_Class::printDeviceName();
-    Serial.print("Sending: ");
-    Serial.println(sensor.toLineProtocol());
-  }
-  // If no Wifi signal, try  reconnecting
-  // if ((WiFi.RSSI() == 0) && (my_wifiMulti.run() != WL_CONNECTED))
-  if ((WiFi.RSSI() == 0) && (WiFi.status() != WL_CONNECTED))
+  uint32_t time = millis();
+  // only one upload per minute
+  if (time >= time_last_upload + seconds_min_delay_upload * 1000 || time < time_last_upload)
   {
     if (verbose)
     {
       TM_Device_Class::printDeviceName();
-      Serial.println("Wifi connection lost");
+      Serial.print("Sending: ");
+      Serial.println(sensor.toLineProtocol());
     }
-    WiFi.reconnect();
-  }
-
-  // Write point
-  if (!my_InfluxClient.writePoint(sensor))
-  {
-    if (verbose)
+    // If no Wifi signal, try  reconnecting
+    // if ((WiFi.RSSI() == 0) && (my_wifiMulti.run() != WL_CONNECTED))
+    if ((WiFi.RSSI() == 0) && (WiFi.status() != WL_CONNECTED))
     {
-      TM_Device_Class::printDeviceName();
-      Serial.print("write failed: ");
-      Serial.println(my_InfluxClient.getLastErrorMessage());
+      if (verbose)
+      {
+        TM_Device_Class::printDeviceName();
+        Serial.println("Wifi connection lost");
+      }
+      WiFi.reconnect();
+    }
+
+    // Write point
+    if (!my_InfluxClient.writePoint(sensor))
+    {
+      if (verbose)
+      {
+        TM_Device_Class::printDeviceName();
+        Serial.print("write failed: ");
+        Serial.println(my_InfluxClient.getLastErrorMessage());
+      }
+      num_upload_errors++;
+      if (num_upload_errors > 100)
+      {
+        WiFi.reconnect();
+        num_upload_errors = 0;
+      }
+    }
+    else
+    {
+      time_last_upload = time;
+      num_upload_errors = 0;
     }
   }
 }
