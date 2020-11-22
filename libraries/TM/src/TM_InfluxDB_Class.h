@@ -16,12 +16,15 @@ class TM_Influx_Class : public TM_Device_Class
 {
 private:
   // WiFiMulti my_wifiMulti;
+  uint32_t time_last_upload = 0;
+  uint8_t num_upload_errors = 0; // if > 100 than trigger wifi reconnect
 
 public:
   //InfluxDBClient my_InfluxClient;
   // constructor
   TM_Influx_Class(const bool verbose = false);
   // variables
+  uint8_t seconds_min_delay_upload = 59; // min x seconds delay between uploads
   // functions
   void connect_wifi(const char *);
   void connect_influxdb();
