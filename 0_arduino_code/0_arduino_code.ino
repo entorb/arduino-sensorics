@@ -66,8 +66,11 @@ auto my_display_led_rbg_single = TM_LED_KY_016_Class(5, 18, 19, myVerbose);
 uint8_t loopNum = 0;
 uint32_t timeStart;
 float data_to_display = 0;
+
 const float value_min_CO2 = 400;
 const float value_max_CO2 = 1000;
+// 3 colors for 600 values -> blue for 600-800
+
 bool display_shall_sleep = false;
 //
 //
@@ -179,18 +182,25 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-  if (millis() > 60000)
-  { // first minute is not reliable
+  if (millis() > 6 * 1000) // TODO
+  {                        // first minute is not reliable
     data_CO2 = my_sensor_CO2.read_values();
     if (data_CO2 == 380)
     {
+      if (myVerbose)
+      {
+        Serial.println("can I trust 380ppm?");
+      }
       // MH-Z19 sometimes is interrupted by WiFi/InfluxDB, resulting in always returning the same values,
       // Workaround V1: adding a random sleep
       delay(random(100, 500));
       // Workaround V2: rebooting after 10x the same CO2 values of 380
       count_same_CO2_values++;
       if (count_same_CO2_values >= 10)
+      {
+        Serial.println("restarting");
         my_esp32.restart();
+      }
     }
     else
     {
@@ -200,6 +210,13 @@ void loop()
 #ifdef TM_LOAD_DEVICE_INFLUXDB
     influx_data_set.addField("CO2", data_CO2);
 #endif
+  }
+  else
+  {
+    if (myVerbose)
+    {
+      Serial.println("not reading CO2 yet");
+    }
   }
 #endif
 
