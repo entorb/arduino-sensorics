@@ -47,6 +47,7 @@ public:
   bool sleeping = false;
   float value_min = 400;
   float value_max = 1000;
+  // 3 colors for 600 values -> blue for 600-800
 
 private:
 };

@@ -50,10 +50,9 @@ void TM_LED_KY_016_Class::displayValue(const float value)
 {
   const uint8_t num_colors = sizeof(color_scale) / sizeof(color_scale[0]);
   const uint8_t color_index = tm_helper_value_to_category(value, value_min, value_max, num_colors);
-  // use 128 as min brightness
-  uint8_t calc_brightness = tm_helper_value_to_category(value, value_min, value_max, calc_brightness);
-  if (calc_brightness < 128)
-    calc_brightness = 128;
+  // use 64 as min brightness
+  uint8_t brightness_min = 64;
+  uint8_t calc_brightness = brightness_min + tm_helper_value_to_category(value, value_min, value_max, 255 - brightness_min);
 
   if (verbose)
   {
