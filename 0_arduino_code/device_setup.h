@@ -4,11 +4,11 @@
 
 // Debugging
 // static const int mySleep = 2 * 1000;
-static const bool myVerbose = true;
+// static const bool myVerbose = true;
 
 // Normal Mode
 static const int mySleep = 15 * 1000;
-// static const bool myVerbose = false;
+static const bool myVerbose = false;
 
 // Devices to load
 // #define TM_LOAD_DEVICE_INFLUXDB
