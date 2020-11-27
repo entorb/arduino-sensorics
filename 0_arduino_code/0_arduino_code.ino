@@ -11,7 +11,7 @@ auto my_esp32 = TM_ESP32_Class(myVerbose);
 #include "TM_InfluxDB_Class.h"
 #include <InfluxDbClient.h>
 auto my_influx = TM_Influx_Class(myVerbose);
-Point influx_data_set("Raumklima");
+Point influx_data_set("Raumklima"); // Table
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
@@ -85,16 +85,16 @@ void setup()
   //   ; // time to get serial running
   // Serial.flush();
 
-#if !defined(TM_LOAD_DEVICE_LED_RING) // && !defined(TM_LOAD_DEVICE_LED_KY_016)
-  my_esp32.underclocking();           // underclocking breaks Adafruit_NeoPixel !!!
+#if !defined(TM_LOAD_DEVICE_LED_RING)
+  my_esp32.underclocking(); // underclocking breaks Adafruit_NeoPixel !!!
 #endif
-  // seems to be LED_KY_016 is compatible with underclocking
-
   my_esp32.init();
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   my_influx.connect_wifi(my_device_name);
+#if defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
   my_influx.sync_time();
+#endif
   my_influx.connect_influxdb();
   influx_data_set.addTag("device", my_device_name);
   influx_data_set.addTag("room", my_room);
@@ -148,11 +148,6 @@ void loop()
   // delay(1000);
 
   display_shall_sleep = false; // set to on by default in each loop
-  if (myVerbose)
-  {
-    // Serial.print("Start Loop: ");
-    // Serial.println(loopNum);
-  }
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.clearFields();
