@@ -83,6 +83,7 @@ void setup()
   // Fuck: This sometimes results in an endless wait if not connected to PC
   // while (!Serial)
   //   ; // time to get serial running
+  // Serial.flush();
 
 #if !defined(TM_LOAD_DEVICE_LED_RING) // && !defined(TM_LOAD_DEVICE_LED_KY_016)
   my_esp32.underclocking();           // underclocking breaks Adafruit_NeoPixel !!!
@@ -143,8 +144,8 @@ void loop()
   timeStart = millis();
   data_to_display = loopNum; // dummy in case we have no sensor
 
-  my_display_4digit.displayValue(2000 + loopNum); // TODO
-  delay(1000);
+  // my_display_4digit.displayValue(2000 + loopNum); // TODO
+  // delay(1000);
 
   display_shall_sleep = false; // set to on by default in each loop
   if (myVerbose)
@@ -169,9 +170,12 @@ void loop()
   data_bme280 = my_sensor_temp_humid_pres.read_values();
   // 0 = Temp, 1 = Humidity, 2 = Pressure
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-  influx_data_set.addField("temperature", data_bme280[0]);
-  influx_data_set.addField("humidity", data_bme280[1]);
-  influx_data_set.addField("pressure", data_bme280[2]);
+  if (data_bme280[0] > -100) // Temp must be larger than -100°C, else -> discard
+  {
+    influx_data_set.addField("temperature", data_bme280[0]);
+    influx_data_set.addField("humidity", data_bme280[1]);
+    influx_data_set.addField("pressure", data_bme280[2]);
+  }
 #endif
 #endif
 
@@ -187,14 +191,14 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-  if (millis() > 6 * 1000) // TODO
-  {                        // first minute is not reliable
+  if (millis() > 6 * 1000) // first minute is not reliable // TODO
+  {
     data_CO2 = my_sensor_CO2.read_values();
 
-    my_display_4digit.displayValue(3000 + data_CO2); // TODO
-    delay(1000);
+    // my_display_4digit.displayValue(3000 + data_CO2); // TODO
+    // delay(1000);
 
-    if (data_CO2 == 380)
+    if (data_CO2 == 0 || data_CO2 == 380)
     {
       if (myVerbose)
       {
@@ -203,7 +207,7 @@ void loop()
       // MH-Z19 sometimes is interrupted by WiFi/InfluxDB, resulting in always returning the same values,
       // Workaround V1: adding a random sleep
       delay(random(100, 500));
-      // Workaround V2: rebooting after 10x the same CO2 values of 380
+      // Workaround V2: rebooting after 10x the same CO2 values of 0 or 380ppm
       count_same_CO2_values++;
       if (count_same_CO2_values >= 10)
       {
@@ -246,18 +250,18 @@ void loop()
     my_display_oled.appendValueToBarChart(data_to_display);
   }
 
-  //uint8_t hour = getHour();
-  // if (hour <= 21 && hour >= 7)
-  // {
-  //   my_display_oled.ensure_wake();
-  //   // my_display_oled.draw_alternating_barchart_and_value(data_to_display);
-  //   my_display_oled.drawBarChart(data_to_display);
-  // }
-  // else
-  // {
-  //   my_display_oled.ensure_sleep();
-  // }
-  //  my_display_oled.draw_alternating_barchart_and_value(data_to_display);
+//uint8_t hour = getHour();
+// if (hour <= 21 && hour >= 7)
+// {
+//   my_display_oled.ensure_wake();
+//   // my_display_oled.draw_alternating_barchart_and_value(data_to_display);
+//   my_display_oled.drawBarChart(data_to_display);
+// }
+// else
+// {
+//   my_display_oled.ensure_sleep();
+// }
+//  my_display_oled.draw_alternating_barchart_and_value(data_to_display);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
@@ -268,7 +272,7 @@ void loop()
   my_display_led_rbg_single.displayValue(data_to_display);
 #endif
 
-  // data_to_display = loopNum * 50;
+// data_to_display = loopNum * 50;
 #ifdef TM_LOAD_DEVICE_4_DIGIT
   if (display_shall_sleep == false)
   {
