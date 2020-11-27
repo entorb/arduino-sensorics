@@ -7,7 +7,8 @@ Based on MHZ19 BasicExample
 #include "TM_MH_Z19_Class.h"
 
 #include <Arduino.h>
-#include "MHZ19.h"
+#include "MHZ19.h" // TM: in MHZ19.h ensure to disable printing via #define MHZ19_ERRORS 0
+
 // #define RX_PIN 16
 // #define TX_PIN 17
 #define MHZ19_BAUDRATE 9600 // Device to MH-Z19 Serial baudrate (should not be changed)
