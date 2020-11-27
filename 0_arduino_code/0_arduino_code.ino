@@ -80,8 +80,9 @@ bool display_shall_sleep = false;
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial)
-    ; // time to get serial running
+  // Fuck: This sometimes results in an endless wait if not connected to PC
+  // while (!Serial)
+  //   ; // time to get serial running
 
 #if !defined(TM_LOAD_DEVICE_LED_RING) // && !defined(TM_LOAD_DEVICE_LED_KY_016)
   my_esp32.underclocking();           // underclocking breaks Adafruit_NeoPixel !!!
