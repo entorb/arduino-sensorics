@@ -141,7 +141,11 @@ void setup()
 void loop()
 {
   timeStart = millis();
-  data_to_display = loopNum;   // dummy in case we have no sensor
+  data_to_display = loopNum; // dummy in case we have no sensor
+
+  my_display_4digit.displayValue(2000 + loopNum); // TODO
+  delay(1000);
+
   display_shall_sleep = false; // set to on by default in each loop
   if (myVerbose)
   {
@@ -186,6 +190,10 @@ void loop()
   if (millis() > 6 * 1000) // TODO
   {                        // first minute is not reliable
     data_CO2 = my_sensor_CO2.read_values();
+
+    my_display_4digit.displayValue(3000 + data_CO2); // TODO
+    delay(1000);
+
     if (data_CO2 == 380)
     {
       if (myVerbose)
