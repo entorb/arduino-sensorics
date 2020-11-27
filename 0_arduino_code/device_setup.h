@@ -2,6 +2,11 @@
 // setup this device
 //
 
+// see https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/log.html
+#define LOG_LOCAL_LEVEL ESP_LOG_ERROR
+
+#include "esp_log.h"
+
 // Debugging
 // static const int mySleep = 2 * 1000;
 // static const bool myVerbose = true;
