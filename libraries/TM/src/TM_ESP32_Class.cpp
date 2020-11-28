@@ -28,7 +28,6 @@ void TM_ESP32_Class::underclocking()
   setCpuFrequencyMhz(80); // 240, 160, 80
   if (verbose)
   {
-    TM_Device_Class::printDeviceName();
     printSpeed();
   }
 }
@@ -38,7 +37,6 @@ void TM_ESP32_Class::normalclocking()
   setCpuFrequencyMhz(240); // 240, 160, 80
   if (verbose)
   {
-    TM_Device_Class::printDeviceName();
     printSpeed();
   }
 }
