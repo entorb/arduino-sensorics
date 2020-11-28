@@ -1,0 +1,98 @@
+/*
+Class for reading BME680 Sensor: Temp, Humidity, Pressure, Air-Quality
+
+Based on bsec library usage example BME680_basic.ino
+
+AQI: Air Quality Index
+>=  0: Good
+> 050: Moderate
+> 100: Unhealthy for Sensitive Groups
+> 150: Unhealthy
+> 200: Very Unhealthy
+> 300: Hazardous
+
+IAQ-Accuracy
+0: sensor restarted or sensor stabilizing (5 min in LP-Mode or 20min in ULP-Mode)
+1: unstable
+2: calibrating
+3: is calibrated
+
+Good German Guide: http://steinlaus.de/stinkt-das-hier-teil-1-mit-dem-bosch-bme680/
+In order to use the pre-compiled lib by Bosch, the following setting is required
+in AppData\Local\Arduino15\packages\esp32\hardware\esp32\1.0.4\platform.txt
+1,; modify existing code to
+
+# BoschSensortec BME680
+# from https://github.com/BoschSensortec/BSEC-Arduino-library#installation-and-getting-started
+# These can be overridden in platform.local.txt
+compiler.c.extra_flags=
+compiler.c.elf.extra_flags=
+#compiler.c.elf.extra_flags=-v
+compiler.cpp.extra_flags=
+compiler.S.extra_flags=
+compiler.ar.extra_flags=
+compiler.elf2hex.extra_flags=
+compiler.libraries.ldflags=
+
+and in section
+## Combine gc-sections, archives, and objects
+modify this line:
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} -Wl,--start-group {object_files} "{archive_file_path}" {compiler.c.elf.libs} -Wl,--end-group -Wl,-EL -o "{build.path}/{build.project_name}.elf"
+to
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} {compiler.c.elf.extra_flags} -Wl,--start-group {object_files} "{archive_file_path}" {compiler.c.elf.libs} {compiler.libraries.ldflags} -Wl,--end-group -Wl,-EL -o "{build.path}/{build.project_name}.elf"
+*/
+
+#ifndef TM_BME680_CLASS_H
+#define TM_BME680_CLASS_H
+
+#include "Arduino.h"
+#include "TM_Device_Class.h"
+
+#include "bsec.h"
+
+class TM_BME680_Class : public TM_Sensor_Device_Class
+{
+public:
+  // constructor
+  TM_BME680_Class(const bool verbose = false);
+  // variables
+  // functions
+  void init();
+  float *read();
+
+private:
+  // functions
+  void checkIaqSensorStatus(void);
+  // void errLeds(void)
+  // variables
+  Bsec iaqSensor;
+  float data[11];
+  String output;
+  bsec_virtual_sensor_t sensorList[10] = {
+      BSEC_OUTPUT_RAW_TEMPERATURE,
+      BSEC_OUTPUT_RAW_PRESSURE,
+      BSEC_OUTPUT_RAW_HUMIDITY,
+      BSEC_OUTPUT_RAW_GAS,
+      BSEC_OUTPUT_IAQ,
+      BSEC_OUTPUT_STATIC_IAQ,
+      BSEC_OUTPUT_CO2_EQUIVALENT,
+      BSEC_OUTPUT_BREATH_VOC_EQUIVALENT,
+      BSEC_OUTPUT_SENSOR_HEAT_COMPENSATED_TEMPERATURE,
+      BSEC_OUTPUT_SENSOR_HEAT_COMPENSATED_HUMIDITY,
+  };
+  /*
+raw temperature [°C]
+temperature [°C]
+raw relative humidity [%]
+relative humidity [%]
+pressure [hPa]
+gas [Ohm]
+IAQ
+IAQ accuracy
+Static IAQ
+CO2 equivalent
+breath VOC equivalent
+
+*/
+};
+#endif

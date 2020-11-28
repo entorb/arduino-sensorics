@@ -16,8 +16,14 @@ Point influx_data_set("Raumklima"); // Table
 
 #ifdef TM_LOAD_DEVICE_BME280
 #include "TM_BME280_Class.h"
-auto my_sensor_temp_humid_pres = TM_BME280_Class(myVerbose);
+auto my_sensor_bme280 = TM_BME280_Class(myVerbose);
 float *data_bme280;
+#endif
+
+#ifdef TM_LOAD_DEVICE_BME680
+#include "TM_BME680_Class.h"
+auto my_sensor_bme680 = TM_BME680_Class(myVerbose);
+float *data_bme680;
 #endif
 
 #ifdef TM_LOAD_DEVICE_BH1750
@@ -101,7 +107,11 @@ void setup()
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
-  my_sensor_temp_humid_pres.init();
+  my_sensor_bme280.init();
+#endif
+
+#ifdef TM_LOAD_DEVICE_BME680
+  my_sensor_bme680.init();
 #endif
 
 #ifdef TM_LOAD_DEVICE_BH1750
@@ -162,14 +172,44 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
-  data_bme280 = my_sensor_temp_humid_pres.read_values();
+  data_bme280 = my_sensor_bme280.read_values();
   // 0 = Temp, 1 = Humidity, 2 = Pressure
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   if (data_bme280[0] > -100) // Temp must be larger than -100°C, else -> discard
   {
-    influx_data_set.addField("temperature", data_bme280[0]);
-    influx_data_set.addField("humidity", data_bme280[1]);
-    influx_data_set.addField("pressure", data_bme280[2]);
+    influx_data_set.addField("temperature", data_bme680[0]);
+    influx_data_set.addField("humidity", data_bme680[1]);
+    influx_data_set.addField("pressure", data_bme680[2]);
+  }
+#endif
+#endif
+
+#ifdef TM_LOAD_DEVICE_BME680
+  data_bme680 = my_sensor_bme680.read();
+  // data[0] = iaqSensor.rawTemperature;
+  // data[1] = iaqSensor.temperature;
+  // data[2] = iaqSensor.rawHumidity;
+  // data[3] = iaqSensor.humidity;
+  // data[4] = iaqSensor.pressure;
+  // data[5] = iaqSensor.gasResistance;
+  // data[6] = iaqSensor.iaq;
+  // data[7] = iaqSensor.iaqAccuracy;
+  // data[8] = iaqSensor.staticIaq;
+  // data[9] = iaqSensor.co2Equivalent;
+  // data[10] = iaqSensor.breathVocEquivalent;
+
+#ifdef TM_LOAD_DEVICE_INFLUXDB
+  if (data_bme680[1] > -100) // Temp must be larger than -100°C, else -> discard
+  {
+    influx_data_set.addField("temperature", data_bme680[1]);
+    influx_data_set.addField("humidity", data_bme680[3]);
+    influx_data_set.addField("pressure", data_bme680[4]);
+    influx_data_set.addField("bme680_gasResistance", data_bme680[5]);
+    influx_data_set.addField("bme680_iaq", data_bme680[6]);
+    influx_data_set.addField("bme680_iaqAccuracy", data_bme680[7]);
+    influx_data_set.addField("bme680_staticIaq", data_bme680[8]);
+    influx_data_set.addField("bme680_co2Equivalent", data_bme680[9]);
+    influx_data_set.addField("bme680_breathVocEquivalent", data_bme680[10]);
   }
 #endif
 #endif
@@ -326,7 +366,7 @@ void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd
   else
   {
     delay(mySleep - (timeEnd - timeStart));
-    // usually 0.1-0.2sec for one loop of reading my_sensor_temp_humid_pres and my_sensor_CO2 and pushing to InfluxDB
+    // usually 0.1-0.2sec for one loop of reading my_sensor_bme280 and my_sensor_CO2 and pushing to InfluxDB
   }
 }
 
