@@ -131,6 +131,8 @@ void setup()
 #ifdef TM_LOAD_DEVICE_4_DIGIT
   my_display_4digit.init();
   my_display_4digit.setValueRange(value_min_CO2, value_max_CO2);
+  // my_display_4digit.displayValue(9000); // Displaying a value of 9000 for debugging purposes
+  // delay(1000);
 #endif
 } // end setup
 
@@ -142,9 +144,7 @@ void setup()
 void loop()
 {
   timeStart = millis();
-  data_to_display = loopNum; // dummy in case we have no sensor
-
-  // my_display_4digit.displayValue(2000 + loopNum); // TODO
+  data_to_display = 8000 + loopNum; // dummy in case we have no sensor
   // delay(1000);
 
   display_shall_sleep = false; // set to on by default in each loop
@@ -186,23 +186,35 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-  if (millis() > 6 * 1000) // first minute is not reliable // TODO
+  if (millis() < 10 * 1000) // start is not reliable, so ignored
+  {
+    if (myVerbose)
+    {
+      Serial.println("not reading CO2 yet");
+    }
+  }
+  else // normal mode
   {
     data_CO2 = my_sensor_CO2.read_values();
-
-    // my_display_4digit.displayValue(3000 + data_CO2); // TODO
+    // my_display_4digit.displayValue(7000 + data_CO2); // TODO
     // delay(1000);
 
+    // special handling for values of 0 and 380pmm
+    // MH-Z19 sometimes is interrupted by WiFi/InfluxDB or missing serial connection, resulting in always returning the same values,
+    // Workaround V1: retrying after a random sleep
     if (data_CO2 == 0 || data_CO2 == 380)
     {
       if (myVerbose)
       {
-        Serial.println("can I trust 380ppm?");
+        Serial.println("0 or 380ppm -> re-reading");
       }
-      // MH-Z19 sometimes is interrupted by WiFi/InfluxDB, resulting in always returning the same values,
-      // Workaround V1: adding a random sleep
       delay(random(100, 500));
-      // Workaround V2: rebooting after 10x the same CO2 values of 0 or 380ppm
+      data_CO2 = my_sensor_CO2.read_values();
+    }
+
+    // Workaround V2: rebooting after 10x the same CO2 values of 0 or 380ppm
+    if (data_CO2 == 0 || data_CO2 == 380)
+    {
       count_same_CO2_values++;
       if (count_same_CO2_values >= 10)
       {
@@ -215,17 +227,11 @@ void loop()
       count_same_CO2_values = 0;
     }
     data_to_display = data_CO2;
+  }
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-    influx_data_set.addField("CO2", data_CO2);
+  influx_data_set.addField("CO2", data_CO2);
 #endif
-  }
-  else
-  {
-    if (myVerbose)
-    {
-      Serial.println("not reading CO2 yet");
-    }
-  }
+
 #endif
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
