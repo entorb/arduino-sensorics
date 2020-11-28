@@ -131,7 +131,7 @@ void setup()
 #ifdef TM_LOAD_DEVICE_4_DIGIT
   my_display_4digit.init();
   my_display_4digit.setValueRange(value_min_CO2, value_max_CO2);
-  // my_display_4digit.displayValue(9000); // Displaying a value of 9000 for debugging purposes
+  my_display_4digit.displayValue(9000); // Displaying a value of 9000 for debugging purposes
   // delay(1000);
 #endif
 } // end setup

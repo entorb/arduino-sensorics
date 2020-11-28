@@ -16,8 +16,8 @@ class TM_Influx_Class : public TM_Device_Class
 {
 private:
   // WiFiMulti my_wifiMulti;
-  uint32_t time_last_upload = 0;
-  uint8_t num_upload_errors = 0; // if > 100 than trigger wifi reconnect
+  uint32_t time_last_upload = 1000000; // is overwritten in each upload by millis()
+  uint8_t num_upload_errors = 0;       // if > 100 than trigger wifi reconnect
 
 public:
   //InfluxDBClient my_InfluxClient;
