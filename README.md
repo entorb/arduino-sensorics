@@ -10,6 +10,7 @@
 * Abstract device class that all other devices inherit from in [TM_Device_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_Device_Class.cpp)
 * InfuxDB interface via WiFi in [TM_InfluxDB_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_InfluxDB_Class.cpp)
 * BME280 sensor for temperature, humidity and pressure in [TM_BME280_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BME280_Class.cpp)
+* BME680 sensor for temperature, humidity, pressure and Air Quality Index (AQI) in [TM_BME680_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BME680_Class.cpp)
 * BH1750 sensor for illumination in [TM_BH1750_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_BH1750_Class.cpp)
 * MH-Z19B sensor for CO2 concentration in [TM_MH_Z19_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_MH_Z19_Class.cpp)
 * 7-segment 4-digit TM1637 display in [TM_7SegmentDisplay_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_7SegmentDisplay_Class.cpp)
@@ -28,9 +29,9 @@
   * in proper case
   * using display and traffic light for visualization
 * Experiment with display devices
+* Design and build cases via CAD and CNC
 
 ## Next steps
-* Design and build cases via CAD and CNC
 * Add more sensors
 
 ## Photos and screenshots
