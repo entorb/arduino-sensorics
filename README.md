@@ -35,7 +35,13 @@
 * Add more sensors
 
 ## Photos and screenshots
-CO2 Traffic Light Prototype for our Kindergarten: Display of CO2 level (measured by MH-Z19B) on a 7-segment display and RGB-LED
+### CO2 Traffic Light 
+Display of CO2 level (measured by MH-Z19B) on a 7-segment display and RGB-LED
+
+V2 for our School:
+![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
+
+Prototype for our Kindergarten
 ![KiTa-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/KiTa-V1.jpg)
 
 Experimenting with different displays
