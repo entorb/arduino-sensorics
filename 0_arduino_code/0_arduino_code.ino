@@ -36,7 +36,8 @@ float data_lux;
 #include "TM_MH_Z19_Class.h"
 // Attention from EPS32 point of view the RX and TX are swapped, RX(MH-Z19)=TX(ESP32) and vice versa
 // auto my_sensor_CO2 = TM_MH_Z19_Class(14, 13, myVerbose);
-auto my_sensor_CO2 = TM_MH_Z19_Class(16, 17, myVerbose);
+// auto my_sensor_CO2 = TM_MH_Z19_Class(16, 17, myVerbose);
+auto my_sensor_CO2 = TM_MH_Z19_Class(TM_MHZ19_PIN_RX, TM_MHZ19_PIN_TX, myVerbose);
 uint8_t count_same_CO2_values = 0; // MH-Z19 and WiFi/InfluxDB have a problem, that when both are enabled, the MH-Z19 from time to time is stuck and returns always a value of 380
 uint16_t data_CO2;
 #endif
