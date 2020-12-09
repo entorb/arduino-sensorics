@@ -36,7 +36,7 @@
 
 ## Photos and screenshots
 ### CO2 Traffic Light 
-Display of CO2 level (measured by MH-Z19B) on a 7-segment display and RGB-LED
+Display of CO2 level (measured by MH-Z19B) on a 7-segment display and RGB-LED, see [Bauanleitung (DE)](https://github.com/entorb/arduino-sensorics/blob/main/CO2-Ampel-Bauanleitung.md)
 
 V2 for our School:
 ![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
