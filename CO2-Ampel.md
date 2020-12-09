@@ -1,5 +1,3 @@
-Diese Seite ist noch im Entwurfsstadium
-
 # Teaser: Endprodukt 
 (noch ohne OLED Display für Bar-Chart des Zeitverlaufs)
 ![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
@@ -41,15 +39,18 @@ ESP32  | RGB LED KY-016
 ------ | ----
 GND    | GND
  5     | R
-18	   | G
-19	   | B
+18	    | G
+19	    | B
 
 ESP32  | OLED 0.96"
 ------ | ----
-GND 	 | GND
+GND 	  | GND
 3.3V 	 | VCC
-G22 	 | SCK
-G21 	 | SDA
+G22 	  | SCK
+G21 	  | SDA
+
+## Gehäuse
+2D Zeichnungsentwurf siehe [hier](https://github.com/entorb/arduino-sensorics/tree/main/cad/CO2-Ampel) 
 
 # Software
 * [Arduino IDE](https://www.arduino.cc/en/software) installieren
@@ -58,3 +59,4 @@ G21 	 | SDA
 * [Meine Library](https://github.com/entorb/arduino-sensorics/tree/main/libraries/TM) [manuell hinzufügen](https://www.arduino.cc/en/guide/libraries#toc5)
 * [Meinen Arduino Code](https://github.com/entorb/arduino-sensorics/tree/main/0_arduino_code) herunterladen
 * Dort in der device_setup.h die verwendete Komponenten auswählen
+* kompilieren & Daumen drücken
