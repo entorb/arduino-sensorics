@@ -1,6 +1,21 @@
-# Teaser: Endprodukt 
-(Foto noch ohne OLED Display für Anzeige des Zeitverlaufs als Bar-Chart)
+# Motivation
+## Teaser: Endprodukt 
 ![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
+(TODO: neues Foto von V2 mit OLED Display für Anzeige des Zeitverlaufs als Bar-Chart)
+
+## Motivation
+In Zeiten der SARS-CoV-2 / Coronavirus-Pandemie ist häufiges Lüften wichtig um die Übertragung über [Aerosole](https://de.wikipedia.org/wiki/Aerosol) zu unterbinden. Dies gilt insbesondere für Schulen, Kindergärten und Kinderkrippen/KiTas. Ein guter Indikator dafür, dass es Zeit um Lüften ist, ist die [CO2 Konzentration](https://de.wikipedia.org/wiki/Kohlenstoffdioxid) in der Luft, wobei ein Wert von 400[ppm](https://de.wikipedia.org/wiki/Parts_per_million) die Baseline und ein Wert von 1000ppm ein guter Grund zum Lüften ist. Um einen kleinen Beitrag zu leisten, habe ich eine CO2 Ampel entworfen und unserer Schule und KiTa gespendet.
+
+## Funktionalität
+* CO2 Konzentration wird periodisch gemessen
+* Angezeigt via 
+** 1. als Zahl in ppm
+** 2. über eine LED, die von Grün über Blau nach Rot die Farbe (und die Helligkeit wechselt)
+** 3. V2: als Zeitverlauf über ein Balkendiagramm mit 2h in die Vergangenheit
+
+Ich freue mich über Nachbauten, Feedback und Verbesserungsvorschläge, zB über dieses [Kontaktformular](https://entorb.net/contact.php?origin=CO2-Ampel).
+
+Hier die Bauanleitung dazu:
 
 # Hardware
 ## Einkaufszettel
