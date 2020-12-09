@@ -22,12 +22,12 @@ Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken u
 
 ## Verkabelung
 
-|ESP32     | MH-Z19
-|-----     | ---
-|5V        | UIn (weiß)
-|GND       | GND (schwarz)
-|G16 (RX)  | TX  (grau)
-|G17 (TX)  | RX  (lila)
+| ESP32     | MH-Z19        |
+| --------- | ------        |
+| 5V        | UIn (weiß)    |
+| GND       | GND (schwarz) |
+| G16 (RX)  | TX  (grau)    |
+| G17 (TX)  | RX  (lila)    |
 
 |ESP32   | 4 digit display
 |-----   | ---
@@ -46,7 +46,7 @@ Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken u
 |ESP32  | OLED 0.96" 128x64px
 |------ | ----
 |GND 	  | GND
-|3.3V 	 | VCC
+|3.3V   | VCC
 |G22 	  | SCK
 |G21 	  | SDA
 
