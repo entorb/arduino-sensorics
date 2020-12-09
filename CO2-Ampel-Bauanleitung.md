@@ -1,5 +1,5 @@
 # Teaser: Endprodukt 
-(noch ohne OLED Display für Anzeige des Zeitverlaufs als Bar-Chart)
+(Foto noch ohne OLED Display für Anzeige des Zeitverlaufs als Bar-Chart)
 ![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
 
 # Hardware
