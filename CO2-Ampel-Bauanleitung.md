@@ -1,7 +1,6 @@
 # Teaser: Endprodukt 
-(noch ohne OLED Display für Bar-Chart des Zeitverlaufs)
+(noch ohne OLED Display für Anzeige des Zeitverlaufs als Bar-Chart)
 ![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
-
 
 # Hardware
 ## Einkaufszettel
@@ -51,7 +50,9 @@ G22 	  | SCK
 G21 	  | SDA
 
 ## Gehäuse
-2D Zeichnungsentwurf siehe [hier](https://github.com/entorb/arduino-sensorics/tree/main/cad/CO2-Ampel) 
+* 2D Zeichnungsentwurf siehe [hier](https://github.com/entorb/arduino-sensorics/tree/main/cad/CO2-Ampel)
+* TODO: upload 3D Zeichnung von B.T.
+* 8mm Stärke passt gut zur Dicke des 4-digit-Displays und MH-Z19B CO2 Sensors (für dessen Sensor unten etwas aussparen)
 
 # Software
 * [Arduino IDE](https://www.arduino.cc/en/software) installieren
