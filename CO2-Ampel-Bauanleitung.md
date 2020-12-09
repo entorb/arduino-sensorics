@@ -59,5 +59,5 @@ G21 	  | SDA
 * optional Visual Studio Code als Editor [einrichten](https://entorb.net/wickie/Arduino#Visual_Studio_Code) 
 * [Meine Library](https://github.com/entorb/arduino-sensorics/tree/main/libraries/TM) [manuell hinzufügen](https://www.arduino.cc/en/guide/libraries#toc5)
 * [Meinen Arduino Code](https://github.com/entorb/arduino-sensorics/tree/main/0_arduino_code) herunterladen
-* Dort in der device_setup.h die verwendete Komponenten auswählen
+* Dort in der [device_setup.h](https://github.com/entorb/arduino-sensorics/blob/main/0_arduino_code/device_setup.h) die verwendeten Komponenten und gewünschte Messfrequenz auswählen
 * kompilieren & Daumen drücken
