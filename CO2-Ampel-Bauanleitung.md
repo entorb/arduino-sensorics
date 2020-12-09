@@ -14,7 +14,7 @@ Komponente |  Preis
 optional [OLED (128x64) display](https://www.az-delivery.de/products/0-96zolldisplay) | 3,60 €   
 [Kabel mit Stecker](https://www.az-delivery.de/products/40-stk-jumper-wire-male-to-male-20-zentimeter) | 0,50 €
 optional Hälfte von [Breadboard](https://www.az-delivery.de/products/breadboard) | 1 €
-SUMME | 12,40 € + MH-Z19B = 27-37 €
+SUMME | ca 15 € + MH-Z19B = 30-40€
 
 Alle Preise bei Mengenrabatt durch Bestellung von je 5 Stück.
 
@@ -43,7 +43,7 @@ GND    | GND
 18	    | G
 19	    | B
 
-ESP32  | OLED 0.96"
+ESP32  | OLED 0.96" 128x64px
 ------ | ----
 GND 	  | GND
 3.3V 	 | VCC
