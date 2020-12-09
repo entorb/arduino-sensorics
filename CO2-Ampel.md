@@ -16,6 +16,7 @@ optional [OLED (128x64) display](https://www.az-delivery.de/products/0-96zolldis
 optional Hälfte von [Breadboard](https://www.az-delivery.de/products/breadboard) | 1 €
 SUMME | 12,40 € + MH-Z19B
 | | = 27-37 €
+Alle Preise bei Mengenrabatt für je 5 Stück.
 
 ## Bauplan
 Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken und die anderen Komponenten nur einseitig an ein Kabel mit Stecker zu löten. Dazu schneide ich die oben verlinkten Kabel in der Mitte durch um 10cm Kabel mit Stecker auf einer Seite zu bekommen. Als Breadboard empfehle ich das oben verlinkte zu verwenden und dies in der Mitte längs und auf Länge des ESP32 durchzusägen um die die Pins nicht durch den ESP32 zu verdecken. 
