@@ -1,3 +1,5 @@
+Did you come here to check out my [CO2-Ampel Bauanleitung](https://github.com/entorb/arduino-sensorics/blob/main/CO2-Ampel-Bauanleitung.md)?
+
 # arduino-sensorics
 * Arduino ESP32 micro-controller programming
 * Provides simple and clean library for 
