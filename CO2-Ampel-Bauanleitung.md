@@ -31,7 +31,7 @@ optional [OLED (128x64) display](https://www.az-delivery.de/products/0-96zolldis
 optional Hälfte von [Breadboard](https://www.az-delivery.de/products/breadboard) | 1 €
 SUMME | ca 15 € + MH-Z19B = 30-40€
 
-Alle Preise bei Mengenrabatt durch Bestellung von je 5 Stück.
+Alle Preise bei Mengenrabatt durch Bestellung von je 5 Stück. Ich habe durch einen Mengenrabatt einen kleinen Vorrat an CO2 Sensoren erworben und biete gerne an diese weiterzugeben. 
 
 ## Bauplan
 Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken und die anderen Komponenten nur einseitig an ein Kabel mit Stecker zu löten. Dazu schneide ich die oben verlinkten Kabel in der Mitte durch um 10cm Kabel mit Stecker auf einer Seite zu bekommen. Als Breadboard empfehle ich das oben verlinkte zu verwenden und dies in der Mitte längs und auf Länge des ESP32 durchzusägen um die die Pins nicht durch den ESP32 zu verdecken. 
@@ -79,6 +79,9 @@ Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken u
 * [Meinen Arduino Code](https://github.com/entorb/arduino-sensorics/tree/main/0_arduino_code) herunterladen
 * Dort in der [device_setup.h](https://github.com/entorb/arduino-sensorics/blob/main/0_arduino_code/device_setup.h) die verwendeten Komponenten und gewünschte Messfrequenz auswählen
 * kompilieren & Daumen drücken
+
+## Software as a Service
+Wer gerne bastelt und lötet, aber keine Erfahrung mit der Arduino Programmierung hat und auch keine Lust hat in das Gebiet abzutauchen, dem biete ich gerne an die Software auf seinen Microcontroller EPS32 einzuspielen.
 
 # Danke
 * für die Unterstützung beim Coding an Ingmar und Gerhard
