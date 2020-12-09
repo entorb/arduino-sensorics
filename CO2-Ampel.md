@@ -1,6 +1,12 @@
-# Hardware
+Diese Seite ist noch im Entwurfsstadium
 
-## Kosten
+# Teaser: Endprodukt 
+(noch ohne OLED Display für Bar-Chart des Zeitverlaufs)
+![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
+
+
+# Hardware
+## Einkaufszettel
 Komponente |  Preis 
 ---------- | ------
 [Microcontroller ESP32](https://www.az-delivery.de/products/esp32-developmentboard)      | 6 €
@@ -8,8 +14,47 @@ Komponente |  Preis
 [4 digit display](https://www.az-delivery.de/products/4-digit-display)    | 1,60 €
 [LED RGB](https://www.az-delivery.de/products/led-rgb-modul)    | 1,20 €
 optional [OLED (128x64) display](https://www.az-delivery.de/products/0-96zolldisplay) | 3,60 €   
+[Kabel mit Stecker](https://www.az-delivery.de/products/40-stk-jumper-wire-male-to-male-20-zentimeter) | 0,50 €
 optional Hälfte von [Breadboard](https://www.az-delivery.de/products/breadboard) | 1 €
 SUMME | 12,40 € + MH-Z19B
 | | = 27-37 €
 
+## Bauplan
+Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken und die anderen Komponenten nur einseitig an ein Kabel mit Stecker zu löten. Dazu schneide ich die oben verlinkten Kabel in der Mitte durch um 10cm Kabel mit Stecker auf einer Seite zu bekommen. Als Breadboard empfehle ich das oben verlinkte zu verwenden und dies in der Mitte längs und auf Länge des ESP32 durchzusägen um die die Pins nicht durch den ESP32 zu verdecken. 
+
+## Verkabelung
+ESP32     | MH-Z19
+-----     | ---
+5V        | UIn (weiß)
+GND       | GND (schwarz)
+G16 (RX)  | TX  (grau)
+G17 (TX)  | RX  (lila)
+
+ESP32   | 4 digit display
+-----   | ---
+3.3V    | VCC (lila / weiß)
+GND     | GND (blau / schwarz)
+G32     | CLK (weiß / lila)
+G33     | DIO (grau / grau)
+
+ESP32  | RGB LED KY-016
+------ | ----
+GND    | GND
+ 5     | R
+18	   | G
+19	   | B
+
+ESP32  | OLED 0.96"
+------ | ----
+GND 	 | GND
+3.3V 	 | VCC
+G22 	 | SCK
+G21 	 | SDA
+
 # Software
+* [Arduino IDE](https://www.arduino.cc/en/software) installieren
+* [ESP32 für Adruino IDE](https://entorb.net/wickie/Arduino#Adding_ESP32_to_Arduino_IDE) installieren, wichtig dabei der Hinweis, dass die URL der JSON in dem Artikel nicht mehr aktuell ist, sondern [diese hier](https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json), [Quelle](https://github.com/espressif/arduino-esp32/issues/3443#issuecomment-549113517)
+* optional Visual Studio Code als Editor [einrichten](https://entorb.net/wickie/Arduino#Visual_Studio_Code) 
+* [Meine Library](https://github.com/entorb/arduino-sensorics/tree/main/libraries/TM) [manuell hinzufügen](https://www.arduino.cc/en/guide/libraries#toc5)
+* [Meinen Arduino Code](https://github.com/entorb/arduino-sensorics/tree/main/0_arduino_code) herunterladen
+* Dort in der device_setup.h die verwendete Komponenten auswählen
