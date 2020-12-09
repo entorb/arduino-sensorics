@@ -21,33 +21,34 @@ Alle Preise bei Mengenrabatt durch Bestellung von je 5 Stück.
 Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken und die anderen Komponenten nur einseitig an ein Kabel mit Stecker zu löten. Dazu schneide ich die oben verlinkten Kabel in der Mitte durch um 10cm Kabel mit Stecker auf einer Seite zu bekommen. Als Breadboard empfehle ich das oben verlinkte zu verwenden und dies in der Mitte längs und auf Länge des ESP32 durchzusägen um die die Pins nicht durch den ESP32 zu verdecken. 
 
 ## Verkabelung
-ESP32     | MH-Z19
------     | ---
-5V        | UIn (weiß)
-GND       | GND (schwarz)
-G16 (RX)  | TX  (grau)
-G17 (TX)  | RX  (lila)
 
-ESP32   | 4 digit display
------   | ---
-3.3V    | VCC (lila / weiß)
-GND     | GND (blau / schwarz)
-G32     | CLK (weiß / lila)
-G33     | DIO (grau / grau)
+|ESP32     | MH-Z19
+|-----     | ---
+|5V        | UIn (weiß)
+|GND       | GND (schwarz)
+|G16 (RX)  | TX  (grau)
+|G17 (TX)  | RX  (lila)
 
-ESP32  | RGB LED KY-016
------- | ----
-GND    | GND
- 5     | R
-18	    | G
-19	    | B
+|ESP32   | 4 digit display
+|-----   | ---
+|3.3V    | VCC (lila / weiß)
+|GND     | GND (blau / schwarz)
+|G32     | CLK (weiß / lila)
+|G33     | DIO (grau / grau)
 
-ESP32  | OLED 0.96" 128x64px
------- | ----
-GND 	  | GND
-3.3V 	 | VCC
-G22 	  | SCK
-G21 	  | SDA
+|ESP32  | RGB LED KY-016
+|------ | ----
+|GND    | GND
+| 5     | R
+|18	    | G
+|19	    | B
+
+|ESP32  | OLED 0.96" 128x64px
+|------ | ----
+|GND 	  | GND
+|3.3V 	 | VCC
+|G22 	  | SCK
+|G21 	  | SDA
 
 ## Gehäuse
 * 2D Zeichnungsentwurf siehe [hier](https://github.com/entorb/arduino-sensorics/tree/main/cad/CO2-Ampel)
