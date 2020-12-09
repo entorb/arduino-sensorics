@@ -4,7 +4,7 @@
 TODO: neues Foto von V2 mit OLED Display für Anzeige des Zeitverlaufs als Bar-Chart
 
 ## Motivation
-In Zeiten der SARS-CoV-2 / Coronavirus-Pandemie (siehe auch meine [Corona-Datenauswertungen](https://entorb.net/COVID-19-coronavirus/)) ist häufiges Lüften wichtig um die Übertragung über [Aerosole](https://de.wikipedia.org/wiki/Aerosol) zu unterbinden. Dies gilt insbesondere für Schulen, Kindergärten und Kinderkrippen/KiTas. Ein guter Indikator dafür, dass es Zeit um Lüften ist, ist die [CO2 Konzentration](https://de.wikipedia.org/wiki/Kohlenstoffdioxid) in der Luft, wobei ein Wert von 400[ppm](https://de.wikipedia.org/wiki/Parts_per_million) die Baseline und ein Wert von 1000ppm ein guter Grund zum Lüften ist. Um einen kleinen Beitrag zu leisten, habe ich eine CO2 Ampel entworfen und unserer Schule und KiTa gespendet.
+In Zeiten der SARS-CoV-2 / Coronavirus-Pandemie (siehe auch meine [Corona-Datenauswertungen](https://entorb.net/COVID-19-coronavirus/)) ist häufiges Lüften wichtig um die Übertragung über [Aerosole](https://de.wikipedia.org/wiki/Aerosol) zu unterbinden. Dies gilt insbesondere für Schulen, Kindergärten und Kinderkrippen/KiTas. Ein guter Indikator dafür, dass es Zeit um Lüften ist, ist die [CO2 Konzentration](https://de.wikipedia.org/wiki/Kohlenstoffdioxid) in der Luft, wobei ein Wert von 400[ppm](https://de.wikipedia.org/wiki/Parts_per_million) die Baseline und ein Wert von 1000ppm ein guter Grund zum Lüften ist. Um einen kleinen Beitrag zu leisten, habe ich eine CO2 Ampel entworfen und unserer Schule und KiTa gespendet. Nachbauten ausdrücklich erwünscht.
 
 ## Funktionalität
 * CO2 Konzentration wird periodisch (zB alle 15s) gemessen
