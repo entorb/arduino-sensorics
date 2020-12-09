@@ -16,7 +16,7 @@ In Zeiten der SARS-CoV-2 / Coronavirus-Pandemie ist häufiges Lüften wichtig um
 
 Ich freue mich über Nachbauten, Feedback und Verbesserungsvorschläge, zB über dieses [Kontaktformular](https://entorb.net/contact.php?origin=CO2-Ampel).
 
-Hier die Bauanleitung dazu:
+Genug der Einleitung, kommen wir nun zur Bauanleitung.
 
 # Hardware
 ## Einkaufszettel
