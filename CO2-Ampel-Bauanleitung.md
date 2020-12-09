@@ -79,3 +79,22 @@ Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken u
 * [Meinen Arduino Code](https://github.com/entorb/arduino-sensorics/tree/main/0_arduino_code) herunterladen
 * Dort in der [device_setup.h](https://github.com/entorb/arduino-sensorics/blob/main/0_arduino_code/device_setup.h) die verwendeten Komponenten und gewünschte Messfrequenz auswählen
 * kompilieren & Daumen drücken
+
+# Bilder
+V1 für unsere Schule
+![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
+
+V0.5 Prototyp für unseren Kindergarten
+![KiTa-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/KiTa-V1.jpg)
+
+V0.2 Experimentieren mit verschiedenen Anzeigen
+![Display-Test.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/Display-Test.jpg)
+
+V0.1 Anzeige via Grafana und InfluxDB
+![Grafana-CO2.png](https://github.com/entorb/arduino-sensorics/blob/main/photos/Grafana-CO2.png)
+
+# Ähnliche Projekte
+* [UN-Hack-Bar: CO2 Ampeln für alle](https://www.un-hack-bar.de/2020/10/25/co2-ampeln-fuer-alle/)
+* [UN-Hack-Bar: Repository](https://git.unhb.de/smash/co2ampel)
+* [Heise: CO2-Ampel: Bauanleitung](https://www.heise.de/select/make/2020/5/2022015381334973804)
+* [Heise: CO2-Ampel: Erfahrungsbericht aus der Schule](https://www.heise.de/news/CO2-Ampel-Erfahrungsbericht-aus-der-Schule-4932471.html)
