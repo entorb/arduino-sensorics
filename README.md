@@ -36,7 +36,7 @@ Did you come here to check out my [CO2-Ampel Bauanleitung](https://github.com/en
 ## Next steps
 * Add more sensors
 
-## Photos and screenshots
+## Pictures
 ### CO2 Traffic Light 
 Display of CO2 level (measured by MH-Z19B) on a 7-segment display and RGB-LED, see [Bauanleitung (DE)](https://github.com/entorb/arduino-sensorics/blob/main/CO2-Ampel-Bauanleitung.md)
 
@@ -52,14 +52,9 @@ Experimenting with different displays
 Display of CO2 level on small OLED display (measured by MH-Z19B)
 ![ESP32-MHZ19-OLED128x32.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ESP32-MHZ19-OLED128x32.jpg)
 
-Display of CO2 in Grafana (measured by MH-Z1B9)
+Display of CO2 in Grafana (measured by MH-Z19B)
 ![Grafana-CO2.png](https://github.com/entorb/arduino-sensorics/blob/main/photos/Grafana-CO2.png)
 
 Display of temperature, humidity and pressure in Grafana (measured by BME280)
 ![Grafana-T-H-P.png](https://github.com/entorb/arduino-sensorics/blob/main/photos/Grafana-T-H-P.png)
 
-## Similar projects
-* [UN-Hack-Bar: CO2 Ampeln für alle](https://www.un-hack-bar.de/2020/10/25/co2-ampeln-fuer-alle/)
-* [UN-Hack-Bar: Repository](https://git.unhb.de/smash/co2ampel)
-* [Heise: CO2-Ampel: Bauanleitung](https://www.heise.de/select/make/2020/5/2022015381334973804)
-* [Heise: CO2-Ampel: Erfahrungsbericht aus der Schule](https://www.heise.de/news/CO2-Ampel-Erfahrungsbericht-aus-der-Schule-4932471.html)
