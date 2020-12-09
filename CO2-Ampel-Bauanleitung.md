@@ -80,6 +80,10 @@ Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken u
 * Dort in der [device_setup.h](https://github.com/entorb/arduino-sensorics/blob/main/0_arduino_code/device_setup.h) die verwendeten Komponenten und gewünschte Messfrequenz auswählen
 * kompilieren & Daumen drücken
 
+# Danke
+* für die Unterstützung beim Coding an Ingmar und Gerhard
+* für das 3D-Zeichnen und Zuschneiden des Gehäuses für unsere Schule an Bastian
+
 # Bilder
 V1 für unsere Schule
 ![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
