@@ -1,5 +1,5 @@
 ESP32  4 digit 7 segment dispay DS1302/TM1637 
 GND    GND (blau)
 3.3V   VCC (lila)
-G33    DIO (grau)
-G32    CLK (weiß)
+G33    DIO (grau/orange)
+G32    CLK (weiß/gelb)
