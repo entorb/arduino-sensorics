@@ -1,5 +1,5 @@
 ESP32       MH-Z19
 5V          UIn (weiß)
 GND         GND (schwarz)
-G16 (RX)    TX  (grau)
 G17 (TX)    RX  (lila)
+G16 (RX)    TX  (grau)
