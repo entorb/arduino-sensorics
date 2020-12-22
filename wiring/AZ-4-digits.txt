@@ -1,4 +1,4 @@
-ESP32  DS1302/TM1637 7 Segment
+ESP32  4 digit 7 segment dispay DS1302/TM1637 
 GND    GND (blau)
 3.3V   VCC (lila)
 G33     DIO (grau)
