@@ -11,13 +11,19 @@ auto my_esp32 = TM_ESP32_Class(myVerbose);
 #include "TM_InfluxDB_Class.h"
 #include <InfluxDbClient.h>
 auto my_influx = TM_Influx_Class(myVerbose);
-Point influx_data_set("Raumklima");
+Point influx_data_set("Raumklima"); // Table
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
 #include "TM_BME280_Class.h"
-auto my_sensor_temp_humid_pres = TM_BME280_Class(myVerbose);
+auto my_sensor_bme280 = TM_BME280_Class(myVerbose);
 float *data_bme280;
+#endif
+
+#ifdef TM_LOAD_DEVICE_BME680
+#include "TM_BME680_Class.h"
+auto my_sensor_bme680 = TM_BME680_Class(myVerbose);
+float *data_bme680;
 #endif
 
 #ifdef TM_LOAD_DEVICE_BH1750
@@ -30,7 +36,8 @@ float data_lux;
 #include "TM_MH_Z19_Class.h"
 // Attention from EPS32 point of view the RX and TX are swapped, RX(MH-Z19)=TX(ESP32) and vice versa
 // auto my_sensor_CO2 = TM_MH_Z19_Class(14, 13, myVerbose);
-auto my_sensor_CO2 = TM_MH_Z19_Class(16, 17, myVerbose);
+// auto my_sensor_CO2 = TM_MH_Z19_Class(16, 17, myVerbose);
+auto my_sensor_CO2 = TM_MH_Z19_Class(TM_MHZ19_PIN_RX, TM_MHZ19_PIN_TX, myVerbose);
 uint8_t count_same_CO2_values = 0; // MH-Z19 and WiFi/InfluxDB have a problem, that when both are enabled, the MH-Z19 from time to time is stuck and returns always a value of 380
 uint16_t data_CO2;
 #endif
@@ -66,8 +73,11 @@ auto my_display_led_rbg_single = TM_LED_KY_016_Class(5, 18, 19, myVerbose);
 uint8_t loopNum = 0;
 uint32_t timeStart;
 float data_to_display = 0;
+
 const float value_min_CO2 = 400;
 const float value_max_CO2 = 1000;
+// 3 colors for 600 values -> blue for 600-800
+
 bool display_shall_sleep = false;
 //
 //
@@ -77,26 +87,32 @@ bool display_shall_sleep = false;
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial)
-    ; // time to get serial running
+  // Fuck: This sometimes results in an endless wait if not connected to PC
+  // while (!Serial)
+  //   ; // time to get serial running
+  // Serial.flush();
 
-#if !defined(TM_LOAD_DEVICE_LED_RING) // && !defined(TM_LOAD_DEVICE_LED_KY_016)
-  my_esp32.underclocking();           // underclocking breaks Adafruit_NeoPixel !!!
+#if !defined(TM_LOAD_DEVICE_LED_RING)
+  my_esp32.underclocking(); // underclocking breaks Adafruit_NeoPixel !!!
 #endif
-  // seems to be LED_KY_016 is compatible with underclocking
-
   my_esp32.init();
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   my_influx.connect_wifi(my_device_name);
+#if defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
   my_influx.sync_time();
+#endif
   my_influx.connect_influxdb();
   influx_data_set.addTag("device", my_device_name);
   influx_data_set.addTag("room", my_room);
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
-  my_sensor_temp_humid_pres.init();
+  my_sensor_bme280.init();
+#endif
+
+#ifdef TM_LOAD_DEVICE_BME680
+  my_sensor_bme680.init();
 #endif
 
 #ifdef TM_LOAD_DEVICE_BH1750
@@ -126,6 +142,8 @@ void setup()
 #ifdef TM_LOAD_DEVICE_4_DIGIT
   my_display_4digit.init();
   my_display_4digit.setValueRange(value_min_CO2, value_max_CO2);
+  my_display_4digit.displayValue(9000); // Displaying a value of 9000 for debugging purposes
+  // delay(1000);
 #endif
 } // end setup
 
@@ -137,13 +155,10 @@ void setup()
 void loop()
 {
   timeStart = millis();
-  data_to_display = loopNum;   // dummy in case we have no sensor
+  data_to_display = 8000 + loopNum; // dummy in case we have no sensor
+  // delay(1000);
+
   display_shall_sleep = false; // set to on by default in each loop
-  if (myVerbose)
-  {
-    // Serial.print("Start Loop: ");
-    // Serial.println(loopNum);
-  }
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.clearFields();
@@ -158,12 +173,45 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
-  data_bme280 = my_sensor_temp_humid_pres.read_values();
+  data_bme280 = my_sensor_bme280.read_values();
   // 0 = Temp, 1 = Humidity, 2 = Pressure
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-  influx_data_set.addField("temperature", data_bme280[0]);
-  influx_data_set.addField("humidity", data_bme280[1]);
-  influx_data_set.addField("pressure", data_bme280[2]);
+  if (data_bme280[0] > -100) // Temp must be larger than -100°C, else -> discard
+  {
+    influx_data_set.addField("temperature", data_bme680[0]);
+    influx_data_set.addField("humidity", data_bme680[1]);
+    influx_data_set.addField("pressure", data_bme680[2]);
+  }
+#endif
+#endif
+
+#ifdef TM_LOAD_DEVICE_BME680
+  data_bme680 = my_sensor_bme680.read();
+  // data[0] = iaqSensor.rawTemperature;
+  // data[1] = iaqSensor.temperature;
+  // data[2] = iaqSensor.rawHumidity;
+  // data[3] = iaqSensor.humidity;
+  // data[4] = iaqSensor.pressure;
+  // data[5] = iaqSensor.gasResistance;
+  // data[6] = iaqSensor.iaq;
+  // data[7] = iaqSensor.iaqAccuracy;
+  // data[8] = iaqSensor.staticIaq;
+  // data[9] = iaqSensor.co2Equivalent;
+  // data[10] = iaqSensor.breathVocEquivalent;
+
+#ifdef TM_LOAD_DEVICE_INFLUXDB
+  if (data_bme680[1] > -100) // Temp must be larger than -100°C, else -> discard
+  {
+    influx_data_set.addField("temperature", data_bme680[1]);
+    influx_data_set.addField("humidity", data_bme680[3]);
+    influx_data_set.addField("pressure", data_bme680[4]);
+    influx_data_set.addField("bme680_gasResistance", data_bme680[5]);
+    influx_data_set.addField("bme680_iaq", data_bme680[6]);
+    influx_data_set.addField("bme680_iaqAccuracy", data_bme680[7]);
+    influx_data_set.addField("bme680_staticIaq", data_bme680[8]);
+    influx_data_set.addField("bme680_co2Equivalent", data_bme680[9]);
+    influx_data_set.addField("bme680_breathVocEquivalent", data_bme680[10]);
+  }
 #endif
 #endif
 
@@ -179,28 +227,52 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-  if (millis() > 60000)
-  { // first minute is not reliable
-    data_CO2 = my_sensor_CO2.read_values();
-    if (data_CO2 == 380)
+  if (millis() < 10 * 1000) // start is not reliable, so ignored
+  {
+    if (myVerbose)
     {
-      // MH-Z19 sometimes is interrupted by WiFi/InfluxDB, resulting in always returning the same values,
-      // Workaround V1: adding a random sleep
+      Serial.println("not reading CO2 yet");
+    }
+  }
+  else // normal mode
+  {
+    data_CO2 = my_sensor_CO2.read_values();
+    // my_display_4digit.displayValue(7000 + data_CO2); // TODO
+    // delay(1000);
+
+    // special handling for values of 0 and 380pmm
+    // MH-Z19 sometimes is interrupted by WiFi/InfluxDB or missing serial connection, resulting in always returning the same values,
+    // Workaround V1: retrying after a random sleep
+    if (data_CO2 == 0 || data_CO2 == 380)
+    {
+      if (myVerbose)
+      {
+        Serial.println("0 or 380ppm -> re-reading");
+      }
       delay(random(100, 500));
-      // Workaround V2: rebooting after 10x the same CO2 values of 380
+      data_CO2 = my_sensor_CO2.read_values();
+    }
+
+    // Workaround V2: rebooting after 10x the same CO2 values of 0 or 380ppm
+    if (data_CO2 == 0 || data_CO2 == 380)
+    {
       count_same_CO2_values++;
       if (count_same_CO2_values >= 10)
+      {
+        Serial.println("restarting");
         my_esp32.restart();
+      }
     }
     else
     {
       count_same_CO2_values = 0;
     }
     data_to_display = data_CO2;
-#ifdef TM_LOAD_DEVICE_INFLUXDB
-    influx_data_set.addField("CO2", data_CO2);
-#endif
   }
+#ifdef TM_LOAD_DEVICE_INFLUXDB
+  influx_data_set.addField("CO2", data_CO2);
+#endif
+
 #endif
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
@@ -220,18 +292,18 @@ void loop()
     my_display_oled.appendValueToBarChart(data_to_display);
   }
 
-  //uint8_t hour = getHour();
-  // if (hour <= 21 && hour >= 7)
-  // {
-  //   my_display_oled.ensure_wake();
-  //   // my_display_oled.draw_alternating_barchart_and_value(data_to_display);
-  //   my_display_oled.drawBarChart(data_to_display);
-  // }
-  // else
-  // {
-  //   my_display_oled.ensure_sleep();
-  // }
-  //  my_display_oled.draw_alternating_barchart_and_value(data_to_display);
+//uint8_t hour = getHour();
+// if (hour <= 21 && hour >= 7)
+// {
+//   my_display_oled.ensure_wake();
+//   // my_display_oled.draw_alternating_barchart_and_value(data_to_display);
+//   my_display_oled.drawBarChart(data_to_display);
+// }
+// else
+// {
+//   my_display_oled.ensure_sleep();
+// }
+//  my_display_oled.draw_alternating_barchart_and_value(data_to_display);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
@@ -242,7 +314,7 @@ void loop()
   my_display_led_rbg_single.displayValue(data_to_display);
 #endif
 
-  // data_to_display = loopNum * 50;
+// data_to_display = loopNum * 50;
 #ifdef TM_LOAD_DEVICE_4_DIGIT
   if (display_shall_sleep == false)
   {
@@ -295,7 +367,7 @@ void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd
   else
   {
     delay(mySleep - (timeEnd - timeStart));
-    // usually 0.1-0.2sec for one loop of reading my_sensor_temp_humid_pres and my_sensor_CO2 and pushing to InfluxDB
+    // usually 0.1-0.2sec for one loop of reading my_sensor_bme280 and my_sensor_CO2 and pushing to InfluxDB
   }
 }
 

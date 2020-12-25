@@ -46,6 +46,8 @@ private:
   uint16_t barchart_data[x];
   // variables
   bool last_was_barchart = false; // alternate between bar and int chart
+  uint32_t time_last_barchart_update = 0;
+  uint8_t seconds_min_delay_barchart_update = 59; // min x seconds delay between updates of barchart
 };
 
 typedef TM_OLED_Class<U8G2_SSD1306_128X64_NONAME_F_HW_I2C, 128, 64> TM_OLED_128x64_Class;
@@ -128,16 +130,21 @@ void TM_OLED_Class<U8G2, px_x, px_y>::appendValueToBarChart(const float value_to
 template <class U8G2, uint16_t px_x, uint16_t px_y>
 void TM_OLED_Class<U8G2, px_x, px_y>::drawBarChart(const float value_to_append)
 {
-  appendValueToBarChart(value_to_append);
-
-  // draw the barchart
-  my_u8g2.clearBuffer();
-  for (uint16_t i = 0; i < px_x; i++)
+  uint32_t time = millis();
+  // only update the barchart once per minute
+  if (time >= time_last_barchart_update + seconds_min_delay_barchart_update * 1000 || time < time_last_barchart_update)
   {
-    // drawLine (x0,y0, x1,y1)
-    my_u8g2.drawLine(i, px_y - 1, i, px_y - 1 - barchart_data[i]);
+    time_last_barchart_update = time;
+    appendValueToBarChart(value_to_append);
+    // draw the barchart
+    my_u8g2.clearBuffer();
+    for (uint16_t i = 0; i < px_x; i++)
+    {
+      // drawLine (x0,y0, x1,y1)
+      my_u8g2.drawLine(i, px_y - 1, i, px_y - 1 - barchart_data[i]);
+    }
+    my_u8g2.sendBuffer();
   }
-  my_u8g2.sendBuffer();
 }
 
 template <class U8G2, uint16_t px_x, uint16_t px_y>
