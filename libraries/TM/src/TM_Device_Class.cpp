@@ -57,8 +57,8 @@ void TM_Display_Device_Class::ensure_sleep()
 
 void TM_Display_Device_Class::setValueRange(const float this_value_min, const float this_value_max)
 {
-  value_min = value_min;
-  value_max = value_max;
+  value_min = this_value_min;
+  value_max = this_value_max;
 }
 
 // this is a sub-class of Device_Class, to be later filled with sensor specific code
