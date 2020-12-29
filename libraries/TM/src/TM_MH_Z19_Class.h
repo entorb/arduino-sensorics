@@ -25,5 +25,7 @@ private:
   HardwareSerial mySerial;
   uint8_t pin_rx;
   uint8_t pin_tx;
+  // float data[2];
+  int data;
 };
 #endif

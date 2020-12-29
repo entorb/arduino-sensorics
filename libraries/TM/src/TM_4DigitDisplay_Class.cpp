@@ -40,6 +40,16 @@ void TM_4DigitDisplay_Class::displayValue(uint16_t value)
   myDisplay.showNumberDec(value, false);
 }
 
+void TM_4DigitDisplay_Class::displayValue2p1(float value)
+{
+  if (value > 100)
+    value = 99.9;
+  uint16_t i = value * 10;
+  myDisplay.clear();
+  myDisplay.showNumberDecEx(i,0b01000000, false, 3,0);
+}
+
+
 void TM_4DigitDisplay_Class::displayValueAndSetBrightness(uint16_t value)
 {
   uint8_t brightnessLevel = tm_helper_value_to_category(value, value_min, value_max, num_brightness_levels);

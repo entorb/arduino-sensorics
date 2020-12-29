@@ -26,23 +26,27 @@ TM_MH_Z19_Class::TM_MH_Z19_Class(const uint8_t rx, const uint8_t tx, const bool 
   // manually
   // MH-Z19 works best in this range up to 2000, as commented in MHZ19.h
   myMHZ19.setRange(2000);
-  myMHZ19.calibrateZero();
-  // myMHZ19.setSpan(2000);
-  // automatically
   myMHZ19.autoCalibration(true);
 }
 
 int TM_MH_Z19_Class::read_values()
 {
-  int CO2 = myMHZ19.getCO2();
-  //  int8_t Temp= myMHZ19.getTemperature();
+  // data[0] = myMHZ19.getCO2();
+  // data[1] = myMHZ19.getTemperature(false);
+  // temperature is not reliable, as it returns 42°C for room temperature
+  data = myMHZ19.getCO2();
 
   if (verbose)
   {
     TM_Device_Class::printDeviceName();
     Serial.print("CO2 = ");
-    Serial.print(CO2);
+    Serial.print(data);
     Serial.println(" ppm");
+    // TM_Device_Class::printDeviceName();
+    // Serial.print("T = ");
+    // Serial.print(data[1]);
+    // Serial.println(" C");
   }
-  return CO2;
+  // return (float *)&data; // return array of floats
+  return data; // CO2 as int
 }
