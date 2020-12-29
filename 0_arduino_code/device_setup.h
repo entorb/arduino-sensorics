@@ -6,13 +6,13 @@
 #define LOG_LOCAL_LEVEL ESP_LOG_ERROR
 
 // Normal Mode
-static const int mySleep = 15 * 1000;
+// static const int mySleep = 15 * 1000;
 // static const int mySleep = 3 * 1000; // for BME680 in LP mode it must be 3s!
-static const bool myVerbose = false;
+// static const bool myVerbose = false;
 
 // Debugging
-// static const int mySleep = 2 * 1000;
-// static const bool myVerbose = true;
+ static const int mySleep = 2 * 1000;
+ static const bool myVerbose = true;
 
 //
 // Devices to load

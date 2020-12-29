@@ -39,7 +39,7 @@ float data_lux;
 // auto my_sensor_CO2 = TM_MH_Z19_Class(16, 17, myVerbose);
 auto my_sensor_CO2 = TM_MH_Z19_Class(TM_MHZ19_PIN_RX, TM_MHZ19_PIN_TX, myVerbose);
 uint8_t count_same_CO2_values = 0; // MH-Z19 and WiFi/InfluxDB have a problem, that when both are enabled, the MH-Z19 from time to time is stuck and returns always a value of 380
-uint16_t data_CO2;
+int data_CO2;
 #endif
 
 #ifdef TM_LOAD_DEVICE_4_DIGIT
@@ -228,7 +228,7 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_MHZ19
-  if (millis() < 10 * 1000) // start is not reliable, so ignored
+  if (millis() < 3 * 1000) // start is not reliable, so ignored
   {
     if (myVerbose)
     {
@@ -238,6 +238,7 @@ void loop()
   else // normal mode
   {
     data_CO2 = my_sensor_CO2.read_values();
+    // 0 = CO2, 1 = Temp
     // my_display_4digit.displayValue(7000 + data_CO2); // TODO
     // delay(1000);
 
@@ -319,7 +320,20 @@ void loop()
   if (display_shall_sleep == false)
   {
     my_display_4digit.ensure_wake();
+
+    // CO2
+    #if !defined(TM_LOAD_DEVICE_BME280) || !defined(TM_LOAD_DEVICE_MHZ19)
     my_display_4digit.displayValueAndSetBrightness(data_to_display);
+    #endif
+    #if defined(TM_LOAD_DEVICE_BME280) && defined(TM_LOAD_DEVICE_MHZ19)
+    if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2
+      my_display_4digit.displayValueAndSetBrightness(data_to_display);
+    } else { //T or H
+      my_display_4digit.displayValue2p1(data_to_display);
+    }
+
+
+    #endif
   }
   else
   {
@@ -333,7 +347,7 @@ void loop()
   // Serial.println(data_to_display);
 
   //
-  if (loopNum > 30)
+  if (loopNum >= 31) // must be a multiple of 4 minus 1
     loopNum = 0;
   else
     loopNum++;
