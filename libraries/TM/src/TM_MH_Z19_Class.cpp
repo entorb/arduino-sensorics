@@ -27,7 +27,7 @@ TM_MH_Z19_Class::TM_MH_Z19_Class(const uint8_t rx, const uint8_t tx, const bool 
   // MH-Z19 works best in this range up to 2000, as commented in MHZ19.h
   myMHZ19.setRange(2000);
   myMHZ19.calibrateZero();
-  myMHZ19.setSpan(2000);
+  // myMHZ19.setSpan(2000);
   // automatically
   myMHZ19.autoCalibration(true);
 }
