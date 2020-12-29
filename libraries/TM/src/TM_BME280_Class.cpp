@@ -74,7 +74,7 @@ float *TM_BME280_Class::read_values()
     TM_Device_Class::printDeviceName();
     Serial.print("Temperature = ");
     Serial.print(data[0]);
-    Serial.println(" °C");
+    Serial.println(" C");
     TM_Device_Class::printDeviceName();
     Serial.print("Humidity = ");
     Serial.print(data[1]);

@@ -39,7 +39,7 @@ float data_lux;
 // auto my_sensor_CO2 = TM_MH_Z19_Class(16, 17, myVerbose);
 auto my_sensor_CO2 = TM_MH_Z19_Class(TM_MHZ19_PIN_RX, TM_MHZ19_PIN_TX, myVerbose);
 uint8_t count_same_CO2_values = 0; // MH-Z19 and WiFi/InfluxDB have a problem, that when both are enabled, the MH-Z19 from time to time is stuck and returns always a value of 380
-int data_CO2;
+int data_CO2 = 0;
 #endif
 
 #ifdef TM_LOAD_DEVICE_4_DIGIT
@@ -269,7 +269,7 @@ void loop()
     {
       count_same_CO2_values = 0;
     }
-    data_to_display = data_CO2;
+    // data_to_display = data_CO2;
   }
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.addField("CO2", data_CO2);
@@ -280,17 +280,37 @@ void loop()
   my_influx.send_point(influx_data_set);
 #endif
 
+// Reading only CO2
+#if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
+data_to_display = data_CO2;
+#endif
+// Reading CO2 and BEM280: Temp, Humidity, Pressure
+#if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
+  if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2
+    data_to_display = data_CO2;
+  } else if (loopNum % 4 == 1) { // T
+    data_to_display = data_bme280[0];
+  } else if (loopNum % 4 == 3) { // H
+    data_to_display = data_bme280[1];
+  }
+#endif
+
+
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
   // my_display_oled.draw_alternating_barchart_and_value(data_to_display);
   if (display_shall_sleep == false)
   {
     my_display_oled.ensure_wake();
-    my_display_oled.drawBarChart(data_to_display);
+    if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
+      my_display_oled.drawBarChart(data_to_display);
+    }
   }
   else
   {
     my_display_oled.ensure_sleep();
-    my_display_oled.appendValueToBarChart(data_to_display);
+    if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
+      my_display_oled.appendValueToBarChart(data_to_display);
+    }
   }
 
 //uint8_t hour = getHour();
@@ -312,7 +332,9 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_KY_016
-  my_display_led_rbg_single.displayValue(data_to_display);
+  if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
+    my_display_led_rbg_single.displayValue(data_to_display);
+  }
 #endif
 
 // data_to_display = loopNum * 50;
