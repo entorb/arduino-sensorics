@@ -75,6 +75,14 @@ Da ich ungerne löte, bevorzuge ich es den ESP32 auf ein Breadboard zu stecken u
 * [Arduino IDE](https://www.arduino.cc/en/software) installieren
 * [ESP32 für Adruino IDE](https://entorb.net/wickie/Arduino#Adding_ESP32_to_Arduino_IDE) installieren, wichtig dabei der Hinweis, dass die URL der JSON in dem Artikel nicht mehr aktuell ist, sondern [diese hier](https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json), [Quelle](https://github.com/espressif/arduino-esp32/issues/3443#issuecomment-549113517)
 * optional Visual Studio Code als Editor [einrichten](https://entorb.net/wickie/Arduino#Visual_Studio_Code) 
+* folgende Libs installieren
+  * MH-Z19 by Jonathan Dempsey
+  * Adafruit BME280 Library
+  * BH1750 by Christopher Laws
+  * InfluxDbClient by Influx Data
+  * U8g2 by oliver
+  * TM1637 by Avishay Orpaz
+  * ESP32 AnalogWrite by ERROPiX
 * [Meine Library](https://github.com/entorb/arduino-sensorics/tree/main/libraries/TM) manuell [hinzufügen](https://www.arduino.cc/en/guide/libraries#toc5)
 * [Meinen Arduino Code](https://github.com/entorb/arduino-sensorics/tree/main/0_arduino_code) herunterladen
 * Dort in der [device_setup.h](https://github.com/entorb/arduino-sensorics/blob/main/0_arduino_code/device_setup.h) die verwendeten Komponenten und gewünschte Messfrequenz auswählen
