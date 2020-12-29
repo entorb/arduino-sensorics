@@ -19,6 +19,12 @@ public:
   void ensure_wake();
   void ensure_sleep();
   void displayValue(uint16_t value);
+
+  // display of a float as xx:x using the ":" as decimal separator
+  // displaying only one digit -> 12.34 -> 12:3
+  // restricted to values v < 100 and v >= 0 
+  void displayValue2p1(float value);
+
   void displayValueAndSetBrightness(uint16_t value);
 
 private:
