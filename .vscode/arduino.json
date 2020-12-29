@@ -1,7 +1,7 @@
 {
     "board": "esp32:esp32:esp32",
     "configuration": "PSRAM=disabled,PartitionScheme=default,CPUFreq=240,FlashMode=qio,FlashFreq=80,FlashSize=4M,UploadSpeed=115200,DebugLevel=none",
-    "port": "COM4",
+    "port": "COM3",
     "programmer": "AVR ISP",
     "sketch": "0_arduino_code/0_arduino_code.ino",
     "output": "e:/tmp/arduino-build"
