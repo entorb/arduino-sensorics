@@ -75,8 +75,9 @@ uint32_t timeStart;
 float data_to_display = 0;
 
 const float value_min_CO2 = 400;
-const float value_max_CO2 = 1000;
-// 3 colors for 600 values -> blue for 600-800
+const float value_max_CO2 = 1150;
+// new: 400-1150: 3 colors for 750 values -> blue for 650-900
+// old: 400-1000: 3 colors for 600 values -> blue for 600-800
 
 bool display_shall_sleep = false;
 //
@@ -178,9 +179,9 @@ void loop()
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   if (data_bme280[0] > -100) // Temp must be larger than -100°C, else -> discard
   {
-    influx_data_set.addField("temperature", data_bme680[0]);
-    influx_data_set.addField("humidity", data_bme680[1]);
-    influx_data_set.addField("pressure", data_bme680[2]);
+    influx_data_set.addField("temperature", data_bme280[0]);
+    influx_data_set.addField("humidity", data_bme280[1]);
+    influx_data_set.addField("pressure", data_bme280[2]);
   }
 #endif
 #endif
@@ -272,7 +273,6 @@ void loop()
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.addField("CO2", data_CO2);
 #endif
-
 #endif
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
