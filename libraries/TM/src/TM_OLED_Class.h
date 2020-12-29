@@ -115,36 +115,36 @@ void TM_OLED_Class<U8G2, px_x, px_y>::setBarChartRange(const float barchart_min,
 template <class U8G2, uint16_t px_x, uint16_t px_y>
 void TM_OLED_Class<U8G2, px_x, px_y>::appendValueToBarChart(const float value_to_append)
 {
-  uint16_t value_to_append_px = tm_helper_value_to_category(value_to_append, value_min, value_max, px_y);
-
-  // shift array to left
-  for (uint16_t i = 0; i < px_x - 1; i++)
-  { // ends at px_x - 2
-    barchart_data[i] = barchart_data[i + 1];
-  }
-
-  // append new value
-  barchart_data[px_x - 1] = value_to_append_px;
-}
-
-template <class U8G2, uint16_t px_x, uint16_t px_y>
-void TM_OLED_Class<U8G2, px_x, px_y>::drawBarChart(const float value_to_append)
-{
   uint32_t time = millis();
   // only update the barchart once per minute
   if (time >= time_last_barchart_update + seconds_min_delay_barchart_update * 1000 || time < time_last_barchart_update)
   {
     time_last_barchart_update = time;
-    appendValueToBarChart(value_to_append);
-    // draw the barchart
-    my_u8g2.clearBuffer();
-    for (uint16_t i = 0; i < px_x; i++)
-    {
-      // drawLine (x0,y0, x1,y1)
-      my_u8g2.drawLine(i, px_y - 1, i, px_y - 1 - barchart_data[i]);
+    uint16_t value_to_append_px = tm_helper_value_to_category(value_to_append, value_min, value_max, px_y);
+
+    // shift array to left
+    for (uint16_t i = 0; i < px_x - 1; i++)
+    { // ends at px_x - 2
+      barchart_data[i] = barchart_data[i + 1];
     }
-    my_u8g2.sendBuffer();
+
+    // append new value
+    barchart_data[px_x - 1] = value_to_append_px;
   }
+}
+
+template <class U8G2, uint16_t px_x, uint16_t px_y>
+void TM_OLED_Class<U8G2, px_x, px_y>::drawBarChart(const float value_to_append)
+{
+  appendValueToBarChart(value_to_append);
+  // draw the barchart
+  my_u8g2.clearBuffer();
+  for (uint16_t i = 0; i < px_x; i++)
+  {
+    // drawLine (x0,y0, x1,y1)
+    my_u8g2.drawLine(i, px_y - 1, i, px_y - 1 - barchart_data[i]);
+  }
+  my_u8g2.sendBuffer();
 }
 
 template <class U8G2, uint16_t px_x, uint16_t px_y>
