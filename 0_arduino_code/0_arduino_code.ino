@@ -221,7 +221,7 @@ void loop()
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.addField("illuminance", data_lux);
 #endif
-  if (display_shall_sleep == false and data_lux <= 10)
+  if (display_shall_sleep == false and data_lux <= 5)
     display_shall_sleep = true;
   else
     display_shall_sleep = false;
