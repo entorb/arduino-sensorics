@@ -8,11 +8,11 @@
 // Normal Mode
 static const int mySleep = 5 * 1000;
 // static const int mySleep = 3 * 1000; // for BME680 in LP mode it must be 3s!
-static const bool myVerbose = false;
+// static const bool myVerbose = false;
 
 // Debugging
 //  static const int mySleep = 2 * 1000;
-//  static const bool myVerbose = true;
+ static const bool myVerbose = true;
 
 //
 // Devices to load
@@ -20,7 +20,7 @@ static const bool myVerbose = false;
 // #define TM_LOAD_DEVICE_INFLUXDB
 // #define TM_HOUR_SLEEP 22
 // #define TM_HOUR_WAKE 6
-#define TM_LOAD_DEVICE_BME280
+// #define TM_LOAD_DEVICE_BME280
 // #define TM_LOAD_DEVICE_BME680
 // #define TM_LOAD_DEVICE_BH1750
 
