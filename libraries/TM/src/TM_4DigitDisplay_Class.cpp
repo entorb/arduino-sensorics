@@ -33,6 +33,13 @@ void TM_4DigitDisplay_Class::ensure_sleep()
   }
 }
 
+void TM_4DigitDisplay_Class::setBrightness(uint8_t value)
+{
+  if (value > 7)
+  value = 7;
+  myDisplay.setBrightness(value, true);
+}
+
 void TM_4DigitDisplay_Class::displayValue(uint16_t value)
 {
   if (value > 9999)
