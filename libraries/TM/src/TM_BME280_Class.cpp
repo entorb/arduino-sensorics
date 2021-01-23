@@ -81,7 +81,7 @@ float *TM_BME280_Class::read_values()
     Serial.println(" %");
     TM_Device_Class::printDeviceName();
     Serial.print("Pressure = ");
-    Serial.print(data[3]);
+    Serial.print(data[2]);
     Serial.println(" hPa");
     /*                                              \
   Serial.print("Approx. Altitude = ");                  \
