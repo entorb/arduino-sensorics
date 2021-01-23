@@ -221,7 +221,7 @@ void loop()
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.addField("illuminance", data_lux);
 #endif
-  if (display_shall_sleep == false and data_lux <= 5)
+  if (display_shall_sleep == false and data_lux <= 1)
     display_shall_sleep = true;
   else
     display_shall_sleep = false;
@@ -269,7 +269,7 @@ void loop()
     {
       count_same_CO2_values = 0;
     }
-    // data_to_display = data_CO2;
+    data_to_display = data_CO2;
   }
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.addField("CO2", data_CO2);
@@ -277,23 +277,24 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
+// send data to InfluxDB
   my_influx.send_point(influx_data_set);
 #endif
 
 // Reading only CO2
-#if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
-data_to_display = data_CO2;
-#endif
+// #if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
+// data_to_display = data_CO2;
+// #endif
 // Reading CO2 and BEM280: Temp, Humidity, Pressure
-#if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
-  if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2
-    data_to_display = data_CO2;
-  } else if (loopNum % 4 == 1) { // T
-    data_to_display = data_bme280[0];
-  } else if (loopNum % 4 == 3) { // H
-    data_to_display = data_bme280[1];
-  }
-#endif
+// #if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
+//   if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2
+//     data_to_display = data_CO2;
+//   } else if (loopNum % 4 == 1) { // T
+//     data_to_display = data_bme280[0];
+//   } else if (loopNum % 4 == 3) { // H
+//     data_to_display = data_bme280[1];
+//   }
+// #endif
 
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
@@ -339,27 +340,40 @@ data_to_display = data_CO2;
 
 // data_to_display = loopNum * 50;
 #ifdef TM_LOAD_DEVICE_4_DIGIT
-  if (display_shall_sleep == false)
+  if (display_shall_sleep == true)
+  {
+    my_display_4digit.ensure_sleep();
+  }
+else
   {
     my_display_4digit.ensure_wake();
 
     // CO2
-    #if !defined(TM_LOAD_DEVICE_BME280) || !defined(TM_LOAD_DEVICE_MHZ19)
-    my_display_4digit.displayValueAndSetBrightness(data_to_display);
-    #endif
-    #if defined(TM_LOAD_DEVICE_BME280) && defined(TM_LOAD_DEVICE_MHZ19)
-    if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2
-      my_display_4digit.displayValueAndSetBrightness(data_to_display);
-    } else { //T or H
-      my_display_4digit.displayValue2p1(data_to_display);
-    }
+    // #if !defined(TM_LOAD_DEVICE_BME280) || !defined(TM_LOAD_DEVICE_MHZ19)
+    // my_display_4digit.displayValueAndSetBrightness(data_to_display);
+    // #endif
 
+    // #if defined(TM_LOAD_DEVICE_BME280) && defined(TM_LOAD_DEVICE_MHZ19)
+    // if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2
+    //   my_display_4digit.displayValueAndSetBrightness(data_to_display);
+    // } else { //T or H
+    //   my_display_4digit.displayValue2p1(data_to_display);
+    // }
+    // #endif
 
-    #endif
-  }
-  else
-  {
-    my_display_4digit.ensure_sleep();
+#if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
+my_display_4digit.displayValueAndSetBrightness(data_CO2);
+#endif
+
+#if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
+my_display_4digit.displayValueAndSetBrightness(data_CO2);
+// delay(mySleep-2500);
+sleep_exact_time(timeStart, mySleep-2000);
+my_display_4digit.setBrightness(1);
+my_display_4digit.displayValue2p1(data_bme280[1]); // H
+delay(1000);
+my_display_4digit.displayValue2p1(data_bme280[0]); // T
+#endif
   }
 #endif
 
@@ -373,7 +387,7 @@ data_to_display = data_CO2;
     loopNum = 0;
   else
     loopNum++;
-  sleep_exact_time(timeStart, millis());
+  sleep_exact_time(timeStart, mySleep);
 } // end loop
 
 //
@@ -389,20 +403,22 @@ data_to_display = data_CO2;
 // -----------------
 //
 
-void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd)
+// void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd)
+void sleep_exact_time(const unsigned long timeStart, const unsigned long duration)
 {
+  const unsigned long timeEnd = millis();
   // calc delay time based on start and stop
   if (timeEnd < timeStart)
   { // overrun of millis() happened
-    delay(mySleep);
+    delay(duration);
   }
-  else if (timeEnd > timeStart + mySleep)
+  else if (timeEnd > timeStart + duration)
   {
     // no delay / sleep
   }
   else
   {
-    delay(mySleep - (timeEnd - timeStart));
+    delay(duration - (timeEnd - timeStart));
     // usually 0.1-0.2sec for one loop of reading my_sensor_bme280 and my_sensor_CO2 and pushing to InfluxDB
   }
 }

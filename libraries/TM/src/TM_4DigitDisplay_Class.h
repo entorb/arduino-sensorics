@@ -18,6 +18,7 @@ public:
   // functions
   void ensure_wake();
   void ensure_sleep();
+  void setBrightness(uint8_t value);
   void displayValue(uint16_t value);
 
   // display of a float as xx:x using the ":" as decimal separator
