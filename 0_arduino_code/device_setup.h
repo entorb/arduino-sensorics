@@ -50,7 +50,7 @@ static const char my_device_name[] = "T-ESP32-5"; static const char my_room[] = 
 // static const char my_device_name[] = "T-ESP32-6"; static const char my_room[] = "Wohnzimmer Falls";
 // static const char my_device_name[] = "T-ESP32-7"; static const char my_room[] = "Hanno";
 // static const char my_device_name[] = "T-ESP32-7"; static const char my_room[] = "Wohnzimmer";
-// static const char my_device_name[] = "T-ESP32-8"; static const char my_room[] = "Arbeitszimmer";
+// static const char my_device_name[] = "T-ESP32-8"; static const char my_room[] = "Hanno";
 // static const char my_device_name[] = "T-ESP32-9"; static const char my_room[] = "mobil";
 
 // static const char my_device_name[] = "T-ESP32-x";
