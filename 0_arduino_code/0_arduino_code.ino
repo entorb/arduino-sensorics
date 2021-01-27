@@ -302,16 +302,16 @@ void loop()
   if (display_shall_sleep == false)
   {
     my_display_oled.ensure_wake();
-    if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
-      my_display_oled.drawBarChart(data_to_display);
-    }
+    // if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
+      my_display_oled.drawBarChart(data_CO2);
+    // }
   }
   else
   {
     my_display_oled.ensure_sleep();
-    if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
-      my_display_oled.appendValueToBarChart(data_to_display);
-    }
+    // if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
+      my_display_oled.appendValueToBarChart(data_CO2);
+    // }
   }
 
 //uint8_t hour = getHour();
@@ -329,13 +329,13 @@ void loop()
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
-  my_display_led_rbg_ring.displayValue(data_to_display);
+  my_display_led_rbg_ring.displayValue(data_CO2);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_KY_016
-  if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
-    my_display_led_rbg_single.displayValue(data_to_display);
-  }
+  // if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
+  my_display_led_rbg_single.displayValue(data_CO2);
+  // }
 #endif
 
 // data_to_display = loopNum * 50;
@@ -369,7 +369,7 @@ my_display_4digit.displayValueAndSetBrightness(data_CO2);
 my_display_4digit.displayValueAndSetBrightness(data_CO2);
 // delay(mySleep-2500);
 sleep_exact_time(timeStart, mySleep-2000);
-my_display_4digit.setBrightness(1);
+my_display_4digit.setBrightness(0);
 my_display_4digit.displayValue2p1(data_bme280[1]); // H
 delay(1000);
 my_display_4digit.displayValue2p1(data_bme280[0]); // T
