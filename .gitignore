@@ -12,3 +12,4 @@ zips/
 .vstags
 changelog.md
 Device-Location-Overview.txt
+0_arduino_code/device_setup-*.h
