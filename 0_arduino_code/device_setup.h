@@ -24,6 +24,7 @@ static const int mySleep = 5 * 1000;
 // #define TM_LOAD_DEVICE_BH1750
 // #define TM_LOAD_DEVICE_BME680
 
+// Sensors
 #define TM_LOAD_DEVICE_MHZ19
 // Newer layout
 #define TM_MHZ19_PIN_RX 16
