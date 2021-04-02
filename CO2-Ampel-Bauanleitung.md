@@ -96,6 +96,9 @@ Wer gerne bastelt und lötet, aber keine Erfahrung mit der Arduino Programmierun
 * für das 3D-Zeichnen und Zuschneiden des Gehäuses für unsere Schule an Bastian
 
 # Bilder
+V1.2: Massenproduktion mit 2h-Zeitverlauf als Bar-Chart via OLED Display
+![4xCO2-in-Holz.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/4xCO2-in-Holz.jpg)
+
 V1 für unsere Schule
 ![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
 
