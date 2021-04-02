@@ -27,6 +27,7 @@
   * offline
   * in proper case
   * using display and traffic light for visualization
+  * see German [Bauanleitung](https://github.com/entorb/arduino-sensorics/blob/main/CO2-Ampel-Bauanleitung.md)
 * Experiment with display devices
 
 ## Next steps
@@ -34,10 +35,10 @@
 * Add more sensors
 
 ## Photos and screenshots
-CO2 Traffic Light V1.2: Massproduction and added history bar chart via OLED display
+CO2 Traffic Light V1.2: Massproduction and added history bar chart via OLED display ([Bauanleitung](https://github.com/entorb/arduino-sensorics/blob/main/CO2-Ampel-Bauanleitung.md))
 ![4xCO2-in-Holz](https://github.com/entorb/arduino-sensorics/blob/main/photos/4xCO2-in-Holz.jpg)
 
-CO2 Traffic Light V1 for our School
+CO2 Traffic Light V1 for our School ([Bauanleitung](https://github.com/entorb/arduino-sensorics/blob/main/CO2-Ampel-Bauanleitung.md))
 ![ASGS-V1.jpg](https://github.com/entorb/arduino-sensorics/blob/main/photos/ASGS-V1.jpg)
 
 CO2 Traffic Light Prototype for our Kindergarten: Display of CO2 level (measured by MH-Z19B) on a 7-segment display and RGB-LED
