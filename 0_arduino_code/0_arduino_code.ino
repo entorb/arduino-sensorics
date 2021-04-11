@@ -11,7 +11,7 @@ auto my_esp32 = TM_ESP32_Class(myVerbose);
 #include "TM_InfluxDB_Class.h"
 #include <InfluxDbClient.h>
 auto my_influx = TM_Influx_Class(myVerbose);
-Point influx_data_set("Raumklima"); // Table
+Point influx_data_set("Raumklima"); // Table Name
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
