@@ -369,7 +369,7 @@ my_display_4digit.displayValueAndSetBrightness(data_CO2);
 my_display_4digit.displayValueAndSetBrightness(data_CO2);
 // delay(mySleep-2500);
 sleep_exact_time(timeStart, mySleep-2000);
-my_display_4digit.setBrightness(0);
+// my_display_4digit.setBrightness(0); // use same brightness for H and T as for CO2
 my_display_4digit.displayValue2p1(data_bme280[1]); // H
 delay(1000);
 my_display_4digit.displayValue2p1(data_bme280[0]); // T
