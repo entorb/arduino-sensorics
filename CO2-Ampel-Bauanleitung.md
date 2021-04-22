@@ -9,7 +9,7 @@ In Zeiten der SARS-CoV-2 / Coronavirus-Pandemie (siehe auch meine [Corona-Datena
 * CO2 Konzentration wird periodisch (zB alle 15s) gemessen
 * Angezeigt via 
   1. als Zahl in ppm
-  2. über eine LED, die von Grün über Blau nach Rot die Farbe (und die Helligkeit wechselt)
+  2. über eine LED, die von Grün über Blau nach Rot die Farbe (und die Helligkeit) wechselt
   3. V2: als Zeitverlauf über ein Balkendiagramm mit 2h in die Vergangenheit
 * optional: via WiFi, InfluxDB und Grafana exportiert und visualisiert
 
