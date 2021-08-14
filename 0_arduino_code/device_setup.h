@@ -37,7 +37,7 @@ static const bool myVerbose = false;
 #define TM_LOAD_DEVICE_4_DIGIT
 #define TM_LOAD_DEVICE_LED_KY_016
 // #define TM_LOAD_DEVICE_OLED_128X64
-// #define TM_LOAD_DEVICE_OLED_128X32
+#define TM_LOAD_DEVICE_OLED_128X32
 // #define TM_LOAD_DEVICE_LED_RING
 
 static const char my_device_name[] = "T-ESP32-x"; static const char my_room[] = "mobil";
