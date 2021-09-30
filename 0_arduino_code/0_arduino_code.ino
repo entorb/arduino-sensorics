@@ -176,11 +176,11 @@ void loop()
 #endif
 
 //
-// sync time every 7 days
+// sync time every 7 days, but only at loopNum=0 for reducing connection problem timeouts
 //
 #ifdef TM_LOAD_DEVICE_INFLUXDB
 #if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
-  if (getTimestamp() > timestampLastTimeSync + 24 * 3600 * 7)
+  if (loopNum == 0 && getTimestamp() > timestampLastTimeSync + 24 * 3600 * 7)
   {
     my_influx.sync_time();
     timestampLastTimeSync = getTimestamp();
