@@ -129,7 +129,7 @@ void TM_Influx_Class::send_point(Point sensor)
         Serial.println(my_InfluxClient.getLastErrorMessage());
       }
       num_upload_errors++;
-      if (num_upload_errors > 100)
+      if (num_upload_errors > 60)
       {
         WiFi.reconnect();
         num_upload_errors = 0;
