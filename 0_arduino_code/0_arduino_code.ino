@@ -2,6 +2,7 @@
 
 // here the parameters for my device are set: name, room, as well als verbose mode
 #include "device_setup.h"
+
 #include "TM_Helper.h"
 
 #include "TM_ESP32_Class.h"
@@ -12,6 +13,9 @@ auto my_esp32 = TM_ESP32_Class(myVerbose);
 #include <InfluxDbClient.h>
 auto my_influx = TM_Influx_Class(myVerbose);
 Point influx_data_set("Raumklima"); // Table Name
+uint32_t timestampLastTimeSync;
+uint8_t hour;
+uint8_t minunte;
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
@@ -80,8 +84,10 @@ const float value_max_CO2 = 1150;
 // old: 400-1000: 3 colors for 600 values -> blue for 600-800
 
 bool display_shall_sleep = false;
+
 //
 //
+// II. Setup
 //
 //
 
@@ -100,8 +106,9 @@ void setup()
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   my_influx.connect_wifi(my_device_name);
-#if defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
+#if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
   my_influx.sync_time();
+  timestampLastTimeSync = getTimestamp();
 #endif
   my_influx.connect_influxdb();
   influx_data_set.addTag("device", my_device_name);
@@ -150,6 +157,7 @@ void setup()
 
 //
 //
+// III. Loop
 //
 //
 
@@ -157,15 +165,36 @@ void loop()
 {
   timeStart = millis();
   data_to_display = 8000 + loopNum; // dummy in case we have no sensor
-  // delay(1000);
 
   display_shall_sleep = false; // set to on by default in each loop
 
+//
+// Influx: prepare empty dataset
+//
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.clearFields();
-  // we only know the time if clock is initially set via WiFi and NTP
+#endif
+
+//
+// sync time every 7 days
+//
+#ifdef TM_LOAD_DEVICE_INFLUXDB
+#if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
+  if (getTimestamp() > timestampLastTimeSync + 24 * 3600 * 7)
+  {
+    my_influx.sync_time();
+    timestampLastTimeSync = getTimestamp();
+  }
+#endif
+#endif
+
+//
+// disable display if this is configured
+// we only know the time if clock is initially set via WiFi and NTP
+//
+#ifdef TM_LOAD_DEVICE_INFLUXDB
 #if defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
-  uint8_t hour = getHour();
+  hour = getHour();
   if (hour < TM_HOUR_WAKE || hour >= TM_HOUR_SLEEP)
   {
     display_shall_sleep = true;
@@ -173,6 +202,10 @@ void loop()
 #endif
 #endif
 
+//
+// 1. read sensors
+//
+// 1.1 BME280: T, H, P
 #ifdef TM_LOAD_DEVICE_BME280
   data_bme280 = my_sensor_bme280.read_values();
   // 0 = Temp, 1 = Humidity, 2 = Pressure
@@ -186,6 +219,7 @@ void loop()
 #endif
 #endif
 
+// 1.2 BME680: T, H, P, IAQ, ...
 #ifdef TM_LOAD_DEVICE_BME680
   data_bme680 = my_sensor_bme680.read();
   // data[0] = iaqSensor.rawTemperature;
@@ -216,17 +250,7 @@ void loop()
 #endif
 #endif
 
-#ifdef TM_LOAD_DEVICE_BH1750
-  data_lux = my_sensor_illuminance.read();
-#ifdef TM_LOAD_DEVICE_INFLUXDB
-  influx_data_set.addField("illuminance", data_lux);
-#endif
-  if (display_shall_sleep == false and data_lux <= 1)
-    display_shall_sleep = true;
-  else
-    display_shall_sleep = false;
-#endif
-
+// 1.3 MHZ19: CO2
 #ifdef TM_LOAD_DEVICE_MHZ19
   if (millis() < 3 * 1000) // start is not reliable, so ignored
   {
@@ -238,9 +262,6 @@ void loop()
   else // normal mode
   {
     data_CO2 = my_sensor_CO2.read_values();
-    // 0 = CO2, 1 = Temp
-    // my_display_4digit.displayValue(7000 + data_CO2); // TODO
-    // delay(1000);
 
     // special handling for values of 0 and 380pmm
     // MH-Z19 sometimes is interrupted by WiFi/InfluxDB or missing serial connection, resulting in always returning the same values,
@@ -276,134 +297,129 @@ void loop()
 #endif
 #endif
 
+// 1.4 BH1750: Illuminance
+#ifdef TM_LOAD_DEVICE_BH1750
+  data_lux = my_sensor_illuminance.read();
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-// send data to InfluxDB
+  influx_data_set.addField("illuminance", data_lux);
+#endif
+  if (display_shall_sleep == false and data_lux <= 1)
+    display_shall_sleep = true;
+  else
+    display_shall_sleep = false;
+#endif
+
+    //
+    // 2. send data to InfluxDB
+    //
+
+#ifdef TM_LOAD_DEVICE_INFLUXDB
   my_influx.send_point(influx_data_set);
 #endif
 
-// Reading only CO2
-// #if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
-// data_to_display = data_CO2;
-// #endif
-// Reading CO2 and BEM280: Temp, Humidity, Pressure
-// #if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
-//   if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2
-//     data_to_display = data_CO2;
-//   } else if (loopNum % 4 == 1) { // T
-//     data_to_display = data_bme280[0];
-//   } else if (loopNum % 4 == 3) { // H
-//     data_to_display = data_bme280[1];
-//   }
-// #endif
+  //
+  // 3. Displays
 
+  //
+  // 3.1 OLED
+  //
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
-  // my_display_oled.draw_alternating_barchart_and_value(data_to_display);
   if (display_shall_sleep == false)
   {
     my_display_oled.ensure_wake();
-    // if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
-      my_display_oled.drawBarChart(data_CO2);
-    // }
+    my_display_oled.drawBarChart(data_CO2);
   }
   else
   {
     my_display_oled.ensure_sleep();
-    // if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
-      my_display_oled.appendValueToBarChart(data_CO2);
-    // }
+    my_display_oled.appendValueToBarChart(data_CO2);
   }
 
-//uint8_t hour = getHour();
-// if (hour <= 21 && hour >= 7)
-// {
-//   my_display_oled.ensure_wake();
-//   // my_display_oled.draw_alternating_barchart_and_value(data_to_display);
-//   my_display_oled.drawBarChart(data_to_display);
-// }
-// else
-// {
-//   my_display_oled.ensure_sleep();
-// }
-//  my_display_oled.draw_alternating_barchart_and_value(data_to_display);
+#endif
+
+  //
+  //  3.2 LEDs
+  //
+
+#ifdef TM_LOAD_DEVICE_LED_KY_016
+  my_display_led_rbg_single.displayValue(data_CO2);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
   my_display_led_rbg_ring.displayValue(data_CO2);
 #endif
 
-#ifdef TM_LOAD_DEVICE_LED_KY_016
-  // if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2 display
-  my_display_led_rbg_single.displayValue(data_CO2);
-  // }
-#endif
+//
+//  3.3 4-digit display
+//
 
-// data_to_display = loopNum * 50;
+// 3.3.0 init
 #ifdef TM_LOAD_DEVICE_4_DIGIT
   if (display_shall_sleep == true)
   {
     my_display_4digit.ensure_sleep();
   }
-else
+  else
   {
     my_display_4digit.ensure_wake();
 
-    // CO2
-    // #if !defined(TM_LOAD_DEVICE_BME280) || !defined(TM_LOAD_DEVICE_MHZ19)
-    // my_display_4digit.displayValueAndSetBrightness(data_to_display);
-    // #endif
-
-    // #if defined(TM_LOAD_DEVICE_BME280) && defined(TM_LOAD_DEVICE_MHZ19)
-    // if (loopNum % 4 == 0 || loopNum % 4 == 2) { // CO2
-    //   my_display_4digit.displayValueAndSetBrightness(data_to_display);
-    // } else { //T or H
-    //   my_display_4digit.displayValue2p1(data_to_display);
-    // }
-    // #endif
-
-#if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
-my_display_4digit.displayValueAndSetBrightness(data_CO2);
+// 3.3.1 time
+#if defined(TM_LOAD_DEVICE_INFLUXDB)
+#if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
+    hour = getHour();
+    minunte = getMinute();
+    timestampLastTimeSync = getTimestamp();
+    my_display_4digit.displayTime(hour, minunte);
+    delay(1000);
+#endif
 #endif
 
+// 3.3.2a CO2 only
+#if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
+    my_display_4digit.displayValueAndSetBrightness(data_CO2);
+#endif
+
+// 3.3.2b H, T only
+#if !defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
+    my_display_4digit.displayValue2p1(data_bme280[1]); // H
+    delay(mySleep / 2);
+    my_display_4digit.displayValue2p1(data_bme280[0]); // T
+    delay(mySleep / 2);
+#endif
+
+// 3.3.2c H, T, CO2
 #if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
-my_display_4digit.displayValueAndSetBrightness(data_CO2);
-// delay(mySleep-2500);
-sleep_exact_time(timeStart, mySleep-2000);
-// my_display_4digit.setBrightness(0); // use same brightness for H and T as for CO2
-my_display_4digit.displayValue2p1(data_bme280[1]); // H
-delay(1000);
-my_display_4digit.displayValue2p1(data_bme280[0]); // T
+    // my_display_4digit.setBrightness(0);
+    // for not on use same brightness for H and T as for CO2
+    my_display_4digit.displayValue2p1(data_bme280[1]); // H
+    delay(1000);
+    my_display_4digit.displayValue2p1(data_bme280[0]); // T
+    delay(1000);
+    my_display_4digit.displayValueAndSetBrightness(data_CO2);
+    delay(1000);
 #endif
   }
 #endif
 
-  // Serial.print("Loop: ");
-  // Serial.print(loopNum);
-  // Serial.print("value: ");
-  // Serial.println(data_to_display);
-
   //
+  // 99. End of Loop
+  //
+
   if (loopNum >= 31) // must be a multiple of 4 minus 1
     loopNum = 0;
   else
     loopNum++;
   sleep_exact_time(timeStart, mySleep);
+
 } // end loop
 
 //
 //
+// IV. Helpers
 //
-//
-//
-//
-//
-//
-// -----------------
-// my helpers
-// -----------------
 //
 
-// void sleep_exact_time(const unsigned long timeStart, const unsigned long timeEnd)
 void sleep_exact_time(const unsigned long timeStart, const unsigned long duration)
 {
   const unsigned long timeEnd = millis();
@@ -413,15 +429,17 @@ void sleep_exact_time(const unsigned long timeStart, const unsigned long duratio
     delay(duration);
   }
   else if (timeEnd > timeStart + duration)
-  {
-    // no delay / sleep
+  { // loop took too long -> no sleep
   }
   else
-  {
+  { // normal case
     delay(duration - (timeEnd - timeStart));
     // usually 0.1-0.2sec for one loop of reading my_sensor_bme280 and my_sensor_CO2 and pushing to InfluxDB
   }
 }
+
+#ifdef TM_LOAD_DEVICE_INFLUXDB
+#if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
 
 #include "time.h"
 byte getHour()
@@ -436,41 +454,30 @@ byte getHour()
   return timeinfo.tm_hour;
 }
 
-// not used any more
-/*
-  void printLocalTime()
-  {
+byte getMinute()
+// returns minutes (00..59), if unknown returns 0
+{
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo))
   {
-    Serial.println("Failed to obtain time");
-    return;
+    Serial.println("Failed to obtain time, returning 00");
+    return 0; //-1;
   }
-  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-  Serial.print("Day of week: ");
-  Serial.println(&timeinfo, "%A");
-  Serial.print("Month: ");
-  Serial.println(&timeinfo, "%B");
-  Serial.print("Day of Month: ");
-  Serial.println(&timeinfo, "%d");
-  Serial.print("Year: ");
-  Serial.println(&timeinfo, "%Y");
-  Serial.print("Hour: ");
-  Serial.println(&timeinfo, "%H");
-  Serial.print("Hour (12 hour format): ");
-  Serial.println(&timeinfo, "%I");
-  Serial.print("Minute: ");
-  Serial.println(&timeinfo, "%M");
-  Serial.print("Second: ");
-  Serial.println(&timeinfo, "%S");
+  return timeinfo.tm_min;
+}
 
-  Serial.println("Time variables");
-  char timeHour[3];
-  strftime(timeHour, 3, "%H", &timeinfo);
-  Serial.println(timeHour);
-  char timeWeekDay[10];
-  strftime(timeWeekDay, 10, "%A", &timeinfo);
-  Serial.println(timeWeekDay);
-  Serial.println();
+unsigned long getTimestamp()
+// returns unix timestamp, if not successful returns 0
+{
+  time_t now;
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo))
+  {
+    Serial.println("Failed to obtain timestamp, returning 0");
+    return (0);
   }
-*/
+  time(&now);
+  return now;
+}
+#endif
+#endif
