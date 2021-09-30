@@ -9,4 +9,13 @@
     ],
     "C_Cpp.intelliSenseEngine": "Default",
     "C_Cpp.default.defines": [],
+    "files.associations": {
+        "ratio": "cpp",
+        "system_error": "cpp",
+        "array": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp"
+    },
 }
