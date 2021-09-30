@@ -20,10 +20,11 @@ public:
   void ensure_sleep();
   void setBrightness(uint8_t value);
   void displayValue(uint16_t value);
+  void displayTime(uint8_t hour, uint8_t min);
 
   // display of a float as xx:x using the ":" as decimal separator
   // displaying only one digit -> 12.34 -> 12:3
-  // restricted to values v < 100 and v >= 0 
+  // restricted to values v < 100 and v >= 0
   void displayValue2p1(float value);
 
   void displayValueAndSetBrightness(uint16_t value);
