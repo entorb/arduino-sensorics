@@ -6,7 +6,7 @@
 #define LOG_LOCAL_LEVEL ESP_LOG_ERROR
 
 // Normal Mode
-static const int mySleep = 5 * 1000;
+static const int mySleep = 6 * 1000;
 // static const int mySleep = 3 * 1000; // for BME680 in LP mode it must be 3s!
 static const bool myVerbose = false;
 
@@ -17,11 +17,12 @@ static const bool myVerbose = false;
 //
 // Devices to load
 //
-// #define TM_LOAD_DEVICE_INFLUXDB
+#define TM_LOAD_DEVICE_INFLUXDB
 // #define TM_HOUR_SLEEP 22
 // #define TM_HOUR_WAKE 6
-// #define TM_LOAD_DEVICE_BME280
-// #define TM_LOAD_DEVICE_BH1750
+#define TM_DISPLAY_TIME
+#define TM_LOAD_DEVICE_BME280
+#define TM_LOAD_DEVICE_BH1750
 // #define TM_LOAD_DEVICE_BME680
 
 // Sensors
@@ -40,4 +41,5 @@ static const bool myVerbose = false;
 #define TM_LOAD_DEVICE_OLED_128X32
 // #define TM_LOAD_DEVICE_LED_RING
 
-static const char my_device_name[] = "T-ESP32-x"; static const char my_room[] = "mobil";
+static const char my_device_name[] = "T-ESP32-1";
+static const char my_room[] = "Arbeitszimmer";

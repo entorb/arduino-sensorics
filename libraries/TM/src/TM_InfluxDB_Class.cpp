@@ -145,6 +145,11 @@ void TM_Influx_Class::send_point(Point sensor)
 
 void TM_Influx_Class::sync_time()
 {
+  if (verbose)
+  {
+    TM_Device_Class::printDeviceName();
+    Serial.println("syncing time");
+  }
   timeSync("CET-1CEST,M3.5.0,M10.5.0/3", "de.pool.ntp.org");
   // "CET-1CEST,M3.5.0,M10.5.0/3" = Central Europe
 }

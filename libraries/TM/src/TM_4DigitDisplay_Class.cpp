@@ -36,7 +36,7 @@ void TM_4DigitDisplay_Class::ensure_sleep()
 void TM_4DigitDisplay_Class::setBrightness(uint8_t value)
 {
   if (value > 7)
-  value = 7;
+    value = 7;
   myDisplay.setBrightness(value, true);
 }
 
@@ -53,9 +53,19 @@ void TM_4DigitDisplay_Class::displayValue2p1(float value)
     value = 99.9;
   uint16_t i = value * 10;
   myDisplay.clear();
-  myDisplay.showNumberDecEx(i,0b01000000, false, 3,0);
+  myDisplay.showNumberDecEx(i, 0b01000000, false, 3, 0);
 }
 
+void TM_4DigitDisplay_Class::displayTime(uint8_t hour, uint8_t min)
+{
+  if (hour > 23)
+    hour = 12;
+  if (min > 60)
+    min = 0;
+  uint16_t i = hour * 100 + min;
+  myDisplay.clear();
+  myDisplay.showNumberDecEx(i, 0b01000000, false);
+}
 
 void TM_4DigitDisplay_Class::displayValueAndSetBrightness(uint16_t value)
 {
