@@ -18,8 +18,8 @@ static const bool myVerbose = false;
 // Devices to load
 //
 #define TM_LOAD_DEVICE_INFLUXDB
-// #define TM_HOUR_SLEEP 22
-// #define TM_HOUR_WAKE 6
+#define TM_HOUR_SLEEP 21
+#define TM_HOUR_WAKE 7
 #define TM_DISPLAY_TIME
 #define TM_LOAD_DEVICE_BME280
 #define TM_LOAD_DEVICE_BH1750
