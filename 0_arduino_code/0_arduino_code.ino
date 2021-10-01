@@ -49,6 +49,7 @@ int data_CO2 = 0;
 #ifdef TM_LOAD_DEVICE_4_DIGIT
 #include "TM_4DigitDisplay_Class.h"
 auto my_display_4digit = TM_4DigitDisplay_Class(32, 33, myVerbose);
+int my_display_4digit_loop_delay = 0; // ms
 #endif
 
 #ifdef TM_LOAD_DEVICE_OLED_128X32
@@ -151,6 +152,17 @@ void setup()
   my_display_4digit.init();
   my_display_4digit.setValueRange(value_min_CO2, value_max_CO2);
   my_display_4digit.displayValue(9000); // Displaying a value of 9000 for debugging purposes
+
+#if defined(TM_DISPLAY_TIME)
+  my_display_4digit_loop_delay += 1;
+#endif
+#if defined(TM_LOAD_DEVICE_MHZ19)
+  my_display_4digit_loop_delay += 2; // twice the time than for the other values
+#endif
+#if defined(TM_LOAD_DEVICE_BME280)
+  my_display_4digit_loop_delay += 2; // 2 values
+#endif
+  my_display_4digit_loop_delay = mySleep / my_display_4digit_loop_delay; // overwrite the counter by the resulting value in ms
   // delay(1000);
 #endif
 } // end setup
@@ -373,7 +385,7 @@ void loop()
     minunte = getMinute();
     timestampLastTimeSync = getTimestamp();
     my_display_4digit.displayTime(hour, minunte);
-    delay(1000);
+    delay(my_display_4digit_loop_delay);
 #endif
 #endif
 
@@ -385,9 +397,9 @@ void loop()
 // 3.3.2b H, T only
 #if !defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
     my_display_4digit.displayValue2p1(data_bme280[1]); // H
-    delay(mySleep / 2);
+    delay(my_display_4digit_loop_delay);
     my_display_4digit.displayValue2p1(data_bme280[0]); // T
-    delay(mySleep / 2);
+    delay(my_display_4digit_loop_delay);
 #endif
 
 // 3.3.2c H, T, CO2
@@ -395,11 +407,11 @@ void loop()
     // my_display_4digit.setBrightness(0);
     // for not on use same brightness for H and T as for CO2
     my_display_4digit.displayValue2p1(data_bme280[1]); // H
-    delay(1000);
+    delay(my_display_4digit_loop_delay);
     my_display_4digit.displayValue2p1(data_bme280[0]); // T
-    delay(1000);
+    delay(my_display_4digit_loop_delay);
     my_display_4digit.displayValueAndSetBrightness(data_CO2);
-    delay(1000);
+    delay(2 * my_display_4digit_loop_delay); // twice the time than the other values
 #endif
   }
 #endif
