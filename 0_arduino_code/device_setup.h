@@ -3,7 +3,7 @@
 //
 
 // see https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/log.html
-#define LOG_LOCAL_LEVEL ESP_LOG_ERROR
+// #define LOG_LOCAL_LEVEL ESP_LOG_ERROR
 
 // Normal Mode
 static const int mySleep = 6 * 1000;

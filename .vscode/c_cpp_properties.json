@@ -5,11 +5,13 @@
             "includePath": [
                 "C:/Users/t/AppData/Local/Arduino15/packages/esp32/tools/**",
                 "C:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/**",
+                // "C:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/2.0.0/**",
                 "${workspaceFolder}/libraries/**"
             ],
             "forcedInclude": [
                 "c:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/cores/esp32/Arduino.h"
-                // "C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h"
+                // "c:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/2.0.0/cores/esp32/Arduino.h"
+                // ,"C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h"
             ],
             "defines": [
                 "USBCON"
