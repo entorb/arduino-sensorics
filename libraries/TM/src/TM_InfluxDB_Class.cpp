@@ -62,7 +62,9 @@ void TM_Influx_Class::connect_wifi(const char *devicename)
     Serial.println();
 
   // enable Power Saving Modem -> only WiFi keep alive
-  esp_wifi_set_ps(WIFI_PS_MODEM);
+  // esp_wifi_set_ps(WIFI_PS_MODEM); // ESP32 1.0.4
+  // esp_wifi_set_ps(WIFI_PS_MIN_MODEM); // ESP32 2.0.0, see https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/wifi.html
+  esp_wifi_set_ps(WIFI_PS_MAX_MODEM); // ESP32 2.0.0, see https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-guides/wifi.html
 }
 
 void TM_Influx_Class::connect_influxdb()
