@@ -15,7 +15,7 @@ auto my_influx = TM_Influx_Class(myVerbose);
 Point influx_data_set("Raumklima"); // Table Name
 uint32_t timestampLastTimeSync;
 uint8_t hour;
-uint8_t minunte;
+uint8_t minute;
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME280
@@ -366,7 +366,7 @@ void loop()
 //  3.3 4-digit display
 //
 
-// 3.3.0 init
+// 3.3.1 init
 #ifdef TM_LOAD_DEVICE_4_DIGIT
   Serial.print("display_shall_sleep: ");
   Serial.println(display_shall_sleep);
@@ -378,20 +378,10 @@ void loop()
   {
     my_display_4digit.ensure_wake();
 
-// 3.3.1 time
-#if defined(TM_LOAD_DEVICE_INFLUXDB)
-#if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
-    hour = getHour();
-    minunte = getMinute();
-    timestampLastTimeSync = getTimestamp();
-    my_display_4digit.displayTime(hour, minunte);
-    delay(my_display_4digit_loop_delay);
-#endif
-#endif
-
 // 3.3.2a CO2 only
 #if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
     my_display_4digit.displayValueAndSetBrightness(data_CO2);
+    delay(2 * my_display_4digit_loop_delay); // twice the time than the other values
 #endif
 
 // 3.3.2b H, T only
@@ -402,18 +392,28 @@ void loop()
     delay(my_display_4digit_loop_delay);
 #endif
 
-// 3.3.2c H, T, CO2
+// 3.3.2c CO2, H, T
 #if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
     // my_display_4digit.setBrightness(0);
     // for not on use same brightness for H and T as for CO2
+    my_display_4digit.displayValueAndSetBrightness(data_CO2);
+    delay(2 * my_display_4digit_loop_delay);           // twice the time than the other values
     my_display_4digit.displayValue2p1(data_bme280[1]); // H
     delay(my_display_4digit_loop_delay);
     my_display_4digit.displayValue2p1(data_bme280[0]); // T
     delay(my_display_4digit_loop_delay);
-    my_display_4digit.displayValueAndSetBrightness(data_CO2);
-    delay(2 * my_display_4digit_loop_delay); // twice the time than the other values
 #endif
   }
+#endif
+
+// 3.3.3 time
+#if defined(TM_LOAD_DEVICE_INFLUXDB)
+#if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
+  hour = getHour();
+  minute = getMinute();
+  my_display_4digit.displayTime(hour, minute);
+  delay(my_display_4digit_loop_delay);
+#endif
 #endif
 
   //
