@@ -9,7 +9,7 @@ Class for EPS32 Microcontroller
 #include "TM_Device_Class.h"
 
 // see https://docs.espressif.com/projects/esp-idf/en/latest/esp32/api-reference/system/log.html
-#define LOG_LOCAL_LEVEL ESP_LOG_ERROR
+// #define LOG_LOCAL_LEVEL ESP_LOG_ERROR
 // #include "esp_log.h"
 // esp_log_level_set("*", ESP_LOG_ERROR);
 
