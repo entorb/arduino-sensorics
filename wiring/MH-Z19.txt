@@ -1,5 +1,15 @@
+Attention from EPS32 point of view the RX and TX are swapped, RX(MH-Z19)=TX(ESP32) and vice versa
+
+Layout 1
 ESP32       MH-Z19
 5V          UIn (weiß)
 GND         GND (schwarz)
 G17 (TX)    RX  (lila)
 G16 (RX)    TX  (grau)
+
+Layout 1
+ESP32       MH-Z19
+5V          UIn (rot)
+GND         GND (schwarz)
+G17 (TX)    RX  (orange)
+G16 (RX)    TX  (weiß)
