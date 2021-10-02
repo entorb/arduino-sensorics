@@ -1,7 +1,15 @@
+Layout 1:
 ESP32 BMP280
 3,3V VIN  rot
 GND  GND  braun/schwarz
 G22  SCL  orange
 G21  SDA  gelb
+
+Layout 2:
+ESP32 BMP280
+3,3V VIN  lila
+GND  GND  grau
+G22  SCL  blau
+G21  SDA  grün
 
  

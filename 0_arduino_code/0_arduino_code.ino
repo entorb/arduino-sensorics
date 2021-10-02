@@ -336,8 +336,6 @@ void loop()
 
 // 3.1.1 init
 #ifdef TM_LOAD_DEVICE_4_DIGIT
-  Serial.print("display_shall_sleep: ");
-  Serial.println(display_shall_sleep);
   if (display_shall_sleep == true)
   {
     my_display_4digit.ensure_sleep();
