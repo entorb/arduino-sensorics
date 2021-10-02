@@ -25,6 +25,7 @@ float *data_bme280;
 #endif
 
 #ifdef TM_LOAD_DEVICE_BME680
+// for BME680 in LP mode, the loop sleep time must be 3s!
 #include "TM_BME680_Class.h"
 auto my_sensor_bme680 = TM_BME680_Class(myVerbose);
 float *data_bme680;
@@ -39,8 +40,12 @@ float data_lux;
 #ifdef TM_LOAD_DEVICE_MHZ19
 #include "TM_MH_Z19_Class.h"
 // Attention from EPS32 point of view the RX and TX are swapped, RX(MH-Z19)=TX(ESP32) and vice versa
-// auto my_sensor_CO2 = TM_MH_Z19_Class(14, 13, myVerbose);
-// auto my_sensor_CO2 = TM_MH_Z19_Class(16, 17, myVerbose);
+// new layout
+// #define TM_MHZ19_PIN_RX 16
+// #define TM_MHZ19_PIN_TX 17
+// old KiTa layout
+// #define TM_MHZ19_PIN_RX 14
+// #define TM_MHZ19_PIN_TX 13
 auto my_sensor_CO2 = TM_MH_Z19_Class(TM_MHZ19_PIN_RX, TM_MHZ19_PIN_TX, myVerbose);
 uint8_t count_same_CO2_values = 0; // MH-Z19 and WiFi/InfluxDB have a problem, that when both are enabled, the MH-Z19 from time to time is stuck and returns always a value of 380
 int data_CO2 = 0;
@@ -262,7 +267,19 @@ void loop()
 #endif
 #endif
 
-// 1.3 MHZ19: CO2
+// 1.3 BH1750: Illuminance
+#ifdef TM_LOAD_DEVICE_BH1750
+  data_lux = my_sensor_illuminance.read();
+#ifdef TM_LOAD_DEVICE_INFLUXDB
+  influx_data_set.addField("illuminance", data_lux);
+#endif
+  if (display_shall_sleep == false and data_lux <= 1)
+    display_shall_sleep = true;
+  else
+    display_shall_sleep = false;
+#endif
+
+// 1.4 MHZ19: CO2
 #ifdef TM_LOAD_DEVICE_MHZ19
   if (millis() < 3 * 1000) // start is not reliable, so ignored
   {
@@ -309,31 +326,78 @@ void loop()
 #endif
 #endif
 
-// 1.4 BH1750: Illuminance
-#ifdef TM_LOAD_DEVICE_BH1750
-  data_lux = my_sensor_illuminance.read();
-#ifdef TM_LOAD_DEVICE_INFLUXDB
-  influx_data_set.addField("illuminance", data_lux);
-#endif
-  if (display_shall_sleep == false and data_lux <= 1)
-    display_shall_sleep = true;
-  else
-    display_shall_sleep = false;
-#endif
-
-    //
-    // 2. send data to InfluxDB
-    //
-
-#ifdef TM_LOAD_DEVICE_INFLUXDB
-  my_influx.send_point(influx_data_set);
-#endif
-
   //
   // 3. Displays
+  //
+
+//
+//  3.1 4-digit display
+//
+
+// 3.1.1 init
+#ifdef TM_LOAD_DEVICE_4_DIGIT
+  Serial.print("display_shall_sleep: ");
+  Serial.println(display_shall_sleep);
+  if (display_shall_sleep == true)
+  {
+    my_display_4digit.ensure_sleep();
+  }
+  else
+  {
+    my_display_4digit.ensure_wake();
+
+// 3.1.2a CO2 only
+#if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
+    my_display_4digit.displayValueAndSetBrightness(data_CO2);
+    delay(2 * my_display_4digit_loop_delay); // twice the time than the other values
+#endif
+
+// 3.1.2b H, T only
+#if !defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
+    my_display_4digit.displayValue2p1(data_bme280[1]); // H
+    delay(my_display_4digit_loop_delay);
+    my_display_4digit.displayValue2p1(data_bme280[0]); // T
+    delay(my_display_4digit_loop_delay);
+#endif
+
+// 3.1.2c CO2, H, T
+#if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
+    // my_display_4digit.setBrightness(0);
+    // for not on use same brightness for H and T as for CO2
+    my_display_4digit.displayValueAndSetBrightness(data_CO2);
+    delay(2 * my_display_4digit_loop_delay);           // twice the time than the other values
+    my_display_4digit.displayValue2p1(data_bme280[1]); // H
+    delay(my_display_4digit_loop_delay);
+    my_display_4digit.displayValue2p1(data_bme280[0]); // T
+    delay(my_display_4digit_loop_delay);
+#endif
+  }
+#endif
+
+// 3.1.3 time
+#if defined(TM_LOAD_DEVICE_INFLUXDB)
+#if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
+  hour = getHour();
+  minute = getMinute();
+  my_display_4digit.displayTime(hour, minute);
+  delay(my_display_4digit_loop_delay);
+#endif
+#endif
 
   //
-  // 3.1 OLED
+  //  3.2 LEDs
+  //
+
+#ifdef TM_LOAD_DEVICE_LED_KY_016
+  my_display_led_rbg_single.displayValue(data_CO2);
+#endif
+
+#ifdef TM_LOAD_DEVICE_LED_RING
+  my_display_led_rbg_ring.displayValue(data_CO2);
+#endif
+
+  //
+  // 3.3 OLED Bar Chart
   //
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
@@ -351,69 +415,11 @@ void loop()
 #endif
 
   //
-  //  3.2 LEDs
+  // 4. send data to InfluxDB
   //
 
-#ifdef TM_LOAD_DEVICE_LED_KY_016
-  my_display_led_rbg_single.displayValue(data_CO2);
-#endif
-
-#ifdef TM_LOAD_DEVICE_LED_RING
-  my_display_led_rbg_ring.displayValue(data_CO2);
-#endif
-
-//
-//  3.3 4-digit display
-//
-
-// 3.3.1 init
-#ifdef TM_LOAD_DEVICE_4_DIGIT
-  Serial.print("display_shall_sleep: ");
-  Serial.println(display_shall_sleep);
-  if (display_shall_sleep == true)
-  {
-    my_display_4digit.ensure_sleep();
-  }
-  else
-  {
-    my_display_4digit.ensure_wake();
-
-// 3.3.2a CO2 only
-#if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
-    my_display_4digit.displayValueAndSetBrightness(data_CO2);
-    delay(2 * my_display_4digit_loop_delay); // twice the time than the other values
-#endif
-
-// 3.3.2b H, T only
-#if !defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
-    my_display_4digit.displayValue2p1(data_bme280[1]); // H
-    delay(my_display_4digit_loop_delay);
-    my_display_4digit.displayValue2p1(data_bme280[0]); // T
-    delay(my_display_4digit_loop_delay);
-#endif
-
-// 3.3.2c CO2, H, T
-#if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
-    // my_display_4digit.setBrightness(0);
-    // for not on use same brightness for H and T as for CO2
-    my_display_4digit.displayValueAndSetBrightness(data_CO2);
-    delay(2 * my_display_4digit_loop_delay);           // twice the time than the other values
-    my_display_4digit.displayValue2p1(data_bme280[1]); // H
-    delay(my_display_4digit_loop_delay);
-    my_display_4digit.displayValue2p1(data_bme280[0]); // T
-    delay(my_display_4digit_loop_delay);
-#endif
-  }
-#endif
-
-// 3.3.3 time
-#if defined(TM_LOAD_DEVICE_INFLUXDB)
-#if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
-  hour = getHour();
-  minute = getMinute();
-  my_display_4digit.displayTime(hour, minute);
-  delay(my_display_4digit_loop_delay);
-#endif
+#ifdef TM_LOAD_DEVICE_INFLUXDB
+  my_influx.send_point(influx_data_set);
 #endif
 
   //
