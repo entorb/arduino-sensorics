@@ -196,8 +196,8 @@ void loop()
 // sync time every 7 days, but only at loopNum=0 for reducing connection problem timeouts
 //
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-#if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
-  if (loopNum == 0 && getTimestamp() > timestampLastTimeSync + 24 * 3600 * 7)
+#if defined(TM_DISPLAY_TIME) || (defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE))
+  if (loopNum == 0 && (getTimestamp() > timestampLastTimeSync + 24 * 3600 * 7))
   {
     my_influx.sync_time();
     timestampLastTimeSync = getTimestamp();
@@ -211,10 +211,12 @@ void loop()
 //
 #ifdef TM_LOAD_DEVICE_INFLUXDB
 #if defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
-  hour = getHour();
-  if (hour < TM_HOUR_WAKE || hour >= TM_HOUR_SLEEP)
+  // check if we are at sleeping time
+  if (display_shall_sleep == false)
   {
-    display_shall_sleep = true;
+    hour = getHour();
+    if (hour < TM_HOUR_WAKE || hour >= TM_HOUR_SLEEP)
+      display_shall_sleep = true;
   }
 #endif
 #endif
@@ -273,10 +275,8 @@ void loop()
 #ifdef TM_LOAD_DEVICE_INFLUXDB
   influx_data_set.addField("illuminance", data_lux);
 #endif
-  if (display_shall_sleep == false and data_lux <= 1)
+  if (display_shall_sleep == false && data_lux <= 1)
     display_shall_sleep = true;
-  else
-    display_shall_sleep = false;
 #endif
 
 // 1.4 MHZ19: CO2
@@ -387,27 +387,33 @@ void loop()
   //
 
 #ifdef TM_LOAD_DEVICE_LED_KY_016
-  my_display_led_rbg_single.displayValue(data_CO2);
+  if (display_shall_sleep == true)
+    my_display_led_rbg_single.displayValue(0);
+  else
+    my_display_led_rbg_single.displayValue(data_CO2);
 #endif
 
 #ifdef TM_LOAD_DEVICE_LED_RING
-  my_display_led_rbg_ring.displayValue(data_CO2);
+  if (display_shall_sleep == true)
+    my_display_led_rbg_ring.displayValue(0);
+  else
+    my_display_led_rbg_ring.displayValue(data_CO2);
 #endif
 
-  //
-  // 3.3 OLED Bar Chart
-  //
+    //
+    // 3.3 OLED Bar Chart
+    //
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
-  if (display_shall_sleep == false)
-  {
-    my_display_oled.ensure_wake();
-    my_display_oled.drawBarChart(data_CO2);
-  }
-  else
+  if (display_shall_sleep == true)
   {
     my_display_oled.ensure_sleep();
     my_display_oled.appendValueToBarChart(data_CO2);
+  }
+  else
+  {
+    my_display_oled.ensure_wake();
+    my_display_oled.drawBarChart(data_CO2);
   }
 
 #endif
