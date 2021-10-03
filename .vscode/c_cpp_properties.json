@@ -3,6 +3,8 @@
         {
             "name": "Arduino",
             "includePath": [
+                // this needs to go before "tools":
+                "c:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/tools/sdk/include/**",
                 "C:/Users/t/AppData/Local/Arduino15/packages/esp32/tools/**",
                 "C:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/1.0.4/**",
                 // "C:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/2.0.0/**",
@@ -17,8 +19,9 @@
                 "USBCON"
             ],
             "compilerPath": "c:/Program Files (x86)/Arduino/hardware/tools/avr/bin/avr-gcc.exe",
-            "cStandard": "c11",
-            "cppStandard": "c++14"
+            "intelliSenseMode": "gcc-x64"
+            // "cStandard": "c11",
+            // "cppStandard": "c++14"
             // "intelliSenseMode": "msvc-x64",
         }
     ],
