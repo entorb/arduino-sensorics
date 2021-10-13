@@ -388,7 +388,7 @@ void loop()
 
 #ifdef TM_LOAD_DEVICE_LED_KY_016
   if (display_shall_sleep == true)
-    my_display_led_rbg_single.displayValue(0);
+    my_display_led_rbg_single.setColor(0, 0, 0, 0);
   else
     my_display_led_rbg_single.displayValue(data_CO2);
 #endif
