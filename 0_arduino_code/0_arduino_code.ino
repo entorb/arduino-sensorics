@@ -326,15 +326,15 @@ void loop()
 #endif
 #endif
 
-  //
-  // 3. Displays
-  //
-
 //
-//  3.1 4-digit display
+// 2. Displays
 //
 
-// 3.1.1 init
+//
+//  2.1 4-digit display
+//
+
+// 2.1.1 init
 #ifdef TM_LOAD_DEVICE_4_DIGIT
   if (display_shall_sleep == true)
   {
@@ -344,13 +344,13 @@ void loop()
   {
     my_display_4digit.ensure_wake();
 
-// 3.1.2a CO2 only
+// 2.1.2a CO2 only
 #if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
     my_display_4digit.displayValueAndSetBrightness(data_CO2);
     delay(2 * my_display_4digit_loop_delay); // twice the time than the other values
 #endif
 
-// 3.1.2b H, T only
+// 2.1.2b H, T only
 #if !defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
     my_display_4digit.displayValue2p1(data_bme280[1]); // H
     delay(my_display_4digit_loop_delay);
@@ -358,7 +358,7 @@ void loop()
     delay(my_display_4digit_loop_delay);
 #endif
 
-// 3.1.2c CO2, H, T
+// 2.1.2c CO2, H, T
 #if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
     // my_display_4digit.setBrightness(0);
     // for not on use same brightness for H and T as for CO2
@@ -372,7 +372,7 @@ void loop()
   }
 #endif
 
-// 3.1.3 time
+// 2.1.3 time
 #if defined(TM_LOAD_DEVICE_INFLUXDB)
 #if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
   hour = getHour();
@@ -383,7 +383,7 @@ void loop()
 #endif
 
   //
-  //  3.2 LEDs
+  //  2.2 LEDs
   //
 
 #ifdef TM_LOAD_DEVICE_LED_KY_016
@@ -401,7 +401,7 @@ void loop()
 #endif
 
     //
-    // 3.3 OLED Bar Chart
+    // 2.3 OLED Bar Chart
     //
 
 #if defined(TM_LOAD_DEVICE_OLED_128X32) || defined(TM_LOAD_DEVICE_OLED_128X64)
@@ -419,7 +419,7 @@ void loop()
 #endif
 
   //
-  // 4. send data to InfluxDB
+  // 3. send data to InfluxDB
   //
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
@@ -427,7 +427,7 @@ void loop()
 #endif
 
   //
-  // 99. End of Loop
+  // 4. End of Loop
   //
 
   if (loopNum >= 31) // must be a multiple of 4 minus 1

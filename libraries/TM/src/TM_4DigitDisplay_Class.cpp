@@ -57,6 +57,7 @@ void TM_4DigitDisplay_Class::displayValue2p1(float value)
 }
 
 void TM_4DigitDisplay_Class::displayTime(uint8_t hour, uint8_t min)
+//TODO: 0:12 -> :12 as leading zeros are lost due to integer
 {
   if (hour > 23)
     hour = 12;
