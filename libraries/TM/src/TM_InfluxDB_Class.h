@@ -24,7 +24,7 @@ public:
   // constructor
   TM_Influx_Class(const bool verbose = false);
   // variables
-  uint8_t seconds_min_delay_upload = 59; // min x seconds delay between uploads
+  uint8_t seconds_min_delay_upload = 50; // min x seconds delay between uploads
   // functions
   void connect_wifi(const char *);
   void connect_influxdb();
