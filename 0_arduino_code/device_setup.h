@@ -3,7 +3,7 @@ static const char my_device_name[] = "T-ESP32-1";
 static const char my_room[] = "Arbeitszimmer";
 
 static const int mySleep = 5 * 1000; // = duration of loop
-static const bool myVerbose = false;
+static const bool myVerbose = true;
 
 // Upload to Influx DB and clock settings
 #define TM_LOAD_DEVICE_INFLUXDB
@@ -13,7 +13,7 @@ static const bool myVerbose = false;
 
 // Sensors
 #define TM_LOAD_DEVICE_BME280
-#define TM_LOAD_DEVICE_BH1750
+// #define TM_LOAD_DEVICE_BH1750
 // #define TM_LOAD_DEVICE_BME680
 #define TM_LOAD_DEVICE_MHZ19
 #define TM_MHZ19_PIN_RX 16
@@ -23,5 +23,5 @@ static const bool myVerbose = false;
 #define TM_LOAD_DEVICE_4_DIGIT
 #define TM_LOAD_DEVICE_LED_KY_016
 // #define TM_LOAD_DEVICE_OLED_128X64
-#define TM_LOAD_DEVICE_OLED_128X32
+// #define TM_LOAD_DEVICE_OLED_128X32
 // #define TM_LOAD_DEVICE_LED_RING
