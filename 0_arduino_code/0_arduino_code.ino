@@ -352,6 +352,7 @@ void loop()
 
 // 2.1.2b H, T only
 #if !defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
+    my_display_4digit.setBrightness(1);
     my_display_4digit.displayValue2p1(data_bme280[1]); // H
     delay(my_display_4digit_loop_delay);
     my_display_4digit.displayValue2p1(data_bme280[0]); // T

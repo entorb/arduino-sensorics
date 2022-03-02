@@ -1,5 +1,5 @@
-ESP32  4 digit 7 segment dispay DS1302/TM1637 
+ESP32  4 digit 7 segment display DS1302/TM1637
 GND    GND (blau)
-3.3V   VCC (lila)
+3.3V or 5V   VCC (lila)
 G33    DIO (grau/orange)
 G32    CLK (weiß/gelb)
