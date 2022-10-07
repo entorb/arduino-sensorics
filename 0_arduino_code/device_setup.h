@@ -1,6 +1,6 @@
 // General
-static const char my_device_name[] = "T-ESP32-1";
-static const char my_room[] = "Arbeitszimmer";
+static const char my_device_name[] = "T-ESP32-1-T";
+static const char my_room[] = "Torben";
 
 // do not use a  value > 15s as otherwise flashing becomes difficult
 static const int mySleep = 5 * 1000; // = duration of loop
