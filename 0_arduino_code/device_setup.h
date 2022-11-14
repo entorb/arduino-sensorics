@@ -9,7 +9,7 @@ static const bool myVerbose = true;
 // Upload to Influx DB and clock settings
 #define TM_LOAD_DEVICE_INFLUXDB
 #define TM_DISPLAY_TIME
-#define TM_HOUR_SLEEP 21
+#define TM_HOUR_SLEEP 20
 #define TM_HOUR_WAKE 6
 
 // Sensors
