@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-// here the parameters for my device are set: name, room, as well als verbose mode
+// here the parameters for my device are set: name, room, verbose mode
 #include "device_setup.h"
 
 #include "TM_Helper.h"
