@@ -3,7 +3,10 @@
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -19,14 +22,17 @@
     ]
   },
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": 18,
-  "iteration": 1633241589958,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
-      "datasource": "InfluxDB_raspi",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "000000001"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -35,6 +41,8 @@
             "mode": "fixed"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -98,16 +106,22 @@
             "min"
           ],
           "displayMode": "table",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
           "alias": "Temperature",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "000000001"
+          },
           "groupBy": [
             {
               "params": [
@@ -152,13 +166,14 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Temperature - $Room",
       "type": "timeseries"
     },
     {
-      "datasource": "InfluxDB_raspi",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "000000001"
+      },
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -167,6 +182,8 @@
             "mode": "fixed"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -236,16 +253,22 @@
             "min"
           ],
           "displayMode": "table",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
           "alias": "CO2",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "000000001"
+          },
           "groupBy": [
             {
               "params": [
@@ -297,13 +320,14 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "CO2 - $Room",
       "type": "timeseries"
     },
     {
-      "datasource": "InfluxDB_raspi",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "000000001"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -311,6 +335,8 @@
             "mode": "fixed"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -373,16 +399,22 @@
             "min"
           ],
           "displayMode": "table",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
           "alias": "Humidity",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "000000001"
+          },
           "groupBy": [
             {
               "params": [
@@ -427,13 +459,14 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Humidity - $Room",
       "type": "timeseries"
     },
     {
-      "datasource": "InfluxDB_raspi",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "000000001"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -441,6 +474,8 @@
             "mode": "fixed"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -501,16 +536,22 @@
             "min"
           ],
           "displayMode": "table",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
-          "mode": "single"
+          "mode": "single",
+          "sort": "none"
         }
       },
       "pluginVersion": "8.1.5",
       "targets": [
         {
           "alias": "Pressure",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "000000001"
+          },
           "groupBy": [
             {
               "params": [
@@ -555,164 +596,31 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Pressure - $Room",
-      "type": "timeseries"
-    },
-    {
-      "datasource": "InfluxDB_raspi",
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "fixedColor": "yellow",
-            "mode": "fixed"
-          },
-          "custom": {
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "hue",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "lineInterpolation": "linear",
-            "lineWidth": 2,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "never",
-            "spanNulls": false,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          },
-          "unit": "lux"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 9,
-        "w": 12,
-        "x": 0,
-        "y": 18
-      },
-      "id": 11,
-      "interval": "1m",
-      "links": [],
-      "options": {
-        "legend": {
-          "calcs": [
-            "mean",
-            "lastNotNull",
-            "max",
-            "min"
-          ],
-          "displayMode": "table",
-          "placement": "bottom"
-        },
-        "tooltip": {
-          "mode": "single"
-        }
-      },
-      "pluginVersion": "8.1.5",
-      "targets": [
-        {
-          "alias": "Illuminance",
-          "groupBy": [
-            {
-              "params": [
-                "$__interval"
-              ],
-              "type": "time"
-            },
-            {
-              "params": [
-                "null"
-              ],
-              "type": "fill"
-            }
-          ],
-          "measurement": "Raumklima",
-          "orderByTime": "ASC",
-          "policy": "default",
-          "query": "SELECT mean(\"illuminance\") FROM \"Raumklima\" WHERE (\"room\" =~ /^$Room$/) AND $timeFilter GROUP BY time($__interval) fill(null)",
-          "rawQuery": true,
-          "refId": "B",
-          "resultFormat": "time_series",
-          "select": [
-            [
-              {
-                "params": [
-                  "illuminance"
-                ],
-                "type": "field"
-              },
-              {
-                "params": [],
-                "type": "mean"
-              }
-            ]
-          ],
-          "tags": [
-            {
-              "key": "device",
-              "operator": "=~",
-              "value": "/^$Device$/"
-            }
-          ]
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Illuminance - $Room",
       "type": "timeseries"
     }
   ],
   "refresh": "",
-  "schemaVersion": 30,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {
-          "selected": false,
-          "text": "Arbeitszimmer",
-          "value": "Arbeitszimmer"
+          "selected": true,
+          "text": "Torben",
+          "value": "Torben"
         },
-        "description": null,
-        "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": null,
         "multi": false,
         "name": "Room",
         "options": [
           {
             "selected": true,
-            "text": "Arbeitszimmer",
-            "value": "Arbeitszimmer"
+            "text": "Torben",
+            "value": "Torben"
           },
           {
             "selected": false,
@@ -731,8 +639,8 @@
           },
           {
             "selected": false,
-            "text": "Wintergarten",
-            "value": "Wintergarten"
+            "text": "Kueche",
+            "value": "Kueche"
           },
           {
             "selected": false,
@@ -740,7 +648,7 @@
             "value": "Wohnzimmer"
           }
         ],
-        "query": "Arbeitszimmer, Bad, Eleen, Hanno, Wintergarten, Wohnzimmer",
+        "query": "Torben, Bad, Eleen, Hanno, Kueche, Wohnzimmer",
         "queryValue": "",
         "skipUrlSync": false,
         "type": "custom"
@@ -748,7 +656,7 @@
     ]
   },
   "time": {
-    "from": "now-6h",
+    "from": "now-15m",
     "to": "now"
   },
   "timepicker": {
@@ -779,5 +687,6 @@
   "timezone": "",
   "title": "Raumklima per Room",
   "uid": "ATUok7RRk",
-  "version": 16
+  "version": 22,
+  "weekStart": ""
 }
