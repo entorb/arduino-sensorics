@@ -18,6 +18,16 @@
 * OLED display 128x32px and 128x64px in [TM_OLED_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_OLED_Class.h)
 * RGB-LEDs: Ring and Single LED in [TM_LED_Ring_Class.cpp](https://github.com/entorb/arduino-sensorics/blob/main/libraries/TM/src/TM_LED_Ring_Class.cpp)
 
+## Arduino Package Requirements
+
+* [Adafruit BME280 Library](https://github.com/adafruit/Adafruit_BME280_Library)
+* [BH1750](https://github.com/claws/BH1750)
+* [ESP8266 Influxdb](https://github.com/tobiasschuerg/InfluxDB-Client-for-Arduino)
+* [MH-Z19](https://github.com/WifWaf/MH-Z19)
+* [TM1637](https://github.com/avishorp/TM1637)
+* [U8G2](https://github.com/olikraus/u8g2)
+* [ESP32 AnalogWrite](https://github.com/ERROPiX/ESP32_AnalogWrite)
+
 ## Achievements
 
 * Learning basics of C++: inheritance, templates, ...
