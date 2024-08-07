@@ -8,7 +8,9 @@ based on "RGBLed.h"
 */
 
 #include "Arduino.h"
-#include <analogWrite.h>
+// TODO: find replacement for #include <analogWrite.h>
+// found via Google, but yet untested:
+#include "esp32-hal-ledc.h"
 
 #include "TM_Device_Class.h"
 #include "TM_LED_KY_016_Class.h"
