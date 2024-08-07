@@ -73,7 +73,7 @@ void TM_OLED_Class<U8G2, px_x, px_y>::init()
 
   // u8g2_font_inb19_mf: bbox = 16, max height = 31
   // my_u8g2.setFontRefHeightExtendedText(); //https://github.com/olikraus/u8g2/wiki/u8g2reference#setfontrefheightextendedtext
-  //Serial.println(sizeof(barchart_data) / sizeof(barchart_data[0]));
+  // Serial.println(sizeof(barchart_data) / sizeof(barchart_data[0]));
 }
 
 template <class U8G2, uint16_t px_x, uint16_t px_y>
