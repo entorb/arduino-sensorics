@@ -20,8 +20,8 @@ private:
   uint8_t num_upload_errors = 0;       // if > 100 than trigger wifi reconnect
 
 public:
-  //InfluxDBClient my_InfluxClient;
-  // constructor
+  // InfluxDBClient my_InfluxClient;
+  //  constructor
   TM_Influx_Class(const bool verbose = false);
   // variables
   uint8_t seconds_min_delay_upload = 50; // min x seconds delay between uploads
