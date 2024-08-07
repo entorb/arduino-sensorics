@@ -24,7 +24,7 @@ private:
   unsigned status;
   float data[3];
   Adafruit_BME280 bme; // I2C
-                       //Adafruit_BME280 bme(BME_CS); // hardware SPI
-                       //Adafruit_BME280 bme(BME_CS, BME_MOSI, BME_MISO, BME_SCK); // software SPI
+                       // Adafruit_BME280 bme(BME_CS); // hardware SPI
+                       // Adafruit_BME280 bme(BME_CS, BME_MOSI, BME_MISO, BME_SCK); // software SPI
 };
 #endif

@@ -1,5 +1,5 @@
 /*
-Class for EPS32 Microcontroller 
+Class for EPS32 Microcontroller
 */
 
 #ifndef TM_ESP32_CLASS_H

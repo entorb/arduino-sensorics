@@ -1,6 +1,7 @@
 /*
   Class for connection to WiFi and InfluxDB
   based on https://github.com/tobiasschuerg/InfluxDB-Client-for-Arduino/blob/master/examples/BasicWrite/BasicWrite.ino
+  TODO: remove WIFI from here
 */
 
 // InfluxDB
@@ -11,7 +12,7 @@
 
 #include <InfluxDbClient.h>
 
-//WiFi
+// WiFi
 #include <WiFi.h>
 #include "TM_WiFi_secret.h"
 #include "esp_wifi.h" // for esp_wifi_set_ps (WIFI_PS_MODEM); = power saving
