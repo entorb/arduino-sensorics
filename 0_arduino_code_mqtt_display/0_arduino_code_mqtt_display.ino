@@ -28,6 +28,11 @@ void setup()
   // ESP32
   setCpuFrequencyMhz(80); // 240, 160, 80
 
+  // Display
+  my_display.clear();
+  my_display.setBrightness(0, true);
+  my_display.showNumberDec(0, true);
+
   // WiFi
   wifi_connect();
   // enable Power Saving Modem
@@ -38,9 +43,7 @@ void setup()
   mqtt_client.subscribe("tele/tasmota_MT681/SENSOR");
   // mqtt_client.publish("esp32/test", "ESP32 body");
 
-  // Display
-  my_display.setBrightness(4, true);
-  my_display.clear();
+  my_display.showNumberDec(1, true);
 }
 
 void loop()
@@ -50,6 +53,7 @@ void loop()
 
 void wifi_connect()
 {
+  my_display.showNumberDec(100, true);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
   WiFi.setHostname(my_device_name);
@@ -57,24 +61,35 @@ void wifi_connect()
   Serial.println("Connecting to WiFi");
   while (WiFi.status() != WL_CONNECTED)
   {
+    my_display.showNumberDec(101 + i, true);
     if (i == 15)
     {
       WiFi.reconnect();
       i = 0;
     }
     Serial.print(".");
-    delay(500);
+    delay(1000);
     i++;
   }
   Serial.println();
+  my_display.showNumberDec(120, true);
 }
 
 void mqtt_connect()
 {
+  my_display.showNumberDec(200, true);
   mqtt_client.setServer(MQTT_HOST, MQTT_PORT);
   mqtt_client.setCallback(mqtt_callback_message_processor);
+  int i = 0;
   while (!mqtt_client.connected())
   {
+    if (i == 11)
+    {
+      ESP.restart();
+      i = 0;
+    }
+
+    my_display.showNumberDec(201 + i, true);
     Serial.printf("Connecting to MQTT broker as %s\n", my_device_name);
     if (mqtt_client.connect(my_device_name, MQTT_USER, MQTT_PASSWORD))
     {
@@ -83,10 +98,12 @@ void mqtt_connect()
     else
     {
       Serial.print("failed with state ");
-      Serial.print(mqtt_client.state());
+      Serial.println(mqtt_client.state());
       delay(2000);
     }
+    i++;
   }
+  my_display.showNumberDec(220, true);
 }
 
 void mqtt_callback_message_processor(char *topic, byte *payload, unsigned int length)
