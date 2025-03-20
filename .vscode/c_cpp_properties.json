@@ -1,28 +1,22 @@
 {
-    "configurations": [
-        {
-            "name": "Arduino",
-            "includePath": [
-                // this needs to go before "tools":
-                "C:/Users/t/AppData/Local/Arduino15/packages/arduino/tools/**",
-                "C:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/3.0.3/**",
-                // "C:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/2.0.0/**",
-                "${workspaceFolder}/libraries/**"
-            ],
-            "forcedInclude": [
-                "c:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/3.0.3/cores/esp32/Arduino.h"
-                // "c:/Users/t/AppData/Local/Arduino15/packages/esp32/hardware/esp32/2.0.0/cores/esp32/Arduino.h"
-                // ,"C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h"
-            ],
-            "defines": [
-                "USBCON"
-            ],
-            "compilerPath": "C:/Users/t/AppData/Local/Arduino15/packages/arduino/tools/avr-gcc/7.3.0-atmel3.6.1-arduino7/bin/avr-gcc.exe",
-            "intelliSenseMode": "gcc-x64"
-            // "cStandard": "c11",
-            // "cppStandard": "c++14"
-            // "intelliSenseMode": "msvc-x64",
-        }
-    ],
-    "version": 4
+  "configurations": [
+    {
+      "name": "Arduino",
+      "includePath": [
+        "/Users/torben/Library/Arduino15/packages/esp32/tools/**",
+        "/Users/torben/Library/Arduino15/packages/esp32/hardware/esp32/3.0.3/**",
+        "${workspaceFolder}/libraries/**"
+      ],
+      "forcedInclude": [
+        // "C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino/Arduino.h",
+        "/Users/torben/Library/Arduino15/packages/esp32/hardware/esp32/3.0.3/cores/esp32/Arduino.h"
+      ],
+      "defines": ["USBCON"],
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "c11",
+      "cppStandard": "c++14"
+      // "intelliSenseMode": "msvc-x64",
+    }
+  ],
+  "version": 4
 }
