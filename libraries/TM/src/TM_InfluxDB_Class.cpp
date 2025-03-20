@@ -19,7 +19,7 @@
 
 // TODO: pass seconds_min_delay_upload as parameter
 
-// TODO: does not like to be moved into Initialisierungsliste:
+// TODO: does not like to be moved into init:
 InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
 TM_Influx_Class::TM_Influx_Class(const bool this_verbose) : TM_Device_Class("Influx", this_verbose) //, my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
 {

@@ -32,7 +32,7 @@ void TM_WiFi_Class::connect()
 
   // New Version
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
   WiFi.setHostname(devicename);
   int i = 0;
   while (WiFi.status() != WL_CONNECTED)

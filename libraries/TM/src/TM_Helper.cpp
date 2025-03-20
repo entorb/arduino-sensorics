@@ -6,7 +6,7 @@ Helper functions
 #include "TM_Helper.h"
 
 uint8_t tm_helper_value_to_category(const float value, const float value_min, const float value_max, const uint8_t number_of_cat)
-// converts a value with respect to min and max to a caterory, for example set number
+// converts a value with respect to min and max to a category, for example set number
 // TM: this is tested to work correctly: min=400, max=1200, number_of_cat=8 -> 0..499 -> 0 ; >= 1100 -> 7
 {
     uint8_t cat_number = 0;
