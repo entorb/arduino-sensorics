@@ -1,0 +1,21 @@
+# CSpell Custom Dictionary Words
+Adafruit
+barchart
+bsec
+DigitDisplay
+ldflags
+LEDC
+Limor
+Menke
+Microcontroller
+MOSI
+MQTT
+ncen
+OLED
+Raumklima
+RSSI
+SEALEVELPRESSURE
+Sensortec
+Tasmota
+tele
+Torben
