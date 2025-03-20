@@ -48,6 +48,14 @@ void setup()
 
 void loop()
 {
+  if (WiFi.status() != WL_CONNECTED) {
+    wifi_connect();
+  }
+
+  if (!mqtt_client.connected()) {
+    mqtt_connect();
+  }
+
   mqtt_client.loop();
 }
 
@@ -55,7 +63,7 @@ void wifi_connect()
 {
   my_display.showNumberDec(100, true);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
   WiFi.setHostname(my_device_name);
   int i = 0;
   Serial.println("Connecting to WiFi");
@@ -127,7 +135,6 @@ void mqtt_callback_message_processor(char *topic, byte *payload, unsigned int le
 
   int powerCurInt = (int)(powerCurString.toFloat());
 
-  Serial.print(powerCurInt);
-  Serial.println("W");
   my_display.showNumberDec(powerCurInt, false);
+  Serial.printf("%dW\n", powerCurInt);
 }
