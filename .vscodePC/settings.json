@@ -1,0 +1,33 @@
+{
+    // Arduino
+    "arduino.path": "C:/Program Files (x86)/Arduino",
+    "arduino.defaultBaudRate": 115200,
+    "arduino.logLevel": "info",
+    "arduino.additionalUrls": [
+        "https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json",
+        "http://arduino.esp8266.com/stable/package_esp8266com_index.json"
+    ],
+    "C_Cpp.intelliSenseEngine": "Default",
+    "C_Cpp.default.defines": [],
+    "files.associations": {
+        "ratio": "cpp",
+        "system_error": "cpp",
+        "array": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "atomic": "cpp",
+        "list": "cpp",
+        "fstream": "cpp",
+        "limits": "cpp",
+        "sstream": "cpp",
+        "iomanip": "cpp"
+    },
+}
