@@ -16,7 +16,7 @@ public:
   void setVerbose(bool);
   void printDeviceName();
   void init();
-  // void println(); no, too much efford to overload all the different types of Serial.println()
+  // void println(); no, too much effort to overload all the different types of Serial.println()
 
   // variables
   // used in verbose: Serial.print() to identify the sending device
