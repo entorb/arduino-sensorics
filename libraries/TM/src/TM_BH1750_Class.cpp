@@ -18,7 +18,7 @@ TM_BH1750_Class::TM_BH1750_Class(const bool this_verbose) : TM_Sensor_Device_Cla
 void TM_BH1750_Class::init()
 {
   TM_Sensor_Device_Class::init();
-  // TM: this needs to be done here, not in constructore
+  // TM: this needs to be done here, not in constructor
   // my_lightMeter(0x23);
   Wire.begin(); // On esp8266 you can select SCL and SDA pins using Wire.begin(D4, D3);
   my_lightMeter.begin(BH1750::ONE_TIME_HIGH_RES_MODE);
