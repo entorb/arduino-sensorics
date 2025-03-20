@@ -13,7 +13,7 @@ Based on MHZ19 BasicExample
 // #define TX_PIN 17
 #define MHZ19_BAUDRATE 9600 // Device to MH-Z19 Serial baudrate (should not be changed)
 
-// Initialisierungsliste
+// Init
 TM_MH_Z19_Class::TM_MH_Z19_Class(const uint8_t rx, const uint8_t tx, const bool this_verbose) : TM_Sensor_Device_Class("MH-Z19B", this_verbose), mySerial(1)
 {
   pin_rx = rx;
