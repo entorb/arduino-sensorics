@@ -4,12 +4,12 @@
 
 // WiFi
 #include <WiFi.h>
-#include "TM_WiFi_secret.h" // file holding my WiFi credentials
+#include "TM_WiFi_secret.h" // WiFi credentials
 #include "esp_wifi.h"       // for power saving via esp_wifi_set_ps()
 
 // MQTT
 // from https://www.emqx.com/en/blog/esp32-connects-to-the-free-public-mqtt-broker
-#include "TM_MQTT_secret.h" // file holding my MQTT credentials
+#include "TM_MQTT_secret.h" // MQTT credentials
 #include <PubSubClient.h>
 
 // Display
@@ -48,11 +48,13 @@ void setup()
 
 void loop()
 {
-  if (WiFi.status() != WL_CONNECTED) {
+  if (WiFi.status() != WL_CONNECTED)
+  {
     wifi_connect();
   }
 
-  if (!mqtt_client.connected()) {
+  if (!mqtt_client.connected())
+  {
     mqtt_connect();
   }
 
@@ -66,11 +68,11 @@ void wifi_connect()
   WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
   WiFi.setHostname(my_device_name);
   int i = 0;
-  Serial.println("Connecting to WiFi");
+  Serial.printf("Connecting to WiFi as %s\n", my_device_name);
   while (WiFi.status() != WL_CONNECTED)
   {
     my_display.showNumberDec(101 + i, true);
-    if (i == 15)
+    if (i == 15) // reconnect after 15s
     {
       WiFi.reconnect();
       i = 0;
@@ -91,23 +93,17 @@ void mqtt_connect()
   int i = 0;
   while (!mqtt_client.connected())
   {
-    if (i == 11)
+    if (i == 10) // restart after 10 retries
     {
       ESP.restart();
-      i = 0;
     }
 
     my_display.showNumberDec(201 + i, true);
-    Serial.printf("Connecting to MQTT broker as %s\n", my_device_name);
-    if (mqtt_client.connect(my_device_name, MQTT_USER, MQTT_PASSWORD))
+    Serial.printf("Connecting to MQTT as %s\n", my_device_name);
+    if (!mqtt_client.connect(my_device_name, MQTT_USER, MQTT_PASSWORD))
     {
-      Serial.println("MQTT broker connected");
-    }
-    else
-    {
-      Serial.print("failed with state ");
-      Serial.println(mqtt_client.state());
-      delay(2000);
+      Serial.printf("Failed with state %d\n", mqtt_client.state());
+      delay(2000 * (i + 1));
     }
     i++;
   }
