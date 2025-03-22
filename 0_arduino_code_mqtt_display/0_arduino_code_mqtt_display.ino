@@ -4,13 +4,13 @@
 
 // WiFi
 #include <WiFi.h>
-#include "TM_WiFi_secret.h" // file holding my WiFi credentials
 #include "esp_wifi.h"       // for power saving via esp_wifi_set_ps()
+#include "TM_WiFi_secret.h" // WiFi credentials
 
 // MQTT
 // from https://www.emqx.com/en/blog/esp32-connects-to-the-free-public-mqtt-broker
-#include "TM_MQTT_secret.h" // file holding my MQTT credentials
 #include <PubSubClient.h>
+#include "TM_MQTT_secret.h" // MQTT credentials
 
 // Display
 #include <TM1637Display.h>
@@ -48,11 +48,13 @@ void setup()
 
 void loop()
 {
-  if (WiFi.status() != WL_CONNECTED) {
+  if (WiFi.status() != WL_CONNECTED)
+  {
     wifi_connect();
   }
 
-  if (!mqtt_client.connected()) {
+  if (!mqtt_client.connected())
+  {
     mqtt_connect();
   }
 
@@ -66,21 +68,22 @@ void wifi_connect()
   WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
   WiFi.setHostname(my_device_name);
   int i = 0;
-  Serial.println("Connecting to WiFi");
+  Serial.printf("Connecting to WiFi as %s\n", my_device_name);
   while (WiFi.status() != WL_CONNECTED)
   {
     my_display.showNumberDec(101 + i, true);
-    if (i == 15)
+    Serial.print(".");
+    delay(1000);
+    if (i == 15) // reconnect after 15s
     {
       WiFi.reconnect();
       i = 0;
     }
-    Serial.print(".");
-    delay(1000);
     i++;
   }
-  Serial.println();
-  my_display.showNumberDec(120, true);
+  // connection successful
+  Serial.println(); // final linebreak after the "."
+  my_display.showNumberDec(120, true); 
 }
 
 void mqtt_connect()
@@ -88,29 +91,23 @@ void mqtt_connect()
   my_display.showNumberDec(200, true);
   mqtt_client.setServer(MQTT_HOST, MQTT_PORT);
   mqtt_client.setCallback(mqtt_callback_message_processor);
+  Serial.printf("Connecting to MQTT as %s\n", my_device_name);
   int i = 0;
   while (!mqtt_client.connected())
   {
-    if (i == 11)
+    my_display.showNumberDec(201 + i, true);
+    if (!mqtt_client.connect(my_device_name, MQTT_USER, MQTT_PASSWORD))
+    {
+      Serial.printf("Failed with state %d\n", mqtt_client.state());
+      delay(1000 * (i + 1));
+    }
+    if (i == 15) // restart after 15 retries
     {
       ESP.restart();
-      i = 0;
-    }
-
-    my_display.showNumberDec(201 + i, true);
-    Serial.printf("Connecting to MQTT broker as %s\n", my_device_name);
-    if (mqtt_client.connect(my_device_name, MQTT_USER, MQTT_PASSWORD))
-    {
-      Serial.println("MQTT broker connected");
-    }
-    else
-    {
-      Serial.print("failed with state ");
-      Serial.println(mqtt_client.state());
-      delay(2000);
     }
     i++;
   }
+  // connection successful
   my_display.showNumberDec(220, true);
 }
 
@@ -132,7 +129,6 @@ void mqtt_callback_message_processor(char *topic, byte *payload, unsigned int le
   int startIndex = payloadString.indexOf(key) + key.length();
   int endIndex = payloadString.indexOf(",", startIndex);
   String powerCurString = payloadString.substring(startIndex, endIndex);
-
   int powerCurInt = (int)(powerCurString.toFloat());
 
   my_display.showNumberDec(powerCurInt, false);
