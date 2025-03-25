@@ -32,18 +32,6 @@ void setup()
   my_display.clear();
   my_display.setBrightness(0, true);
   my_display.showNumberDec(0, true);
-
-  // WiFi
-  wifi_connect();
-  // enable Power Saving Modem
-  esp_wifi_set_ps(WIFI_PS_MAX_MODEM);
-
-  // MQTT
-  mqtt_connect();
-  mqtt_client.subscribe("tele/tasmota_MT681/SENSOR");
-  // mqtt_client.publish("esp32/test", "ESP32 body");
-
-  my_display.showNumberDec(1, true);
 }
 
 void loop()
@@ -83,7 +71,9 @@ void wifi_connect()
   }
   // connection successful
   Serial.println(); // final linebreak after the "."
-  my_display.showNumberDec(120, true); 
+  my_display.showNumberDec(120, true);
+  // enable Power Saving Modem
+  esp_wifi_set_ps(WIFI_PS_MAX_MODEM);
 }
 
 void mqtt_connect()
@@ -109,6 +99,8 @@ void mqtt_connect()
   }
   // connection successful
   my_display.showNumberDec(220, true);
+  mqtt_client.subscribe("tele/tasmota_MT681/SENSOR");
+  // mqtt_client.publish("esp32/test", "ESP32 body");
 }
 
 void mqtt_callback_message_processor(char *topic, byte *payload, unsigned int length)
