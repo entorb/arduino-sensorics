@@ -1,0 +1,41 @@
+printing cases via 3D printer
+Templates can be found at https://www.thingiverse.com
+
+
+IS: fixed width types
+wenn du nur "int" oder "unsigned" schreibst, dann kann das je nach plattform alles heißen (ganz übel wird es bei "long long")
+typen wie uint8_t sind eindeutig und erzeugen portierbaren code
+erfordert inttypes.h oder so
+
+Arduino IDE
+Delete unused libs
+
+ESP32 Over The Air Update
+https://randomnerdtutorials.com/esp32-over-the-air-ota-programming/
+
+furthers Sensors
+MQ-2 LPG, i-Butan, Propan, Methan, Alkohol, Wasserstoff und Rauch.
+MQ-4 Methangas Gas Sensor
+MQ-6 Gas Sensor für Arduino und Raspberry Pi. Schnelles Erkennen von Butangas, Flüssiggas, LPG, LNG und weitere Gase. 
+MQ-7 Kohlenmonoxid Sensor CO
+MQ-9 CO Kohlenmonoxid Brennbares Gas
+Pinbelegung:
+    VCC - Stromversorgung 5V
+    GND - Masseanschluss
+    AOUT - Analoger Output
+    DOUT -  Digitaler Output
+
+
+
+
+DONE
+ESP32 Deep Sleep zum Stromsparen oder zumindest Modem Sleep
+https://lastminuteengineers.com/esp32-sleep-modes-power-consumption/
+Und Bluetooth ausschalten
+
+Sleep till next full minute, via measuring the time of the loop
+
+IS: define
+statt #define bei die cpp constexpressions verwenden, sind typsicher und geben bessere compilerfehler. defines werden nur vom preprozessor blind ausgetauscht.
+
+Display off at night
