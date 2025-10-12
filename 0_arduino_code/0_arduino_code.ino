@@ -448,19 +448,12 @@ void loop()
 void sleep_exact_time(const unsigned long timeStart, const unsigned long duration)
 {
   const unsigned long timeEnd = millis();
-  // calc delay time based on start and stop
-  if (timeEnd < timeStart)
-  { // overrun of millis() happened
-    delay(duration);
+  // AI: This works correctly with overflow due to unsigned arithmetic
+  unsigned long elapsed = timeEnd - timeStart;
+  if (elapsed >= duration) {
+      return; // No sleep needed
   }
-  else if (timeEnd > timeStart + duration)
-  { // loop took too long -> no sleep
-  }
-  else
-  { // normal case
-    delay(duration - (timeEnd - timeStart));
-    // usually 0.1-0.2sec for one loop of reading my_sensor_bme280 and my_sensor_CO2 and pushing to InfluxDB
-  }
+  delay(duration - elapsed);
 }
 
 #ifdef TM_LOAD_DEVICE_INFLUXDB
