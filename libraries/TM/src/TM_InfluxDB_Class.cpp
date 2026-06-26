@@ -19,9 +19,7 @@
 
 // TODO: pass seconds_min_delay_upload as parameter
 
-// TODO: does not like to be moved into init:
-InfluxDBClient my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME);
-TM_Influx_Class::TM_Influx_Class(const bool this_verbose) : TM_Device_Class("Influx", this_verbose) //, my_InfluxClient(INFLUXDB_URL, INFLUXDB_DB_NAME)
+TM_Influx_Class::TM_Influx_Class(const bool this_verbose) : TM_Device_Class("Influx", this_verbose)
 {
 }
 
@@ -43,15 +41,16 @@ void TM_Influx_Class::connect_wifi(const char *devicename)
   // while (my_wifiMulti.run() != WL_CONNECTED)
 
   // New Version
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
   WiFi.setHostname(devicename);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   int i = 0;
   while (WiFi.status() != WL_CONNECTED)
   {
     if (i == 15)
     {
-      WiFi.reconnect();
+      WiFi.disconnect(true);
+      WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
       i = 0;
     }
     if (verbose)
@@ -98,7 +97,7 @@ void TM_Influx_Class::connect_influxdb()
   }
 }
 
-void TM_Influx_Class::send_point(Point sensor)
+void TM_Influx_Class::send_point(Point& sensor)
 {
   uint32_t time = millis();
   // only one upload per minute
@@ -112,7 +111,7 @@ void TM_Influx_Class::send_point(Point sensor)
     }
     // If no Wifi signal, try  reconnecting
     // if ((WiFi.RSSI() == 0) && (my_wifiMulti.run() != WL_CONNECTED))
-    if ((WiFi.RSSI() == 0) && (WiFi.status() != WL_CONNECTED))
+    if (WiFi.status() != WL_CONNECTED)
     {
       if (verbose)
       {
@@ -154,5 +153,4 @@ void TM_Influx_Class::sync_time()
     Serial.println("syncing time");
   }
   timeSync("CET-1CEST,M3.5.0,M10.5.0/3", "de.pool.ntp.org");
-  // "CET-1CEST,M3.5.0,M10.5.0/3" = Central Europe
 }

@@ -82,8 +82,6 @@ auto my_display_led_rbg_single = TM_LED_KY_016_Class(5, 18, 19, myVerbose);
 // variables
 uint8_t loopNum = 0;
 uint32_t timeStart;
-float data_to_display = 0;
-
 const float value_min_CO2 = 400;
 const float value_max_CO2 = 1150;
 // new: 400-1150: 3 colors for 750 values -> blue for 650-900
@@ -114,7 +112,11 @@ void setup()
   my_influx.connect_wifi(my_device_name);
 #if defined(TM_DISPLAY_TIME) || defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE)
   my_influx.sync_time();
-  timestampLastTimeSync = getTimestamp();
+  {
+    unsigned long ts = getTimestamp();
+    if (ts != 0)
+      timestampLastTimeSync = ts;
+  }
 #endif
   my_influx.connect_influxdb();
   influx_data_set.addTag("device", my_device_name);
@@ -181,7 +183,6 @@ void setup()
 void loop()
 {
   timeStart = millis();
-  data_to_display = 8000 + loopNum; // dummy in case we have no sensor
 
   display_shall_sleep = false; // set to on by default in each loop
 
@@ -197,10 +198,21 @@ void loop()
 //
 #ifdef TM_LOAD_DEVICE_INFLUXDB
 #if defined(TM_DISPLAY_TIME) || (defined(TM_HOUR_SLEEP) && defined(TM_HOUR_WAKE))
-  if (loopNum == 0 && (getTimestamp() > timestampLastTimeSync + 24 * 3600 * 7))
+  if (loopNum == 0)
   {
-    my_influx.sync_time();
-    timestampLastTimeSync = getTimestamp();
+    unsigned long ts = getTimestamp();
+    if (timestampLastTimeSync == 0)
+    {
+      my_influx.sync_time();
+      ts = getTimestamp();
+      if (ts != 0)
+        timestampLastTimeSync = ts;
+    }
+    else if (ts - timestampLastTimeSync > 604800) //  24 * 3600 * 7
+    {
+      my_influx.sync_time();
+      timestampLastTimeSync = getTimestamp();
+    }
   }
 #endif
 #endif
@@ -319,11 +331,10 @@ void loop()
     {
       count_same_CO2_values = 0;
     }
-    data_to_display = data_CO2;
-  }
 #ifdef TM_LOAD_DEVICE_INFLUXDB
-  influx_data_set.addField("CO2", data_CO2);
+    influx_data_set.addField("CO2", data_CO2);
 #endif
+  }
 #endif
 
 //
@@ -346,8 +357,11 @@ void loop()
 
 // 2.1.2a CO2 only
 #if defined(TM_LOAD_DEVICE_MHZ19) && !defined(TM_LOAD_DEVICE_BME280)
-    my_display_4digit.displayValueAndSetBrightness(data_CO2);
-    delay(2 * my_display_4digit_loop_delay); // twice the time than the other values
+    if (millis() >= 3 * 1000)
+    {
+      my_display_4digit.displayValueAndSetBrightness(data_CO2);
+      delay(2 * my_display_4digit_loop_delay);
+    }
 #endif
 
 // 2.1.2b H, T only
@@ -361,10 +375,13 @@ void loop()
 
 // 2.1.2c CO2, H, T
 #if defined(TM_LOAD_DEVICE_MHZ19) && defined(TM_LOAD_DEVICE_BME280)
+    if (millis() >= 3 * 1000)
+    {
     // my_display_4digit.setBrightness(0);
     // for not on use same brightness for H and T as for CO2
-    my_display_4digit.displayValueAndSetBrightness(data_CO2);
-    delay(2 * my_display_4digit_loop_delay);           // twice the time than the other values
+      my_display_4digit.displayValueAndSetBrightness(data_CO2);
+      delay(2 * my_display_4digit_loop_delay);           // twice the time than the other values
+    }
     my_display_4digit.displayValue2p1(data_bme280[1]); // H
     delay(my_display_4digit_loop_delay);
     my_display_4digit.displayValue2p1(data_bme280[0]); // T
@@ -409,7 +426,6 @@ void loop()
   if (display_shall_sleep == true)
   {
     my_display_oled.ensure_sleep();
-    my_display_oled.appendValueToBarChart(data_CO2);
   }
   else
   {
@@ -431,7 +447,9 @@ void loop()
   // 4. End of Loop
   //
 
-  if (loopNum >= 31) // must be a multiple of 4 minus 1
+  // 32 = 4*8 cycles, resets on display-state boundary.
+  // Ceiling: loopNum > 31 would break implicit 4-cycle display alignment.
+  if (loopNum >= 31)
     loopNum = 0;
   else
     loopNum++;

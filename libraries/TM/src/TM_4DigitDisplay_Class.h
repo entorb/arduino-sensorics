@@ -32,6 +32,6 @@ public:
 private:
   TM1637Display myDisplay;
   const uint8_t num_brightness_levels = 7;
-  const uint8_t segments_blank[4] = {0x00, 0x00, 0x00, 0x00};
+  static constexpr uint8_t segments_blank[4] = {};
 };
 #endif

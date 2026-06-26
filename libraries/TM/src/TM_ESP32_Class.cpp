@@ -1,5 +1,5 @@
 /*
-Class for EPS32 Microcontroller
+Class for ESP32 Microcontroller
 */
 
 #include "Arduino.h"
@@ -23,9 +23,9 @@ void TM_ESP32_Class::restart()
 }
 
 void TM_ESP32_Class::underclocking()
-// Attention: underclocking leeds to problems in Adafruit_NeoPixel
+// Attention: underclocking leads to problems in Adafruit_NeoPixel
 {
-  setCpuFrequencyMhz(80); // 240, 160, 80
+  (void)setCpuFrequencyMhz(80); // 240, 160, 80
   if (verbose)
   {
     printSpeed();
@@ -34,14 +34,14 @@ void TM_ESP32_Class::underclocking()
 
 void TM_ESP32_Class::normalclocking()
 {
-  setCpuFrequencyMhz(240); // 240, 160, 80
+  (void)setCpuFrequencyMhz(240); // 240, 160, 80
   if (verbose)
   {
     printSpeed();
   }
 }
 
-void TM_ESP32_Class::printSpeed()
+void TM_ESP32_Class::printSpeed() const
 {
   TM_Device_Class::printDeviceName();
   Serial.print(getCpuFrequencyMhz());

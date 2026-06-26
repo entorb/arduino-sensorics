@@ -7,7 +7,9 @@ Abstract Class that all other device classes inherit from
 
 TM_Device_Class::TM_Device_Class(const char this_devicename[], const bool this_verbose)
 {
-  strcpy(devicename, this_devicename);
+  // prevent buffer overflow on devicename[8]
+  strncpy(devicename, this_devicename, sizeof(devicename) - 1);
+  devicename[sizeof(devicename) - 1] = '\0';
   verbose = this_verbose;
 }
 
@@ -16,11 +18,9 @@ void TM_Device_Class::setVerbose(bool this_verbose)
   verbose = this_verbose;
 }
 
-void TM_Device_Class::printDeviceName()
+void TM_Device_Class::printDeviceName() const
 {
-  Serial.print("[");
-  Serial.print(devicename);
-  Serial.print("] ");
+  Serial.printf("[%s] ", devicename);
 }
 
 void TM_Device_Class::init()
@@ -63,4 +63,3 @@ void TM_Display_Device_Class::setValueRange(const float this_value_min, const fl
 
 // this is a sub-class of Device_Class, to be later filled with sensor specific code
 TM_Sensor_Device_Class::TM_Sensor_Device_Class(const char this_devicename[], const bool this_verbose) : TM_Device_Class(this_devicename, this_verbose){};
-// TODO: add functions, if needed

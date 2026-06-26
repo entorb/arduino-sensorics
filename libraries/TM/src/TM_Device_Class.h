@@ -14,7 +14,7 @@ public:
   TM_Device_Class(const char devicename[], const bool verbose = true);
   // functions
   void setVerbose(bool);
-  void printDeviceName();
+  void printDeviceName() const;
   void init();
   // void println(); no, too much effort to overload all the different types of Serial.println()
 
