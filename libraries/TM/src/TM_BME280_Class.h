@@ -21,7 +21,7 @@ public:
   float *read_values();
 
 private:
-  unsigned status;
+  bool status;
   float data[3];
   Adafruit_BME280 bme; // I2C
                        // Adafruit_BME280 bme(BME_CS); // hardware SPI

@@ -26,7 +26,7 @@ void setup()
   Serial.begin(115200);
 
   // ESP32
-  setCpuFrequencyMhz(80); // 240, 160, 80
+  setCpuFrequencyMhz(80); // 240, 160, 80 — 40 MHz breaks WiFi on this board
 
   // Display
   my_display.clear();
@@ -52,9 +52,9 @@ void loop()
 void wifi_connect()
 {
   my_display.showNumberDec(100, true);
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
-  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE); // required to set hostname properly
+  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE);
   WiFi.setHostname(my_device_name);
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   int i = 0;
   Serial.printf("Connecting to WiFi as %s\n", my_device_name);
   while (WiFi.status() != WL_CONNECTED)
@@ -80,6 +80,7 @@ void mqtt_connect()
 {
   my_display.showNumberDec(200, true);
   mqtt_client.setServer(MQTT_HOST, MQTT_PORT);
+  mqtt_client.setKeepAlive(30); // longer interval gives slack for modem-sleep latency
   mqtt_client.setCallback(mqtt_callback_message_processor);
   Serial.printf("Connecting to MQTT as %s\n", my_device_name);
   int i = 0;
@@ -118,7 +119,9 @@ void mqtt_callback_message_processor(char *topic, byte *payload, unsigned int le
 
   // Extract the "Power_cur" value
   String key = "\"Power_cur\":";
-  int startIndex = payloadString.indexOf(key) + key.length();
+  int startIndex = payloadString.indexOf(key);
+  if (startIndex < 0) return;
+  startIndex += key.length();
   int endIndex = payloadString.indexOf(",", startIndex);
   String powerCurString = payloadString.substring(startIndex, endIndex);
   int powerCurInt = (int)(powerCurString.toFloat());

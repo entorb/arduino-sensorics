@@ -17,10 +17,10 @@ class TM_Influx_Class : public TM_Device_Class
 private:
   // WiFiMulti my_wifiMulti;
   uint32_t time_last_upload = 1000000; // is overwritten in each upload by millis()
-  uint8_t num_upload_errors = 0;       // if > 100 than trigger wifi reconnect
+  uint8_t num_upload_errors = 0;       // if > 60 than trigger wifi reconnect
 
 public:
-  // InfluxDBClient my_InfluxClient;
+  InfluxDBClient my_InfluxClient;
   //  constructor
   TM_Influx_Class(const bool verbose = false);
   // variables
@@ -28,7 +28,7 @@ public:
   // functions
   void connect_wifi(const char *);
   void connect_influxdb();
-  void send_point(Point);
+  void send_point(Point&);
   void sync_time();
 };
 #endif

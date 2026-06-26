@@ -28,17 +28,7 @@ Class for reading BME280 Temperature, Humidity and Pressure Sensor
 #include "TM_BME280_Class.h"
 
 #include <Wire.h>
-#include <SPI.h>
-#include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
-/*
-#define BME_SCK 13
-#define BME_MISO 12
-#define BME_MOSI 11
-#define BME_CS 10
-
-#define SEALEVELPRESSURE_HPA (1013.25)
-*/
 
 TM_BME280_Class::TM_BME280_Class(const bool this_verbose) : TM_Sensor_Device_Class("BME280", this_verbose)
 {
@@ -49,23 +39,23 @@ void TM_BME280_Class::init()
   TM_Sensor_Device_Class::init();
   // You can also pass in a Wire library object like &Wire2
   status = bme.begin(0x76); //, &Wire2
-  if (!status)
+  if (verbose && !status)
   {
-    if (verbose)
-    {
-      TM_Device_Class::printDeviceName();
-      Serial.println("Could not find a valid sensor, check wiring, address, sensor ID!");
-      TM_Device_Class::printDeviceName();
-      Serial.print("SensorID was: 0x");
-      Serial.println(bme.sensorID(), 16);
-    }
-    while (1)
-      delay(10);
+    TM_Device_Class::printDeviceName();
+    Serial.println("Could not find a valid sensor, check wiring, address, sensor ID!");
+    TM_Device_Class::printDeviceName();
+    Serial.print("SensorID was: 0x");
+    Serial.println(bme.sensorID(), 16);
   }
 }
 
 float *TM_BME280_Class::read_values()
 {
+  if (!status)
+  {
+    data[0] = data[1] = data[2] = 0.0F;
+    return data;
+  }
   data[0] = bme.readTemperature();
   data[1] = bme.readHumidity();
   data[2] = bme.readPressure() / 100.0F;
@@ -89,5 +79,5 @@ float *TM_BME280_Class::read_values()
   Serial.println(" m");                                 \
   */
   }
-  return (float *)&data; // return array of floats
+  return data; // return array of floats
 }

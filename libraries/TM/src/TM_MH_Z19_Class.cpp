@@ -13,13 +13,16 @@ Based on MHZ19 BasicExample
 // #define TX_PIN 17
 #define MHZ19_BAUDRATE 9600 // Device to MH-Z19 Serial baudrate (should not be changed)
 
-// Init
 TM_MH_Z19_Class::TM_MH_Z19_Class(const uint8_t rx, const uint8_t tx, const bool this_verbose) : TM_Sensor_Device_Class("MH-Z19B", this_verbose), mySerial(1)
 {
   pin_rx = rx;
   pin_tx = tx;
+}
 
-  mySerial.begin(MHZ19_BAUDRATE, SERIAL_8N1, pin_rx, pin_tx); // (ESP32 Example) device to MH-Z19 serial start
+void TM_MH_Z19_Class::init()
+{
+  TM_Sensor_Device_Class::init();
+  mySerial.begin(MHZ19_BAUDRATE, SERIAL_8N1, pin_rx, pin_tx);
   myMHZ19.begin(mySerial);                                    // *Serial(Stream) reference must be passed to library begin().
 
   // calibration
@@ -27,6 +30,7 @@ TM_MH_Z19_Class::TM_MH_Z19_Class(const uint8_t rx, const uint8_t tx, const bool 
   // MH-Z19 works best in this range up to 2000, as commented in MHZ19.h
   myMHZ19.setRange(2000);
   myMHZ19.autoCalibration(true);
+  status = true;
 }
 
 int TM_MH_Z19_Class::read_values()
@@ -47,6 +51,5 @@ int TM_MH_Z19_Class::read_values()
     // Serial.print(data[1]);
     // Serial.println(" C");
   }
-  // return (float *)&data; // return array of floats
   return data; // CO2 as int
 }

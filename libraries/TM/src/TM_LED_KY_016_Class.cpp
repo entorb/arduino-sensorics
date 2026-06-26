@@ -8,9 +8,6 @@ based on "RGBLed.h"
 */
 
 #include "Arduino.h"
-// TODO: find replacement for #include <analogWrite.h>
-// found via Google, but yet untested:
-#include "esp32-hal-ledc.h"
 
 #include "TM_Device_Class.h"
 #include "TM_LED_KY_016_Class.h"
@@ -24,7 +21,7 @@ TM_LED_KY_016_Class::TM_LED_KY_016_Class(const uint8_t this_pin_red, const uint8
 
   pinMode(pin_red, OUTPUT);
   pinMode(pin_green, OUTPUT);
-  pinMode(pin_green, OUTPUT);
+  pinMode(pin_blue, OUTPUT);
 
   digitalWrite(pin_red, LOW);
   digitalWrite(pin_green, LOW);

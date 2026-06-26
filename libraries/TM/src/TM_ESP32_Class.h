@@ -1,5 +1,5 @@
 /*
-Class for EPS32 Microcontroller
+Class for ESP32 Microcontroller
 */
 
 #ifndef TM_ESP32_CLASS_H
@@ -23,7 +23,7 @@ public:
   void restart();
   void underclocking();
   void normalclocking();
-  void printSpeed();
+  void printSpeed() const;
 
 private:
 };

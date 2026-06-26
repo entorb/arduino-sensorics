@@ -17,6 +17,7 @@ public:
   TM_MH_Z19_Class(const uint8_t pin_rx, const uint8_t pin_tx, const bool verbose = false);
   // functions
   int read_values();
+  void init();
   // variables
 
 private:
@@ -25,7 +26,7 @@ private:
   HardwareSerial mySerial;
   uint8_t pin_rx;
   uint8_t pin_tx;
-  // float data[2];
-  int data;
+  int data = 0;
+  bool status = false;
 };
 #endif
