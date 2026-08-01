@@ -20,7 +20,7 @@ void setup()
   Serial.println(F("MH-Z19 test"));
 
   mySerial.begin(BAUDRATE, SERIAL_8N1, RX_PIN, TX_PIN); // (ESP32 Example) device to MH-Z19 serial start
-  myMHZ19.begin(mySerial);                                // *Serial(Stream) refence must be passed to library begin().
+  myMHZ19.begin(mySerial);                                // *Serial(Stream) reference must be passed to library begin().
 
   // calibration
   /*    myMHZ19.setRange(2000);

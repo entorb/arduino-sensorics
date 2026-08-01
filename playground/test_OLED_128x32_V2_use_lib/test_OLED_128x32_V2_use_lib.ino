@@ -2,7 +2,7 @@
 //#include <Arduino.h>
 #include "TM_OLED_128x32.h"
 
-const char *text = "Mojn5en";
+const char *text = "Moinsen";
 
 void setup()
 {

@@ -1,6 +1,6 @@
-#include "MHZ19.h"                                                                                                 
+#include "MHZ19.h"
 #include <Arduino.h>
-#include <SoftwareSerial.h>                               //  Remove if using HardwareSerial or non-uno compatabile device    
+#include <SoftwareSerial.h>                               //  Remove if using HardwareSerial or non-uno compatabile device
 
 #define RX_PIN 16
 #define TX_PIN 17
@@ -14,11 +14,11 @@ void setup()
 {
   Serial.begin(BAUDRATE_ESP32);
 
-  mySerial.begin(BAUDRATE_MHZ19);                               // Uno example: Begin Stream with MHZ19 baudrate  
+  mySerial.begin(BAUDRATE_MHZ19);                               // Uno example: Begin Stream with MHZ19 baudrate
   myMHZ19.begin(mySerial);                                // *Important, Pass your Stream reference here
 
   /*
-    getVersion(char array[]) returns version number to the argument. The first 2 char are the major 
+    getVersion(char array[]) returns version number to the argument. The first 2 char are the major
     version, and second 2 bytes the minor version. e.g 02.11
   */
 
@@ -27,7 +27,7 @@ void setup()
 
 void loop()
 {
-  char myVersion[4];          
+  char myVersion[4];
   myMHZ19.getVersion(myVersion);
 
   Serial.print("\nFirmware Version: ");
@@ -35,14 +35,14 @@ void loop()
   {
     Serial.print(myVersion[i]);
     if(i == 1)
-      Serial.print(".");    
+      Serial.print(".");
   }
    Serial.println("");
 
    Serial.print("Range: ");
-   Serial.println(myMHZ19.getRange());   
-   Serial.print("CO2 (ppm): ");                      
-   Serial.println(myMHZ19.getCO2());                                
+   Serial.println(myMHZ19.getRange());
+   Serial.print("CO2 (ppm): ");
+   Serial.println(myMHZ19.getCO2());
    Serial.print("Background CO2: ");
    Serial.println(myMHZ19.getBackgroundCO2());
    Serial.print("Temperature Cal: ");

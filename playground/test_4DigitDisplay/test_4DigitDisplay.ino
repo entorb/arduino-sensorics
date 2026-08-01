@@ -73,9 +73,9 @@ if ( i > 100*10) { // ensure not larger than 100
 
 display.clear();
 display.showNumberDecEx(i,0b01000000, false, 3,0);
-  
+
 //
-//  
+//
 //  delay(TEST_DELAY);
 //	display.showNumberDec(1, false); // Expect: ___1
 //	delay(TEST_DELAY);
@@ -109,7 +109,7 @@ display.showNumberDecEx(i,0b01000000, false, 3,0);
 //  display.clear();
 //  display.showNumberHexEx(0xd1, 0, true, 2); // Expect: d1__
 //  delay(TEST_DELAY);
-//  
+//
 //	// Run through all the dots
 //	for(k=0; k <= 4; k++) {
 //		display.showNumberDecEx(0, (0x80 >> k), true);
@@ -124,7 +124,7 @@ display.showNumberDecEx(i,0b01000000, false, 3,0);
 //    display.setSegments(data);
 //    delay(TEST_DELAY);
 //  }
-//  
+//
 //  // On/Off test
 //  for(k = 0; k < 4; k++) {
 //    display.setBrightness(7, false);  // Turn off
@@ -132,10 +132,10 @@ display.showNumberDecEx(i,0b01000000, false, 3,0);
 //    delay(TEST_DELAY);
 //    display.setBrightness(7, true); // Turn on
 //    display.setSegments(data);
-//    delay(TEST_DELAY);  
+//    delay(TEST_DELAY);
 //  }
 
- 
+
   // Done!
 //  display.setSegments(SEG_DONE);
 

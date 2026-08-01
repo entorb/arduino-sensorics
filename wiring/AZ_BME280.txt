@@ -11,5 +11,3 @@ ESP32 BMP280
 GND  GND  grau
 G22  SCL  blau
 G21  SDA  grün
-
- 

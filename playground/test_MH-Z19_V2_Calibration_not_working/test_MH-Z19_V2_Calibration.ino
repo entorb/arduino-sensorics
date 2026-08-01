@@ -96,7 +96,7 @@ void setup()
      autoCalibration()      - turns auto calibration ON.
 
      Advanced:
-     autoCalibration(true, 12) - turns autocalibration ON and calibration period to 12 hrs (maximum 24hrs).
+     autoCalibration(true, 12) - turns auto-calibration ON and calibration period to 12 hrs (maximum 24hrs).
   */
 
   myMHZ19.autoCalibration(false);
@@ -105,7 +105,7 @@ void setup()
 
 void loop()
 {
-  if (millis() - getDataTimer >= 2000)     // Check if interval has elapsed (non-blocking delay() equivilant)
+  if (millis() - getDataTimer >= 2000)     // Check if interval has elapsed (non-blocking delay() equivalent)
   {
     int CO2;
     CO2 = myMHZ19.getCO2();
@@ -119,7 +119,7 @@ void loop()
     Serial.print("Temperature (C): ");
     Serial.println(Temp);
 
-    getDataTimer = millis();              // Update inerval
+    getDataTimer = millis();              // Update interval
   }
 }
 
