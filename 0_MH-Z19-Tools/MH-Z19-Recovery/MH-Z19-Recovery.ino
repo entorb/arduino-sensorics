@@ -1,19 +1,19 @@
-/*  
+/*
 
 Example Code from MHZ19 Library
 
-Only use this as a final resort! 
+Only use this as a final resort!
 
 The example sets span without a reference and hence can reduce accuracy.
-Additionaly, it uses a rest command not fully tested.
+Additionally, it uses a rest command not fully tested.
 
 This sequence goes through a reset sequence and will attempt
-to reset the device if there is an issue. This is repeated untill a rational
+to reset the device if there is an issue. This is repeated until a rational
 result is given.
 
 */
 
-#define FORCE_SPAN 0 // < --- set to 1 as an absoloute final resort
+#define FORCE_SPAN 0 // < --- set to 1 as an absolute final resort
 
 #include <Arduino.h>
 #include "MHZ19.h"
@@ -29,7 +29,7 @@ SoftwareSerial mySerial(RX_PIN, TX_PIN); // Uno example
 
 unsigned long getDataTimer = 0;
 
-void setRange(int range); // Declerations for non-IDE platform
+void setRange(int range); // Declarations for non-IDE platform
 void printErrorCode();
 
 void setup()
@@ -37,7 +37,7 @@ void setup()
     Serial.begin(BAUDRATE_ESP32);
     mySerial.begin(BAUDRATE_MHZ19); // Uno example: Begin Stream with MHZ19 baudrate
 
-    myMHZ19.begin(mySerial); // *Imporant, Pass your Stream reference
+    myMHZ19.begin(mySerial); // *Important, Pass your Stream reference
 
     setRange(2000); // Set Range 2000
 
@@ -144,5 +144,5 @@ void setRange(int range)
 void printErrorCode()
 {
     Serial.println("Communication error. Error Code: "); // *Print error code using the library variable
-    Serial.println(myMHZ19.errorCode);                   //  holds the last recieved code
+    Serial.println(myMHZ19.errorCode);                   //  holds the last received code
 }
