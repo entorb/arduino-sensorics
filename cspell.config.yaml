@@ -11,14 +11,14 @@ dictionaries:
   - cspell-words
 language: en-US
 ignorePaths:
-  - '/.vscode/'
-  - 'cspell-words.txt'
-  - 'cspell.config.yaml'
-  - '/LICENSE'
   - '.*'
-  - 'cad/CO2-Ampel/CO2-Ampel-Flächen-V1-2-3D-BT.txt'
-  - 'grafana-dashboards/*'
-  - 'tests/testdata/*'
-  - 'TODO.txt'
-  - 'uv.lock'
-  - 'wiring/*'
+  - /.vscode/
+  - /LICENSE
+  - cspell-words.txt
+  - cspell.config.yaml
+  - cad/CO2-Ampel/CO2-Ampel-Flächen-V1-2-3D-BT.txt
+  - grafana-dashboards/*
+  - tests/testdata/*
+  - TODO.txt
+  - uv.lock
+  - wiring/*
