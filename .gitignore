@@ -1,0 +1,16 @@
+*.bin
+*_secret.h
+.DS_Store
+.vstags
+0_arduino_code/device_setup-*.h
+changelog.md
+cspell-words-missing.txt
+Device-Location-Overview.txt
+drafts_not_to_publish
+examples_by_others
+libraries_old
+libraries_old_by_others
+manuals
+photos/originals
+tools
+zips/
