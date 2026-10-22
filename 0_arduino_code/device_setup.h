@@ -10,7 +10,7 @@ static const bool myVerbose = true;
 #define TM_LOAD_DEVICE_INFLUXDB
 #define TM_DISPLAY_TIME
 #define TM_HOUR_SLEEP 20
-#define TM_HOUR_WAKE 6
+#define TM_HOUR_WAKE 8
 
 // Sensors
 #define TM_LOAD_DEVICE_BME280
